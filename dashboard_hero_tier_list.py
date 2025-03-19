@@ -179,5 +179,5 @@ ax.legend(handles=legend_handles, title="Tier Colors", loc="upper left",
           fontsize='x-large', title_fontsize='x-large')
 
 ax.grid(axis='y', linestyle='--', alpha=0.7)
-
 st.pyplot(fig)
+#%%

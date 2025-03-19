@@ -28,7 +28,9 @@ late_game = st.slider("Late Game Power", min_value=-10, max_value=10, value=1)
 simplicity = st.slider("Simplicity", min_value=-10, max_value=10, value=0)
 status_cards = st.slider("Stun/Confuse", min_value=-10, max_value=10, value=0)
 multiplayer_consistency = st.slider("Multiplayer Consistency", min_value=-10, max_value=10, value=0)
-
+"""
+HI PAULINA
+"""
 
 """
                 #      e  t  cv s  d  th re mi c  sp br lg si sc mc

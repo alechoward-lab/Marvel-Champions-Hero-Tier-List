@@ -13,19 +13,34 @@ st.title("Marvel Champions Hero Tier List Dashboard")
 st.markdown("Adjust the sliders to change the weighting factors for each category.")
 
 # Create sliders for each weighting parameter
-economy = st.slider("Economy", min_value=0, max_value=20, value=4)
-tempo = st.slider("Tempo", min_value=0, max_value=20, value=3)
-card_value = st.slider("Card Value", min_value=0, max_value=20, value=3)
-survivability = st.slider("Survivability", min_value=0, max_value=20, value=8)
-villain_damage = st.slider("Villain Damage", min_value=0, max_value=20, value=6)
-threat_removal = st.slider("Threat Removal", min_value=0, max_value=20, value=2)
-reliability = st.slider("Reliability", min_value=0, max_value=20, value=2)
-minion_control = st.slider("Minion Control", min_value=0, max_value=20, value=4)
-control = st.slider("Control", min_value=0, max_value=20, value=1)
-support = st.slider("Support", min_value=0, max_value=20, value=2)
-unique_builds = st.slider("Unique Broken Builds", min_value=0, max_value=20, value=2)
+economy = st.slider("Economy", min_value=-20, max_value=20, value=4)
+tempo = st.slider("Tempo", min_value=-20, max_value=20, value=2)
+card_value = st.slider("Card Value", min_value=-20, max_value=20, value=2)
+survivability = st.slider("Survivability", min_value=-20, max_value=20, value=2)
+villain_damage = st.slider("Villain Damage", min_value=-20, max_value=20, value=1)
+threat_removal = st.slider("Threat Removal", min_value=-20, max_value=20, value=2)
+reliability = st.slider("Reliability", min_value=-20, max_value=20, value=3)
+minion_control = st.slider("Minion Control", min_value=-20, max_value=20, value=1)
+control = st.slider("Control", min_value=-20, max_value=20, value=2)
+support = st.slider("Support", min_value=-20, max_value=20, value=2)
+unique_builds = st.slider("Unique Broken Builds", min_value=-20, max_value=20, value=1)
+late_game = st.slider("Late Game Power", min_value=-20, max_value=20, value=1)
+simplicity = st.slider("Simplicity", min_value=-20, max_value=20, value=0)
+status_cards = st.slider("Stun/Confuse", min_value=-20, max_value=20, value=0)
+multiplayer_consistency = st.slider("Multiplayer Consistency", min_value=-20, max_value=20, value=0)
 # ... add more sliders if needed
 
+
+"""
+                #      e  t  cv s  d  th re mi c  sp br lg si sc mc
+weighting = np.array([ 4, 2, 2, 2, 1, 2, 3, 1, 2, 2, 2, 1, 0, 0, 0]) # General Power
+weighting = np.array([ 4, 1, 2, 2, 1, 2, 3, 3, 1, 7, 2, 4, 0, 0, 8]) # Multiplayer 3/4
+weighting = np.array([ 8, 3, 2, 4, 2, 2, 4, 1, 2, 2, 2, 1, 0, 4,-7]) # Solo (No Rush)
+weighting = np.array([10, 3, 3, 8, 6, 2, 2, 4, 1, 2, 2, 2, 1,-4,-7]) # Solo Final Boss w/ Stalwart/Steady
+weighting = np.array([ 0, 5, 0, 2, 5, 0, 0, 0, 0, 0, 0,-3, 0, 0, 0]) # Solo Rush
+weighting = np.array([ 1, 0, 1, 1, 0, 0, 5, 0, 0, 0, 0,-1,10, 0, 0]) # Beginner
+
+"""
 # Create the weighting array (adjust the order as per your code)
 weighting = np.array([economy, tempo, card_value, survivability, villain_damage,
                       threat_removal, reliability, minion_control, control, support,

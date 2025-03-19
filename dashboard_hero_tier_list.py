@@ -6,13 +6,14 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
+import copy
 
-# Dashboard title
+# ----------------------------------------
+# Weighting sliders (for overall weighting factors)
+# ----------------------------------------
 st.title("Marvel Champions Hero Tier List")
-
 st.markdown("Adjust the sliders based on how much you value each aspect of hero strength to create your own custom tier list.")
 
-# Create sliders for each weighting parameter
 economy = st.slider("Economy", min_value=-10, max_value=10, value=4)
 tempo = st.slider("Tempo", min_value=-10, max_value=10, value=2)
 card_value = st.slider("Card Value", min_value=-10, max_value=10, value=2)
@@ -28,28 +29,17 @@ late_game = st.slider("Late Game Power", min_value=-10, max_value=10, value=1)
 simplicity = st.slider("Simplicity", min_value=-10, max_value=10, value=0)
 status_cards = st.slider("Stun/Confuse", min_value=-10, max_value=10, value=0)
 multiplayer_consistency = st.slider("Multiplayer Consistency", min_value=-10, max_value=10, value=0)
-"""
-HI PAULINA
-"""
 
-"""
-                #      e  t  cv s  d  th re mi c  sp br lg si sc mc
-weighting = np.array([ 4, 2, 2, 2, 1, 2, 3, 1, 2, 2, 2, 1, 0, 0, 0]) # General Power
-weighting = np.array([ 4, 1, 2, 2, 1, 2, 3, 3, 1, 7, 2, 4, 0, 0, 8]) # Multiplayer 3/4
-weighting = np.array([ 8, 3, 2, 4, 2, 2, 4, 1, 2, 2, 2, 1, 0, 4,-7]) # Solo (No Rush)
-weighting = np.array([10, 3, 3, 8, 6, 2, 2, 4, 1, 2, 2, 2, 1,-4,-7]) # Solo Final Boss w/ Stalwart/Steady
-weighting = np.array([ 0, 5, 0, 2, 5, 0, 0, 0, 0, 0, 0,-3, 0, 0, 0]) # Solo Rush
-weighting = np.array([ 1, 0, 1, 1, 0, 0, 5, 0, 0, 0, 0,-1,10, 0, 0]) # Beginner
-
-"""
-# Create the weighting array (adjust the order as per your code)
+# Create the weighting array (ensure it matches your hero stats length)
 weighting = np.array([economy, tempo, card_value, survivability, villain_damage,
                       threat_removal, reliability, minion_control, control, support,
-                      unique_builds, late_game, simplicity, status_cards, multiplayer_consistency])  # Ensure this matches your hero stats length
+                      unique_builds, late_game, simplicity, status_cards, multiplayer_consistency])
 
-# Define your heroes dictionary (make sure each hero's array length matches weighting)
-heroes = {
-# category headers:                    ec te cv s  vd th re m  c  sp b  lg si sc mc   
+# ----------------------------------------
+# Define default hero stats (dictionary)
+# ----------------------------------------
+default_heroes = {
+    # category headers:                    ec te cv s  vd th re m  c  sp b  lg si sc mc   
     "Captain Marvel":       np.array([ 4, 3,-1, 3, 4, 2, 4, 1, 1, 2, 0, 0, 5, 1, 0]),
     "Iron Man":             np.array([ 4,-5, 4, 2, 5, 2, 0, 3, 0, 0, 1, 4,-5, 0, 5]),
     "Spider-Man Peter":     np.array([ 4, 0, 3, 5, 3,-2, 2, 0, 4, 1, 2, 0, 0, 0, 0]),
@@ -67,7 +57,6 @@ heroes = {
     "Wasp":                 np.array([ 1, 3, 0, 1, 4, 2, 3, 4, 0, 1, 1, 0,-5, 0, 0]),
     "Quicksilver":          np.array([ 1,-3, 3,-1, 3, 4, 3, 3, 0, 1, 0, 3, 0, 0, 0]),
     "Scarlet Witch":        np.array([ 2, 3, 5, 3, 3, 2, 3, 1, 3, 4, 1, 0,-3, 2, 0]),
-                                     # ec te cv s  vd th re m  c  sp b  lg si sc mc
     "Star-Lord":            np.array([ 4, 5, 3, 1, 5, 3, 2, 3,-3, 0, 1, 0,-5, 0, 0]),
     "Groot":                np.array([ 0,-3, 2, 4, 3, 2,-2, 2, 0, 3, 0, 1, 2, 0, 0]),
     "Rocket":               np.array([ 3,-1, 0, 0,-2, 2,-2, 4, 0, 0, 1, 1,-3, 0, 0]),
@@ -80,41 +69,80 @@ heroes = {
     "War Machine":          np.array([ 1,-2, 1, 2, 4, 0,-2, 5, 0, 0, 0, 1,-3, 0, 0]),
     "Valkyrie":             np.array([ 1, 3,-2, 2, 2, 0,-1, 4, 0, 0, 0, 0,-3, 0, 0]),
     "Vision":               np.array([ 2, 3, 3, 3, 4, 3, 4, 2, 2, 0, 1, 0, 0, 1, 0]),
-                                     # ec te cv s  vd th re m  c  sp b  lg si sc mc
     "Ghost Spider":         np.array([ 3, 3, 3, 3, 3, 2, 2, 2, 4, 1, 1, 0,-3, 0, 0]),
     "Spider-Man (Miles)":   np.array([ 2, 4, 5, 3, 5, 4, 5, 1, 4, 0, 1, 0, 3, 5, 0]),
     "Nova":                 np.array([ 4, 4, 4, 1, 2, 3, 4, 3, 0, 1, 2, 0, 2, 0, 2]),
     "Ironheart":            np.array([ 2,-3, 4, 3, 5, 5, 0, 3, 0, 0, 2, 5,-3, 0, 3]),
     "SP//dr":               np.array([ 2,-1, 5, 3, 3, 5, 0, 1, 1, 0, 2, 2,-5, 0, 0]),
     "Spider-Ham":           np.array([ 5, 3, 4, 5, 2, 4, 5, 2, 4, 0, 2, 1,-1, 5, 0]),
-                                     # ec te cv s  vd th re m  c  sp b  lg si sc mc
     "Colossus":             np.array([ 1,-1, 4, 5, 3,-5,-2, 2, 4, 0, 0, 0,-3, 5, 0]),
     "Shadowcat":            np.array([ 3, 4, 2, 3, 1, 3, 5, 3, 3, 0, 0, 0,-5, 3, 0]),
     "Cyclops":              np.array([ 1,-2, 5, 3, 4, 4, 3, 3, 0, 2, 2, 1,-3, 0, 0]),
-    "Phoenix":              np.array([ 2, 3, 3, 3, 4, 4, 3, 4, 3, 1, 2, 0, 0, 4, 0]),    
+    "Phoenix":              np.array([ 2, 3, 3, 3, 4, 4, 3, 4, 3, 1, 2, 0, 0, 4, 0]),
     "Wolverine":            np.array([ 3, 5, 3, 4, 5, 3, 4, 5, 0, 0, 1, 0, 1, 0, 0]),
     "Storm":                np.array([ 1, 3, 3, 1, 4, 4, 3, 3, 1, 3, 1, 0,-3, 0, 2]),
-    "Gambit":               np.array([ 1,-1, 2, 2, 3, 3, 2, 4, 2, 1, 0, 0,-1, 4, 0]),      
+    "Gambit":               np.array([ 1,-1, 2, 2, 3, 3, 2, 4, 2, 1, 0, 0,-1, 4, 0]),
     "Rogue":                np.array([ 0, 3, 3, 3, 3, 3, 1, 2, 2, 0, 1, 0, 0, 1, 2]),
-                                     # ec te cv s  vd th re m  c  sp b  lg si sc mc
     "Cable":                np.array([ 2, 3, 4, 3, 3, 5, 5, 2, 3, 3, 2, 3,-5, 0,-5]),
     "Domino":               np.array([ 3,-2, 4, 1, 4, 3, 2, 4, 1, 0, 0, 3,-5, 0, 0]),
     "Psylocke":             np.array([ 4, 4, 4, 1, 1, 5, 4, 3, 5, 0, 2, 0,-3, 5, 0]),
     "Angel":                np.array([ 2, 5, 2, 2, 3, 5, 5, 2, 1, 0, 2, 0,-1, 0, 0]),
     "X-23":                 np.array([ 1, 5, 4, 3, 5, 5, 5, 4, 0, 0, 1, 2,-2, 0, 0]),
     "Deadpool":             np.array([ 1, 5, 5, 5, 5, 5,-3, 2, 1, 3, 1, 0,-1, 1, 0]),
-                                     # ec te cv s  vd th re m  c  sp b  lg si sc mc
-    "Bishop":               np.array([ 5, 2, 4, 4, 5, 1, 3, 2, 0, 0, 1, 1,-3, 0, 0]),                       
+    "Bishop":               np.array([ 5, 2, 4, 4, 5, 1, 3, 2, 0, 0, 1, 1,-3, 0, 0]),
     "Magik":                np.array([ 4, 1, 4, 3, 2, 4, 3, 3, 3, 0, 1, 1,-5, 5, 0]),
     "Iceman":               np.array([ 3, 2, 3, 3, 2, 2, 3, 5, 3, 2, 0, 0, 0, 0, 0]),
     "Jubilee":              np.array([ 3,-1, 4, 0, 2, 4, 3, 3, 4, 1, 0, 1,-1, 5, 0]),
     "Nightcrawler":         np.array([ 1, 2, 3, 3, 0, 3, 4, 4, 1, 3, 0, 0,-1, 1, 0]),
-    "Magneto":              np.array([ 3, 3, 3, 4, 3, 4, 5, 4, 2, 0, 0, 1, 3, 0, 1]), 
-                                     # ec te cv s  vd th re m  c  sp b  lg si sc mc
-    "Maria Hill":           np.array([ 2, 1, 5, 1, 2, 5, 5, 1, 1, 2, 2, 5,-3, 0, 0]),    
+    "Magneto":              np.array([ 3, 3, 3, 4, 3, 4, 5, 4, 2, 0, 0, 1, 3, 0, 1]),
+    "Maria Hill":           np.array([ 2, 1, 5, 1, 2, 5, 5, 1, 1, 2, 2, 5,-3, 0, 0]),
     "Nick Fury":            np.array([ 1, 2, 1, 3, 2, 4, 4, 5, 2, 0, 0, 0,-3, 0, 0]),
 }
 
+# ----------------------------------------
+# Initialize hero stats in session state if not already set
+# ----------------------------------------
+if "heroes" not in st.session_state:
+    st.session_state.heroes = copy.deepcopy(default_heroes)
+    st.session_state.default_heroes = copy.deepcopy(default_heroes)
+
+# ----------------------------------------
+# Section: Modify Hero Stats
+# ----------------------------------------
+st.header("Modify Hero-Specific Stats")
+# List of stat names corresponding to each index in the hero arrays
+stat_names = ["Economy", "Tempo", "Card Value", "Survivability", "Villain Damage",
+              "Threat Removal", "Reliability", "Minion Control", "Control", "Support",
+              "Unique Broken Builds", "Late Game Power", "Simplicity", "Stun/Confuse",
+              "Multiplayer Consistency"]
+
+# Select a hero to modify
+hero_to_modify = st.selectbox("Select a Hero to Modify", list(st.session_state.heroes.keys()))
+
+# Get the current stats for the selected hero
+current_stats = st.session_state.heroes[hero_to_modify]
+new_stats = []
+for i, stat in enumerate(stat_names):
+    # Use a unique key for each input to maintain state
+    val = st.number_input(f"{hero_to_modify} - {stat}", value=int(current_stats[i]), min_value=-10, max_value=10, key=f"{hero_to_modify}_{stat}")
+    new_stats.append(val)
+
+# Update the hero's stats when the user clicks the "Update Hero Stats" button
+if st.button(f"Update {hero_to_modify} Stats"):
+    st.session_state.heroes[hero_to_modify] = np.array(new_stats)
+    st.success(f"{hero_to_modify} stats updated.")
+
+# Add a reset button to restore all hero stats to defaults
+if st.button("Reset All Hero Stats to Default"):
+    st.session_state.heroes = copy.deepcopy(st.session_state.default_heroes)
+    st.success("All hero stats have been reset to default.")
+
+# For the rest of the code, use the current hero stats from session state.
+heroes = st.session_state.heroes
+
+# ----------------------------------------
+# Calculate Scores and Tiers using weighting and hero stats
+# ----------------------------------------
 # Define your weight function
 def weight(hero, weighting):
     return np.dot(hero, weighting)
@@ -162,7 +190,9 @@ sorted_hero_names = list(sorted_scores.keys())
 sorted_hero_scores = list(sorted_scores.values())
 bar_colors = [tier_colors[hero_to_tier[hero]] for hero in sorted_hero_names]
 
+# ----------------------------------------
 # Plotting
+# ----------------------------------------
 fig, ax = plt.subplots(figsize=(14, 7), dpi=300)
 bars = ax.bar(sorted_hero_names, sorted_hero_scores, color=bar_colors)
 ax.set_ylabel("Scores", fontsize="x-large")

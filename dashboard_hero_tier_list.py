@@ -45,7 +45,7 @@ weighting = np.array([ 1, 0, 1, 1, 0, 0, 5, 0, 0, 0, 0,-1,10, 0, 0]) # Beginner
 # Create the weighting array (adjust the order as per your code)
 weighting = np.array([economy, tempo, card_value, survivability, villain_damage,
                       threat_removal, reliability, minion_control, control, support,
-                      unique_builds, 0, 0, 0, 0])  # Ensure this matches your hero stats length
+                      unique_builds, late_game, simplicity, status_cards, multiplayer_consistency])  # Ensure this matches your hero stats length
 
 # Define your heroes dictionary (make sure each hero's array length matches weighting)
 heroes = {

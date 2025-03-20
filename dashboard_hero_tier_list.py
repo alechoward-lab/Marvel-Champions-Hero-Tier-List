@@ -1,5 +1,5 @@
 """
-Dashboard version of the tier list.
+The Living Marvel Champions Tier List
 """
 #%%
 import streamlit as st
@@ -64,7 +64,7 @@ with col1:
     
     # Define preset weighting functions
     preset_options = {
-        "General Power ~2 Player":              np.array([ 4, 2, 2, 2, 1, 2, 3, 1, 2, 2, 2, 1, 0, 0, 0]),
+        "General Power ~2 Player":              np.array([ 4, 2, 2, 2, 1, 2, 3, 1, 2, 2, 2, 1, 0, 0, 1]),
         "Multiplayer 3/4 Player":               np.array([ 4, 1, 2, 2, 1, 5, 2, 3, 1, 7, 2, 5, 0, 0, 6]),
         "Solo (No Rush)":                       np.array([ 8, 3, 2, 4, 2, 2, 4, 1, 2, 2, 2, 1, 0, 4,-7]),
         "Solo Rush":                            np.array([ 0, 5, 0, 2, 5, 0, 0, 0, 0, 0, 0,-3, 0, 0, 0]),
@@ -443,3 +443,5 @@ st.pyplot(fig)
 # fine tune all the presets
 
 # mention heroes that don't work well with this system (Maria Hill, Cylcops, Cable, etc.)
+
+# Link to my site: https://marvel-champions-hero-tier-list-lrfbh27q9vswdmvapphhlzd.streamlit.app/ 

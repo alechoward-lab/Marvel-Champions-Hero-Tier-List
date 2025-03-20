@@ -388,6 +388,7 @@ hero_image_urls = {
     "Drax": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/22_Drax.jpg?raw=true",
     "Venom (Flash)": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/23_Venom.jpg?raw=true",
     "Spectrum": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/25_Spectrum.jpg?raw=true",
+    "Adam Warlock": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/24_Adam_Warlock.jpg?raw=true",
     "Nebula": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/26_Nebula.jpg?raw=true",
     "War Machine": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/27_War_Machine.jpg?raw=true",
     "Valkyrie": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/28_Valkyrie.jpg?raw=true",

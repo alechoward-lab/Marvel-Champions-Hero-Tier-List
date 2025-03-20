@@ -397,12 +397,12 @@ hero_image_urls = {
 }
 
 # Display Tier List with Images
-st.markdown(f"<h1 style='color: {tier_colors['S']};'>Hero Tier List - {plot_title}</h1>", unsafe_allow_html=True)
+st.header(f"Hero Tier List - {plot_title}")
 
 tier_colors = {"S": "red", "A": "orange", "B": "green", "C": "blue", "D": "purple"}
 
 for tier in ["S", "A", "B", "C", "D"]:
-    st.markdown(f"<h2 style='color: {tier_colors[tier]};'>{tier}</h2>", unsafe_allow_html=True)
+    st.markdown(f"<h2>{tier}</h2>", unsafe_allow_html=True)
     num_cols = 5  # Number of columns per row
     rows = [tiers[tier][i:i + num_cols] for i in range(0, len(tiers[tier]), num_cols)]
     for row in rows:
@@ -411,6 +411,7 @@ for tier in ["S", "A", "B", "C", "D"]:
             with cols[idx]:
                 if hero in hero_image_urls:
                     st.image(hero_image_urls[hero], width=150)
+    st.markdown("<hr>", unsafe_allow_html=True)  # Add a horizontal line after each tier
 
 # ----------------------------------------
 # Plotting

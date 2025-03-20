@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 import pandas as pd
 import copy
+import os
+from PIL import Image
 
 # Callback function to update slider values when a preset is selected
 def update_preset():
@@ -242,6 +244,18 @@ with col2:
 # Use the current hero stats from session state.
 heroes = st.session_state.heroes
 
+# Define the path to the hero images
+hero_images_path = "C:/Users/user/Desktop/MC_Code/MC_github/Marvel-Champions-Hero-Tier-List/images/heroes"
+
+# Load hero images
+hero_images = {}
+for hero in default_heroes.keys():
+    image_path = os.path.join(hero_images_path, f"{hero.replace(' ', '_').replace('.', '').replace('(', '').replace(')', '').lower()}.png")
+    if os.path.exists(image_path):
+        hero_images[hero] = Image.open(image_path)
+    else:
+        hero_images[hero] = None
+
 # ----------------------------------------
 # Calculate Scores and Tiers using weighting and hero stats
 # ----------------------------------------
@@ -306,6 +320,22 @@ ax.legend(handles=legend_handles, title="Tier Colors", loc="upper left",
 
 ax.grid(axis='y', linestyle='--', alpha=0.7)
 st.pyplot(fig)
+
+# ----------------------------------------
+# Display Tier List with Images
+# ----------------------------------------
+st.header("Tier List with Images")
+
+for tier in ["S", "A", "B", "C", "D"]:
+    st.subheader(f"Tier {tier}")
+    cols = st.columns(len(tiers[tier]))
+    for idx, (hero, score) in enumerate(tiers[tier]):
+        with cols[idx]:
+            if hero_images[hero]:
+                st.image(hero_images[hero], caption=f"{hero} ({score:.2f})", use_column_width=True)
+            else:
+                st.text(f"{hero} ({score:.2f})")
+
 #%%
 
 # Add background image with a semi-transparent black overlay using custom CSS

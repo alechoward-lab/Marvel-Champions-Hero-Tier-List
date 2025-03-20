@@ -441,6 +441,8 @@ ax.legend(handles=legend_handles, title="Tier Colors", loc="upper left",
 ax.grid(axis='y', linestyle='--', alpha=0.7)
 st.pyplot(fig)
 
+st.markdown("<hr>", unsafe_allow_html=True)  # Add a horizontal line after each tier
+
 st.markdown("Most card images are from the Cerebro Discord bot developed by UnicornSnuggler. Thank you!")
 # To Do List:
 

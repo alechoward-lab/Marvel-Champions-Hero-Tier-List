@@ -32,6 +32,20 @@ def update_preset():
 
 # daring lime logo
 st.image("https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/Daring_Lime_Logo.png?raw=true")
+st.title("Marvel Champions Hero Tier List")
+st.markdown(
+    "Adjust the weighting based on how much you value each aspect of hero strength. "
+    "You can choose from preset weighting functions, "
+    "adjust the sliders manually, "
+    "or both! You have full control over the tier list. "
+    "If a hero has a positive stat, it is a strength, and if it has a negative stat, it is a weakness. "
+    "The weighting factors represent how much you personally value each of those stats. "
+    "The tier list is automatically calculated based off of the weighting and hero stats to create a personalized hero tier list."
+)
+st.markdown(
+    "For a video tutorial of how to use this, check out my youtube channel: [Daring Lime](https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A). "
+    "There you'll see a full breakdown of each hero and how to use this tool to create your own tier list."
+)
 
 # ----------------------------------------
 # Layout: Two columns side by side

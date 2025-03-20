@@ -376,3 +376,30 @@ st.markdown(
     """, 
     unsafe_allow_html=True
 )
+
+# Images
+
+Captain_Marvel_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/2_Captain%20Marvel.jpg?raw=true"
+Iron_Man_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/3_Iron_Man.jpg?raw=true"
+Spider_Man_Peter_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/5_Spider-Man_(Peter%20Parker).jpg?raw=true"
+Black_Panther_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/1_Black%20Panther.jpg?raw=true"
+She_Hulk_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/4_She_Hulk.jpg?raw=true"
+Captain_America_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/6_Captain_America.jpg?raw=true"
+Ms_Marvel_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/7_Ms_Marvel.jpg?raw=true"
+Thor_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/8_Thor.jpg?raw=true"
+Black_Widow_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/9_Black_Widow.jpg?raw=true"
+Doctor_Strange_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/10_Doctor_Strange.jpg?raw=true"
+Hulk_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/11_Hulk.jpg?raw=true"
+Hawkeye_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/12_Hawkeye.jpg?raw=true"
+Spider_Woman_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/13_Spider_Woman.jpg?raw=true"
+Ant_Man_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/14_Ant_Man.jpg?raw=true"
+Wasp_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/15_Wasp.jpg?raw=true"
+Quicksilver_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/16_Quicksilver.jpg?raw=true"
+Scarlet_Witch_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/17_Scarlet_Witch.jpg?raw=true"
+Groot_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/18_Groot.jpg?raw=true"
+Rocket_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/19_Rocket.jpg?raw=true"
+Star_Lord_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/20_Star_Lord.jpg?raw=true"
+Gamora_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/21_Gamora.jpg?raw=true"
+Drax_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/22_Drax.jpg?raw=true"
+Venom_Flash_url = "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/23_Venom.jpg?raw=true"
+Spectrum_url ="https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/25_Spectrum.jpg?raw=true"

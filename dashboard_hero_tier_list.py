@@ -208,9 +208,9 @@ with col2:
     
     # List of stat names corresponding to each index in the hero arrays
     stat_names = ["Economy", "Tempo", "Card Value", "Survivability", "Villain Damage",
-                  "Threat Removal", "Reliability", "Minion Control", "Control", "Support",
-                  "Unique Broken Builds", "Late Game Power", "Simplicity", "Stun/Confuse",
-                  "Multiplayer Consistency"]
+                  "Threat Removal", "Reliability", "Minion Control", "Control Boon", "Support Boon",
+                  "Unique Broken Builds Boon", "Late Game Power Boon", "Simplicity", "Stun/Confuse Boon",
+                  "Multiplayer Consistency Boon"]
     
     # Select a hero to modify
     hero_to_modify = st.selectbox("Select a Hero to Modify", list(st.session_state.heroes.keys()), key="hero_choice")

@@ -9,7 +9,10 @@ from matplotlib.patches import Patch
 import copy
 
 st.title("Marvel Champions Hero Tier List")
-st.markdown("Adjust the weighting based on how much you value each aspect of hero strength to create your own custom tier list. You can either choose from preset weighting functions or create your own.")
+st.markdown(
+    "Adjust the weighting based on how much you value each aspect of hero strength to create your own custom tier list. "
+    "You can choose from preset weighting functions (load their values into the sliders) or adjust the sliders manually using either dragging or the ▲/▼ buttons."
+)
 
 # ----------------------------------------
 # Layout: Two columns side by side
@@ -17,7 +20,7 @@ st.markdown("Adjust the weighting based on how much you value each aspect of her
 col1, col2 = st.columns(2)
 
 # ----------------------------------------
-# Column 1: Weighting settings (presets and/or sliders)
+# Column 1: Weighting settings (presets and sliders with buttons)
 # ----------------------------------------
 with col1:
     st.header("Weighting Factors")
@@ -32,42 +35,96 @@ with col1:
         "Beginner":            np.array([ 1, 0, 1, 1, 0, 0, 5, 0, 0, 0, 0,-1,10, 0, 0])
     }
     
-    # The drop-down now shows preset options first, then "Custom" at the end.
+    # The drop-down now shows preset options first and "Custom" last.
     preset_choice = st.selectbox("Select Weighting Option", list(preset_options.keys()) + ["Custom"])
     
     if preset_choice != "Custom":
-        weighting = preset_options[preset_choice]
         st.markdown(f"**Preset: {preset_choice}**")
-        st.write("Preset Weighting Values:", weighting)
-    else:
-        st.markdown("**Custom Weighting**")
-        economy = st.slider("Economy", min_value=-10, max_value=10, value=4)
-        tempo = st.slider("Tempo", min_value=-10, max_value=10, value=2)
-        card_value = st.slider("Card Value", min_value=-10, max_value=10, value=2)
-        survivability = st.slider("Survivability", min_value=-10, max_value=10, value=2)
-        villain_damage = st.slider("Villain Damage", min_value=-10, max_value=10, value=1)
-        threat_removal = st.slider("Threat Removal", min_value=-10, max_value=10, value=2)
-        reliability = st.slider("Reliability", min_value=-10, max_value=10, value=3)
-        minion_control = st.slider("Minion Control", min_value=-10, max_value=10, value=1)
-        control = st.slider("Control", min_value=-10, max_value=10, value=2)
-        support = st.slider("Support", min_value=-10, max_value=10, value=2)
-        unique_builds = st.slider("Unique Broken Builds", min_value=-10, max_value=10, value=1)
-        late_game = st.slider("Late Game Power", min_value=-10, max_value=10, value=1)
-        simplicity = st.slider("Simplicity", min_value=-10, max_value=10, value=0)
-        status_cards = st.slider("Stun/Confuse", min_value=-10, max_value=10, value=0)
-        multiplayer_consistency = st.slider("Multiplayer Consistency", min_value=-10, max_value=10, value=0)
-        weighting = np.array([economy, tempo, card_value, survivability, villain_damage,
-                              threat_removal, reliability, minion_control, control, support,
-                              unique_builds, late_game, simplicity, status_cards, multiplayer_consistency])
+        st.write("Preset Weighting Values:", preset_options[preset_choice])
+        if st.button("Load Preset Values"):
+            preset_vals = preset_options[preset_choice]
+            st.session_state["economy"] = int(preset_vals[0])
+            st.session_state["tempo"] = int(preset_vals[1])
+            st.session_state["card_value"] = int(preset_vals[2])
+            st.session_state["survivability"] = int(preset_vals[3])
+            st.session_state["villain_damage"] = int(preset_vals[4])
+            st.session_state["threat_removal"] = int(preset_vals[5])
+            st.session_state["reliability"] = int(preset_vals[6])
+            st.session_state["minion_control"] = int(preset_vals[7])
+            st.session_state["control"] = int(preset_vals[8])
+            st.session_state["support"] = int(preset_vals[9])
+            st.session_state["unique_builds"] = int(preset_vals[10])
+            st.session_state["late_game"] = int(preset_vals[11])
+            st.session_state["simplicity"] = int(preset_vals[12])
+            st.session_state["status_cards"] = int(preset_vals[13])
+            st.session_state["multiplayer_consistency"] = int(preset_vals[14])
     
-    # Determine the plot title based on selection
+    # List of slider definitions: (label, key, default)
+    slider_info = [
+        ("Economy", "economy", 4),
+        ("Tempo", "tempo", 2),
+        ("Card Value", "card_value", 2),
+        ("Survivability", "survivability", 2),
+        ("Villain Damage", "villain_damage", 1),
+        ("Threat Removal", "threat_removal", 2),
+        ("Reliability", "reliability", 3),
+        ("Minion Control", "minion_control", 1),
+        ("Control", "control", 2),
+        ("Support", "support", 2),
+        ("Unique Broken Builds", "unique_builds", 1),
+        ("Late Game Power", "late_game", 1),
+        ("Simplicity", "simplicity", 0),
+        ("Stun/Confuse", "status_cards", 0),
+        ("Multiplayer Consistency", "multiplayer_consistency", 0)
+    ]
+    
+    # For each slider, show the slider and add ▲/▼ buttons
+    for label, key, default in slider_info:
+        # Create two columns: one for slider, one for buttons
+        col_slider, col_buttons = st.columns([3, 1])
+        with col_slider:
+            value = st.slider(
+                label,
+                min_value=-10,
+                max_value=10,
+                value=st.session_state.get(key, default),
+                key=key
+            )
+        with col_buttons:
+            if st.button("▲", key=key+"_inc"):
+                new_val = min(st.session_state.get(key, default) + 1, 10)
+                st.session_state[key] = new_val
+            if st.button("▼", key=key+"_dec"):
+                new_val = max(st.session_state.get(key, default) - 1, -10)
+                st.session_state[key] = new_val
+    
+    # Create the weighting array from slider values
+    weighting = np.array([
+        st.session_state.get("economy", 4),
+        st.session_state.get("tempo", 2),
+        st.session_state.get("card_value", 2),
+        st.session_state.get("survivability", 2),
+        st.session_state.get("villain_damage", 1),
+        st.session_state.get("threat_removal", 2),
+        st.session_state.get("reliability", 3),
+        st.session_state.get("minion_control", 1),
+        st.session_state.get("control", 2),
+        st.session_state.get("support", 2),
+        st.session_state.get("unique_builds", 1),
+        st.session_state.get("late_game", 1),
+        st.session_state.get("simplicity", 0),
+        st.session_state.get("status_cards", 0),
+        st.session_state.get("multiplayer_consistency", 0)
+    ])
+    
+    # Determine the plot title based on preset selection
     if preset_choice != "Custom":
         plot_title = f"Generalized Hero Power Ranking - {preset_choice}"
     else:
         plot_title = "Generalized Hero Power Ranking - Custom Weighting"
 
 # ----------------------------------------
-# Column 2: Hero Stat Modification
+# Column 2: Hero Stat Modification (remains unchanged)
 # ----------------------------------------
 with col2:
     st.header("Modify Hero-Specific Stats")

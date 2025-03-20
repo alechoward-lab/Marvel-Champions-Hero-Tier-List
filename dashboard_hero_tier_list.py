@@ -397,7 +397,7 @@ hero_image_urls = {
 }
 
 # Display Tier List with Images
-st.header(f"Hero Tier List - {plot_title}")
+st.markdown(f"<h1 style='color: {tier_colors['S']};'>Hero Tier List - {plot_title}</h1>", unsafe_allow_html=True)
 
 tier_colors = {"S": "red", "A": "orange", "B": "green", "C": "blue", "D": "purple"}
 

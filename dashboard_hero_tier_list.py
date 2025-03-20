@@ -36,7 +36,7 @@ st.markdown(
     "You can choose from preset weighting functions (which automatically load into the sliders) "
     "or adjust the sliders manually. "
     "If a hero has a positive stat, it is a strength, and if it has a negative stat, it is a weakness. "
-    "The weighting factors represent how much you personally value each of those stats."
+    "The weighting factors represent how much you personally value each of those stats. "
     "The tier list is automatically calculated based off of the weighting and hero stats to create a personalized hero tier list."
 )
 

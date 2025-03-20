@@ -13,12 +13,47 @@ from PIL import Image
 import json
 
 # ----------------------------------------
-# Load Settings Early (before widget creation)
+# Define preset weighting options so update_preset can use them
+# ----------------------------------------
+preset_options = {  #          e, t, cv, s, d, th, re, mi, c, su, br, lg, si, sc, mu
+    "General Power ~2 Player":              np.array([4, 2, 2, 2, 1, 2, 3, 1, 2, 2, 2, 1, 0, 0, 1]),
+    "Multiplayer 3 Player":                 np.array([4, 1, 2, 2, 1, 5, 2, 3, 1, 7, 2, 5, 0, 0, 6]),
+    "Multiplayer 4 Player":                 np.array([4, 1, 2, 2, 1, 5, 2, 3, 1, 7, 2, 5, 0, 0, 10]),
+    "Solo (No Rush)":                       np.array([8, 3, 2, 4, 2, 2, 4, 1, 2, 2, 2, 1, 0, 4, -7]),
+    "Solo Rush":                            np.array([0, 5, 0, 2, 5, 0, 0, 0, 0, 0, 0, -3, 0, 0, 0]),
+    "Solo Final Boss Steady/Stalwart":      np.array([10, 3, 3, 8, 6, 2, 2, 4, 1, 2, 2, 2, 1, -4, -7]),
+    "Beginner Friendly Heroes":             np.array([2, 1, 0, 1, 0, 0, 5, 0, 0, 0, 0, -1, 10, 1, 0])
+}
+
+# ----------------------------------------
+# Define update_preset callback early so it is available to the selectbox
+# ----------------------------------------
+def update_preset():
+    preset = st.session_state.preset_choice
+    if preset != "Custom":
+        preset_vals = preset_options[preset]
+        st.session_state["economy"] = int(preset_vals[0])
+        st.session_state["tempo"] = int(preset_vals[1])
+        st.session_state["card_value"] = int(preset_vals[2])
+        st.session_state["survivability"] = int(preset_vals[3])
+        st.session_state["villain_damage"] = int(preset_vals[4])
+        st.session_state["threat_removal"] = int(preset_vals[5])
+        st.session_state["reliability"] = int(preset_vals[6])
+        st.session_state["minion_control"] = int(preset_vals[7])
+        st.session_state["control"] = int(preset_vals[8])
+        st.session_state["support"] = int(preset_vals[9])
+        st.session_state["unique_builds"] = int(preset_vals[10])
+        st.session_state["late_game"] = int(preset_vals[11])
+        st.session_state["simplicity"] = int(preset_vals[12])
+        st.session_state["status_cards"] = int(preset_vals[13])
+        st.session_state["multiplayer_consistency"] = int(preset_vals[14])
+
+# ----------------------------------------
+# Early load settings from file if available
 # ----------------------------------------
 uploaded_file = st.file_uploader("Upload saved settings", type="json", key="upload_settings")
 if uploaded_file is not None:
     settings = json.load(uploaded_file)
-    # Update session state for settings BEFORE creating any widgets
     st.session_state.heroes = {hero: np.array(stats) for hero, stats in settings["heroes"].items()}
     st.session_state.default_heroes = {hero: np.array(stats) for hero, stats in settings["default_heroes"].items()}
     st.session_state.preset_choice = settings["preset_choice"]
@@ -37,29 +72,27 @@ if uploaded_file is not None:
     st.session_state.simplicity = settings["simplicity"]
     st.session_state.status_cards = settings["status_cards"]
     st.session_state.multiplayer_consistency = settings["multiplayer_consistency"]
-    # Save weighting too, if needed (we update it later in code)
     st.session_state.weighting = np.array(settings["weighting"])
     st.success("Settings loaded successfully!")
-    
-# ----------------------------------------
-# The rest of your code
-# ----------------------------------------
 
+# ----------------------------------------
+# Main App Content
+# ----------------------------------------
 st.title("The Living Tier List")
 st.subheader("For Marvel Champions Heroes by Daring Lime")
 
 st.markdown(
     "Adjust the weighting based on how much you value each aspect of hero strength. "
-    "You can choose from preset weighting functions, "
-    "adjust the sliders manually, "
-    "or both! You have full control over the tier list. "
-    "If a hero has a positive stat, it is a strength, and if it has a negative stat, it is a weakness. "
-    "The weighting factors represent how much you personally value each of those stats. "
-    "The tier list is automatically calculated based off of the weighting and hero stats to create a personalized hero tier list. "
-    "There are a plethora of premade weighting factors to choose from, as well as a custom option. Any of these weighting functions can be modified and the tier list will automatically update."
+    "You can choose from preset weighting functions, adjust the sliders manually, or both! "
+    "You have full control over the tier list. If a hero has a positive stat, it is a strength, "
+    "and if it has a negative stat, it is a weakness. The weighting factors represent how much you "
+    "personally value each of those stats. The tier list is automatically calculated based off of the "
+    "weighting and hero stats to create a personalized hero tier list. There are a plethora of premade "
+    "weighting factors to choose from, as well as a custom option. Any of these weighting functions can "
+    "be modified and the tier list will automatically update."
 )
 st.markdown(
-    "For a video tutorial of how to use this, check out my YouYube channel: [Daring Lime](https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A). "
+    "For a video tutorial of how to use this, check out my YouTube channel: [Daring Lime](https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A). "
     "There you'll see a full breakdown of each hero and how to use this tool to create your own tier list. "
     "If you enjoy this tool, please consider subscribing to my channel and/or joining as a channel member to support me creating more Marvel Champions content."
 )
@@ -75,17 +108,6 @@ col1, col2 = st.columns(2)
 with col1:
     st.header("Weighting Factors")
     
-    # Define preset weighting functions
-    preset_options = {  #          e, t, cv, s, d, th, re, mi, c, su, br, lg, si, sc, mu
-        "General Power ~2 Player":              np.array([4, 2, 2, 2, 1, 2, 3, 1, 2, 2, 2, 1, 0, 0, 1]),
-        "Multiplayer 3 Player":                 np.array([4, 1, 2, 2, 1, 5, 2, 3, 1, 7, 2, 5, 0, 0, 6]),
-        "Multiplayer 4 Player":                 np.array([4, 1, 2, 2, 1, 5, 2, 3, 1, 7, 2, 5, 0, 0, 10]),
-        "Solo (No Rush)":                       np.array([8, 3, 2, 4, 2, 2, 4, 1, 2, 2, 2, 1, 0, 4, -7]),
-        "Solo Rush":                            np.array([0, 5, 0, 2, 5, 0, 0, 0, 0, 0, 0, -3, 0, 0, 0]),
-        "Solo Final Boss Steady/Stalwart":      np.array([10, 3, 3, 8, 6, 2, 2, 4, 1, 2, 2, 2, 1, -4, -7]),
-        "Beginner Friendly Heroes":             np.array([2, 1, 0, 1, 0, 0, 5, 0, 0, 0, 0, -1, 10, 1, 0])
-    }
-    
     # Category names for the weighting function
     weighting_categories = [
         "Economy", "Tempo", "Card Value", "Survivability", "Villain Damage",
@@ -99,7 +121,7 @@ with col1:
         "Select Weighting Option", 
         list(preset_options.keys()) + ["Custom"],
         key="preset_choice",
-        on_change=lambda: update_preset()  # make sure to call our update function
+        on_change=update_preset
     )
     
     # Always show the sliders so users can adjust
@@ -150,12 +172,12 @@ with col1:
 with col2:
     st.header("Hero Stats")
     
-    # Define default hero stats dictionary
+    # Define default hero stats dictionary (add more heroes as needed)
     default_heroes = {
         "Captain Marvel":       np.array([4, 3, -1, 3, 4, 2, 4, 1, 1, 2, 0, 0, 5, 1, 1]),
         "Iron Man":             np.array([4, -5, 4, 2, 5, 2, 0, 3, 0, 0, 1, 4, -5, 0, 5]),
         "Spider-Man Peter":     np.array([4, 0, 3, 5, 3, -2, 2, 0, 4, 1, 2, 0, 0, 0, 0]),
-        # ... (include the rest of your heroes)
+        # ... include the rest of your heroes here
     }
     
     # Initialize hero stats in session state if not already set
@@ -195,7 +217,7 @@ with col2:
         st.success("All heroes have been reset to their default stats.")
 
 # ----------------------------------------
-# Settings Save Functionality (can be placed anywhere after widget creation)
+# Settings Save Functionality
 # ----------------------------------------
 st.header("Save Your Settings")
 if st.button("Save Settings"):
@@ -224,7 +246,7 @@ if st.button("Save Settings"):
     st.download_button("Download Settings", settings_json, "settings.json")
 
 # ----------------------------------------
-# Continue with your tier list calculations and display...
+# Continue with tier list calculations and display
 # ----------------------------------------
 
 # Use the current hero stats from session state.
@@ -322,61 +344,7 @@ st.markdown(
 hero_image_urls = {
     "Captain Marvel": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/2_Captain%20Marvel.jpg?raw=true",
     "Iron Man": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/3_Iron_Man.jpg?raw=true",
-    "Spider-Man Peter": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/5_Spider-Man_(Peter%20Parker).jpg?raw=true",
-    "Black Panther": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/1_Black%20Panther.jpg?raw=true",
-    "She-Hulk": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/4_She_Hulk.jpg?raw=true",
-    "Captain America": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/6_Captain_America.jpg?raw=true",
-    "Ms. Marvel": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/7_Ms_Marvel.jpg?raw=true",
-    "Thor": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/8_Thor.jpg?raw=true",
-    "Black Widow": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/9_Black_Widow.jpg?raw=true",
-    "Doctor Strange": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/10_Doctor_Strange.jpg?raw=true",
-    "Hulk": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/11_Hulk.jpg?raw=true",
-    "Hawkeye": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/12_Hawkeye.jpg?raw=true",
-    "Spider-Woman": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/13_Spider_Woman.jpg?raw=true",
-    "Ant-Man": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/14_Ant_Man.jpg?raw=true",
-    "Wasp": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/15_Wasp.jpg?raw=true",
-    "Quicksilver": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/16_Quicksilver.jpg?raw=true",
-    "Scarlet Witch": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/17_Scarlet_Witch.jpg?raw=true",
-    "Groot": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/18_Groot.jpg?raw=true",
-    "Rocket": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/19_Rocket.jpg?raw=true",
-    "Star-Lord": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/20_Star_Lord.jpg?raw=true",
-    "Gamora": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/21_Gamora.jpg?raw=true",
-    "Drax": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/22_Drax.jpg?raw=true",
-    "Venom (Flash)": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/23_Venom.jpg?raw=true",
-    "Spectrum": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/25_Spectrum.jpg?raw=true",
-    "Adam Warlock": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/24_Adam_Warlock.jpg?raw=true",
-    "Nebula": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/26_Nebula.jpg?raw=true",
-    "War Machine": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/27_War_Machine.jpg?raw=true",
-    "Valkyrie": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/28_Valkyrie.jpg?raw=true",
-    "Vision": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/29_Vision.jpg?raw=true",
-    "Ghost Spider": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/30_Ghost_Spider.jpg?raw=true",
-    "Spider-Man (Miles)": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/31_Spider_Man_Miles.jpg?raw=true",
-    "Nova": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/32_Nova.jpg?raw=true",
-    "Ironheart": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/33_Ironheart.jpg?raw=true",
-    "SP//dr": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/35_SPdr.jpg?raw=true",
-    "Spider-Ham": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/34_Spider_Ham.jpg?raw=true",
-    "Colossus": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/36_Colossus.jpg?raw=true",
-    "Cyclops": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/38_Cyclops.jpg?raw=true",
-    "Shadowcat": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/37_Shadowcat.jpg?raw=true",
-    "Phoenix": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/39_Phoenix.jpg?raw=true",
-    "Wolverine": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/40_Wolverine.jpg?raw=true",
-    "Storm": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/41_Storm.jpg?raw=true",
-    "Gambit": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/42_Gambit.jpg?raw=true",
-    "Rogue": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/43_Rogue.jpg?raw=true",
-    "Cable": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/44_Cable.jpg?raw=true",
-    "Domino": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/45_Domino.jpg?raw=true",
-    "Psylocke": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/46_Psylocke.jpg?raw=true",
-    "Angel": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/47_Angel.jpg?raw=true",
-    "X-23": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/48_X_23.jpg?raw=true",
-    "Deadpool": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/49_Deadpool.jpg?raw=true",
-    "Bishop": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/50_Bishop.jpg?raw=true",
-    "Magik": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/51_Magik.jpg?raw=true",
-    "Iceman": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/52_Iceman.jpg?raw=true",
-    "Jubilee": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/53_Jubilee.jpg?raw=true",
-    "Nightcrawler": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/54_Nightcrawler.jpg?raw=true",
-    "Magneto": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/55_Magneto.jpg?raw=true",
-    "Maria Hill": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/56_Maria_Hill.jpg?raw=true",
-    "Nick Fury": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/57_Nick_Fury.jpg?raw=true"
+    # ... (add the rest of your hero image URLs here)
 }
 
 # ----------------------------------------

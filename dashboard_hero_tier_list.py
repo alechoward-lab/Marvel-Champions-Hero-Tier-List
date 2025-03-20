@@ -43,7 +43,7 @@ st.markdown(
 )
 st.markdown(
     "For a video tutorial of how to use this, check out my youtube channel: [Daring Lime](https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A). "
-    "There you'll see a full breakdown of each hero and how to use this tool to create your own tier list."
+    "There you'll see a full breakdown of each hero and how to use this tool to create your own tier list. test"
 )
 
 # ----------------------------------------

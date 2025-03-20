@@ -309,13 +309,13 @@ st.markdown(
         background-position: center;
         background-repeat: no-repeat;
         position: relative;
-        padding: 20px;  /* Add padding to create a margin */
+        padding: 40px;  /* Add padding to create a margin */
         color: white;  /* Set text color to white */
     }}
     .stApp::before {{
         content: "";
         position: absolute;
-        inset: 20px;  /* Adjust to match the padding */
+        inset: 40px;  /* Adjust to match the padding */
         background: rgba(0, 0, 0, 0.8);  /* More opaque black overlay */
         z-index: 1;
     }}

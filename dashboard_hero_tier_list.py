@@ -320,7 +320,6 @@ st.markdown(
 
 # Define a dictionary to map hero names to their image URLs
 hero_image_urls = {
-hero_image_urls = {
     "Captain Marvel": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/2_Captain%20Marvel.jpg?raw=true",
     "Iron Man": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/3_Iron_Man.jpg?raw=true",
     "Spider-Man Peter": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/5_Spider-Man_(Peter%20Parker).jpg?raw=true",

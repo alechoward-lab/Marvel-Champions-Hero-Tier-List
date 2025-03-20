@@ -121,9 +121,9 @@ with col1:
     
     # Determine the plot title based on preset selection
     if preset_choice != "Custom":
-        plot_title = f"Generalized Hero Power Ranking - {preset_choice}"
+        plot_title = f"{preset_choice}"
     else:
-        plot_title = "Generalized Hero Power Ranking - Custom Weighting"
+        plot_title = "Custom Weighting"
 
 # ----------------------------------------
 # Column 2: Hero Stat Modification

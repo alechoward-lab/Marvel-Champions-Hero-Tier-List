@@ -30,15 +30,8 @@ def update_preset():
         st.session_state["status_cards"] = int(preset_vals[13])
         st.session_state["multiplayer_consistency"] = int(preset_vals[14])
 
-# daring lime logo
-# Create a two-column layout for the logo and title
-col1, col2 = st.columns([3, 4])  # Adjust column widths as needed
 
-with col1:
-    st.image("https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/Daring_Lime_Logo.png?raw=true", width=150)  # Adjust width
-
-with col2:
-    st.title("Marvel Champions Hero Tier List")
+st.title("Marvel Champions Hero Tier List")
 
 st.markdown(
     "Adjust the weighting based on how much you value each aspect of hero strength. "

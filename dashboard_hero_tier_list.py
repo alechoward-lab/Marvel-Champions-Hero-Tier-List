@@ -294,33 +294,6 @@ for tier, heroes_list in tiers.items():
     for hero, _ in heroes_list:
         hero_to_tier[hero] = tier
 
-tier_colors = {"S": "red", "A": "orange", "B": "green", "C": "blue", "D": "purple"}
-
-sorted_hero_names = list(sorted_scores.keys())
-sorted_hero_scores = list(sorted_scores.values())
-bar_colors = [tier_colors[hero_to_tier[hero]] for hero in sorted_hero_names]
-
-# ----------------------------------------
-# Plotting
-# ----------------------------------------
-fig, ax = plt.subplots(figsize=(14, 7), dpi=300)
-bars = ax.bar(sorted_hero_names, sorted_hero_scores, color=bar_colors)
-ax.set_ylabel("Scores", fontsize="x-large")
-ax.set_title(plot_title, fontweight='bold', fontsize=18)
-plt.xticks(rotation=45, ha='right')
-
-for label in ax.get_xticklabels():
-    hero = label.get_text()
-    if hero in hero_to_tier:
-        label.set_color(tier_colors[hero_to_tier[hero]])
-
-legend_handles = [Patch(color=tier_colors[tier], label=f"Tier {tier}") for tier in tier_colors]
-ax.legend(handles=legend_handles, title="Tier Colors", loc="upper left",
-          fontsize='x-large', title_fontsize='x-large')
-
-ax.grid(axis='y', linestyle='--', alpha=0.7)
-st.pyplot(fig)
-
 #%%
 
 # Add background image with a semi-transparent black overlay using custom CSS
@@ -440,6 +413,12 @@ for tier in ["S", "A", "B", "C", "D"]:
 # ----------------------------------------
 # Plotting
 # ----------------------------------------
+tier_colors = {"S": "red", "A": "orange", "B": "green", "C": "blue", "D": "purple"}
+
+sorted_hero_names = list(sorted_scores.keys())
+sorted_hero_scores = list(sorted_scores.values())
+bar_colors = [tier_colors[hero_to_tier[hero]] for hero in sorted_hero_names]
+
 fig, ax = plt.subplots(figsize=(14, 7), dpi=300)
 bars = ax.bar(sorted_hero_names, sorted_hero_scores, color=bar_colors)
 ax.set_ylabel("Scores", fontsize="x-large")

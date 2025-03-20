@@ -311,26 +311,43 @@ st.markdown(
     f"""
     <style>
     .stApp {{
-        background-image: url({background_image_url});
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
         position: relative;
         padding: 40px;  /* Add padding to create a margin */
         color: white;  /* Set text color to white */
     }}
-    .stApp::before {{
+    .stApp.dark-mode {{
+        background-image: url({background_image_url});
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }}
+    .stApp.dark-mode::before {{
         content: "";
         position: absolute;
         inset: 40px;  /* Adjust to match the padding */
         background: rgba(0, 0, 0, 0.8);  /* More opaque black overlay */
         z-index: 1;
     }}
-    .stApp > div {{
+    .stApp.dark-mode > div {{
         position: relative;
         z-index: 2;
     }}
     </style>
+    <script>
+    const observer = new MutationObserver((mutations) => {{
+        mutations.forEach((mutation) => {{
+            if (mutation.attributeName === 'class') {{
+                const appElement = document.querySelector('.stApp');
+                if (appElement.classList.contains('dark')) {{
+                    appElement.classList.add('dark-mode');
+                }} else {{
+                    appElement.classList.remove('dark-mode');
+                }}
+            }}
+        }});
+    }});
+    observer.observe(document.querySelector('.stApp'), {{ attributes: true }});
+    </script>
     """, 
     unsafe_allow_html=True
 )

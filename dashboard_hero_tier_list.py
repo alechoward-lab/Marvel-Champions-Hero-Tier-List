@@ -311,57 +311,34 @@ st.markdown(
     f"""
     <style>
     .stApp {{
-        position: relative;
-        padding: 40px;  /* Add padding to create a margin */
-    }}
-    .stApp.dark-mode {{
         background-image: url({background_image_url});
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+        position: relative;
+        padding: 40px;  /* Add padding to create a margin */
         color: white;  /* Set text color to white */
     }}
-    .stApp.dark-mode::before {{
+    .stApp::before {{
         content: "";
         position: absolute;
         inset: 40px;  /* Adjust to match the padding */
         background: rgba(0, 0, 0, 0.8);  /* More opaque black overlay */
         z-index: 1;
     }}
-    .stApp.dark-mode > div {{
+    .stApp > div {{
         position: relative;
         z-index: 2;
     }}
-    /* Set all text to white in dark mode */
-    .stApp.dark-mode, .stApp.dark-mode * {{
+    /* Set all text to white */
+    .stApp, .stApp * {{
         color: white !important;
     }}
-    /* Exclude dropdown menu text in dark mode */
-    .stApp.dark-mode .stSelectbox div[role="listbox"] * {{
-        color: black !important;
-    }}
-    /* Set all text to black in light mode */
-    .stApp.light-mode, .stApp.light-mode * {{
+    /* Exclude dropdown menu text */
+    .stApp .stSelectbox div[role="listbox"] * {{
         color: black !important;
     }}
     </style>
-    <script>
-    const observer = new MutationObserver((mutations) => {{
-        mutations.forEach((mutation) => {{
-            if (mutation.attributeName === 'class') {{
-                const appElement = document.querySelector('.stApp');
-                if (appElement.classList.contains('dark')) {{
-                    appElement.classList.add('dark-mode');
-                    appElement.classList.remove('light-mode');
-                }} else {{
-                    appElement.classList.add('light-mode');
-                    appElement.classList.remove('dark-mode');
-                }}
-            }}
-        }});
-    }});
-    observer.observe(document.querySelector('.stApp'), {{ attributes: true }});
-    </script>
     """, 
     unsafe_allow_html=True
 )

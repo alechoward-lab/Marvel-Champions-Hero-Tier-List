@@ -397,10 +397,12 @@ hero_image_urls = {
 }
 
 # Display Tier List with Images
-st.header("Tier List with Images")
+st.header(f"Hero Tier List - {plot_title}")
+
+tier_colors = {"S": "red", "A": "orange", "B": "green", "C": "blue", "D": "purple"}
 
 for tier in ["S", "A", "B", "C", "D"]:
-    st.subheader(f"Tier {tier}")
+    st.markdown(f"<h2 style='color: {tier_colors[tier]};'>{tier}</h2>", unsafe_allow_html=True)
     num_cols = 5  # Number of columns per row
     rows = [tiers[tier][i:i + num_cols] for i in range(0, len(tiers[tier]), num_cols)]
     for row in rows:
@@ -413,8 +415,6 @@ for tier in ["S", "A", "B", "C", "D"]:
 # ----------------------------------------
 # Plotting
 # ----------------------------------------
-tier_colors = {"S": "red", "A": "orange", "B": "green", "C": "blue", "D": "purple"}
-
 sorted_hero_names = list(sorted_scores.keys())
 sorted_hero_scores = list(sorted_scores.values())
 bar_colors = [tier_colors[hero_to_tier[hero]] for hero in sorted_hero_names]

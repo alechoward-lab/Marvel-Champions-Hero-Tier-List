@@ -298,11 +298,6 @@ background_image_url = "https://raw.githubusercontent.com/alechoward-lab/Marvel-
 st.markdown(
     f"""
     <style>
-    /* Force dark mode */
-    body {{
-        background-color: #0e1117;
-        color: white;
-    }}
     .stApp {{
         background-image: url({background_image_url});
         background-size: cover;
@@ -310,6 +305,7 @@ st.markdown(
         background-repeat: no-repeat;
         position: relative;
         padding: 20px;  /* Add padding to create a margin */
+        color: white;  /* Set text color to white */
     }}
     .stApp::before {{
         content: "";

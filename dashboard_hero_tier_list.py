@@ -39,6 +39,10 @@ st.markdown(
     "The weighting factors represent how much you personally value each of those stats. "
     "The tier list is automatically calculated based off of the weighting and hero stats to create a personalized hero tier list."
 )
+st.markdown(
+    "For a video tutorial of how to use this, check out my youtube channel: [Daring Lime](https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A). "
+    "There you'll see a full breakdown of each hero and how to use this tool to create your own tier list."
+)
 
 # ----------------------------------------
 # Layout: Two columns side by side

@@ -437,5 +437,26 @@ for tier in ["S", "A", "B", "C", "D"]:
                 if hero in hero_image_urls:
                     st.image(hero_image_urls[hero], width=150)
 
+# ----------------------------------------
+# Plotting
+# ----------------------------------------
+fig, ax = plt.subplots(figsize=(14, 7), dpi=300)
+bars = ax.bar(sorted_hero_names, sorted_hero_scores, color=bar_colors)
+ax.set_ylabel("Scores", fontsize="x-large")
+ax.set_title(plot_title, fontweight='bold', fontsize=18)
+plt.xticks(rotation=45, ha='right')
+
+for label in ax.get_xticklabels():
+    hero = label.get_text()
+    if hero in hero_to_tier:
+        label.set_color(tier_colors[hero_to_tier[hero]])
+
+legend_handles = [Patch(color=tier_colors[tier], label=f"Tier {tier}") for tier in tier_colors]
+ax.legend(handles=legend_handles, title="Tier Colors", loc="upper left",
+          fontsize='x-large', title_fontsize='x-large')
+
+ax.grid(axis='y', linestyle='--', alpha=0.7)
+st.pyplot(fig)
+
 
 

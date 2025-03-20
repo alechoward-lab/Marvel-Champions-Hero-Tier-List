@@ -32,7 +32,7 @@ def update_preset():
 
 # daring lime logo
 # Create a two-column layout for the logo and title
-col1, col2 = st.columns([1, 4])  # Adjust column widths as needed
+col1, col2 = st.columns([3, 4])  # Adjust column widths as needed
 
 with col1:
     st.image("https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/Daring_Lime_Logo.png?raw=true", width=150)  # Adjust width

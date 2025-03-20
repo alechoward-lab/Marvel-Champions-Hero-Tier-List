@@ -10,6 +10,7 @@ import pandas as pd
 import copy
 import os
 from PIL import Image
+import json  # Import JSON for saving/loading settings
 
 # Callback function to update slider values when a preset is selected
 def update_preset():
@@ -32,7 +33,6 @@ def update_preset():
         st.session_state["status_cards"] = int(preset_vals[13])
         st.session_state["multiplayer_consistency"] = int(preset_vals[14])
 
-
 st.title("The Living Tier List")
 st.subheader("For Marvel Champions Heroes by Daring Lime")
 
@@ -48,9 +48,8 @@ st.markdown(
 )
 st.markdown(
     "For a video tutorial of how to use this, check out my YouYube channel: [Daring Lime](https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A). "
-    "There you'll see a full breakdown of each hero and how to use this tool to create your own tier list."
+    "There you'll see a full breakdown of each hero and how to use this tool to create your own tier list. "
     "If you enjoy this tool, please consider subscribing to my channel and/or joining as a channel member to support me creating more Marvel Champions content."
-
 )
 
 # ----------------------------------------
@@ -65,14 +64,14 @@ with col1:
     st.header("Weighting Factors")
     
     # Define preset weighting functions
-    preset_options = {                          #          e, t, cv,s, d, th,re,mi,c, su,br,lg,si,sc,mu
-        "General Power ~2 Player":              np.array([ 4, 2, 2, 2, 1, 2, 3, 1, 2, 2, 2, 1, 0, 0, 1]),
-        "Multiplayer 3 Player":                 np.array([ 4, 1, 2, 2, 1, 5, 2, 3, 1, 7, 2, 5, 0, 0, 6]),
-        "Multiplayer 4 Player":                 np.array([ 4, 1, 2, 2, 1, 5, 2, 3, 1, 7, 2, 5, 0, 0, 10]),
-        "Solo (No Rush)":                       np.array([ 8, 3, 2, 4, 2, 2, 4, 1, 2, 2, 2, 1, 0, 4,-7]),
-        "Solo Rush":                            np.array([ 0, 5, 0, 2, 5, 0, 0, 0, 0, 0, 0,-3, 0, 0, 0]),
+    preset_options = {  #          e, t, cv,s, d, th,re,mi,c, su,br,lg,si,sc,mu
+        "General Power ~2 Player":              np.array([4, 2, 2, 2, 1, 2, 3, 1, 2, 2, 2, 1, 0, 0, 1]),
+        "Multiplayer 3 Player":                 np.array([4, 1, 2, 2, 1, 5, 2, 3, 1, 7, 2, 5, 0, 0, 6]),
+        "Multiplayer 4 Player":                 np.array([4, 1, 2, 2, 1, 5, 2, 3, 1, 7, 2, 5, 0, 0, 10]),
+        "Solo (No Rush)":                       np.array([8, 3, 2, 4, 2, 2, 4, 1, 2, 2, 2, 1, 0, 4,-7]),
+        "Solo Rush":                            np.array([0, 5, 0, 2, 5, 0, 0, 0, 0, 0, 0,-3, 0, 0, 0]),
         "Solo Final Boss Steady/Stalwart":      np.array([10, 3, 3, 8, 6, 2, 2, 4, 1, 2, 2, 2, 1,-4,-7]),
-        "Beginner Friendly Heroes":             np.array([ 2, 1, 0, 1, 0, 0, 5, 0, 0, 0, 0,-1,10, 1, 0])
+        "Beginner Friendly Heroes":             np.array([2, 1, 0, 1, 0, 0, 5, 0, 0, 0, 0,-1,10, 1, 0])
     }
     
     # Category names for the weighting function
@@ -91,23 +90,22 @@ with col1:
         on_change=update_preset
     )
     
-    
     # Always show the sliders so users can adjust
-    economy =                   st.slider("Economy",                            min_value=-10, max_value=10, value=st.session_state.get("economy", 4), key="economy")
-    tempo =                     st.slider("Tempo",                              min_value=-10, max_value=10, value=st.session_state.get("tempo", 2), key="tempo")
-    card_value =                st.slider("Card Value",                         min_value=-10, max_value=10, value=st.session_state.get("card_value", 2), key="card_value")
-    survivability =             st.slider("Survivability",                      min_value=-10, max_value=10, value=st.session_state.get("survivability", 2), key="survivability")
-    villain_damage =            st.slider("Villain Damage",                     min_value=-10, max_value=10, value=st.session_state.get("villain_damage", 1), key="villain_damage")
-    threat_removal =            st.slider("Threat Removal",                     min_value=-10, max_value=10, value=st.session_state.get("threat_removal", 2), key="threat_removal")
-    reliability =               st.slider("Reliability",                        min_value=-10, max_value=10, value=st.session_state.get("reliability", 3), key="reliability")
-    minion_control =            st.slider("Minion Control",                     min_value=-10, max_value=10, value=st.session_state.get("minion_control", 1), key="minion_control")
-    control =                   st.slider("Control Boon",                       min_value=-10, max_value=10, value=st.session_state.get("control", 2), key="control")
-    support =                   st.slider("Support Boon",                       min_value=-10, max_value=10, value=st.session_state.get("support", 2), key="support")
-    unique_builds =             st.slider("Unique Broken Builds Boon",          min_value=-10, max_value=10, value=st.session_state.get("unique_builds", 1), key="unique_builds")
-    late_game =                 st.slider("Late Game Power Boon",               min_value=-10, max_value=10, value=st.session_state.get("late_game", 1), key="late_game")
-    simplicity =                st.slider("Simplicity",                         min_value=-10, max_value=10, value=st.session_state.get("simplicity", 0), key="simplicity")
-    status_cards =              st.slider("Stun/Confuse Boon",                  min_value=-10, max_value=10, value=st.session_state.get("status_cards", 0), key="status_cards")
-    multiplayer_consistency =   st.slider("Multiplayer Consistency Boon",       min_value=-10, max_value=10, value=st.session_state.get("multiplayer_consistency", 0), key="multiplayer_consistency")
+    economy = st.slider("Economy", min_value=-10, max_value=10, value=st.session_state.get("economy", 4), key="economy")
+    tempo = st.slider("Tempo", min_value=-10, max_value=10, value=st.session_state.get("tempo", 2), key="tempo")
+    card_value = st.slider("Card Value", min_value=-10, max_value=10, value=st.session_state.get("card_value", 2), key="card_value")
+    survivability = st.slider("Survivability", min_value=-10, max_value=10, value=st.session_state.get("survivability", 2), key="survivability")
+    villain_damage = st.slider("Villain Damage", min_value=-10, max_value=10, value=st.session_state.get("villain_damage", 1), key="villain_damage")
+    threat_removal = st.slider("Threat Removal", min_value=-10, max_value=10, value=st.session_state.get("threat_removal", 2), key="threat_removal")
+    reliability = st.slider("Reliability", min_value=-10, max_value=10, value=st.session_state.get("reliability", 3), key="reliability")
+    minion_control = st.slider("Minion Control", min_value=-10, max_value=10, value=st.session_state.get("minion_control", 1), key="minion_control")
+    control = st.slider("Control Boon", min_value=-10, max_value=10, value=st.session_state.get("control", 2), key="control")
+    support = st.slider("Support Boon", min_value=-10, max_value=10, value=st.session_state.get("support", 2), key="support")
+    unique_builds = st.slider("Unique Broken Builds Boon", min_value=-10, max_value=10, value=st.session_state.get("unique_builds", 1), key="unique_builds")
+    late_game = st.slider("Late Game Power Boon", min_value=-10, max_value=10, value=st.session_state.get("late_game", 1), key="late_game")
+    simplicity = st.slider("Simplicity", min_value=-10, max_value=10, value=st.session_state.get("simplicity", 0), key="simplicity")
+    status_cards = st.slider("Stun/Confuse Boon", min_value=-10, max_value=10, value=st.session_state.get("status_cards", 0), key="status_cards")
+    multiplayer_consistency = st.slider("Multiplayer Consistency Boon", min_value=-10, max_value=10, value=st.session_state.get("multiplayer_consistency", 0), key="multiplayer_consistency")
     
     # Create the weighting array from slider values
     weighting = np.array([
@@ -141,71 +139,64 @@ with col2:
     st.header("Hero Stats")
     
     # Define default hero stats dictionary
-    default_heroes = {          #          e, t, cv,s, d, th,re,mi,c, s, br,lg,si,sc,mu  
-        "Captain Marvel":       np.array([ 4, 3,-1, 3, 4, 2, 4, 1, 1, 2, 0, 0, 5, 1, 1]),
-        "Iron Man":             np.array([ 4,-5, 4, 2, 5, 2, 0, 3, 0, 0, 1, 4,-5, 0, 5]),
-        "Spider-Man Peter":     np.array([ 4, 0, 3, 5, 3,-2, 2, 0, 4, 1, 2, 0, 0, 0, 0]),
-        "Black Panther":        np.array([ 3,-1, 4, 3, 3, 1, 1, 5, 0, 0, 0, 3,-1, 0, 1]),
-        "She-Hulk":             np.array([ 1, 3,-3, 3, 4,-2, 0, 4, 1, 0, 1, 0,-3, 1, 1]),
-        "Captain America":      np.array([ 4, 4, 3, 3, 3, 4, 5, 5, 1, 1, 0, 0, 5, 2, 0]),
-        "Ms. Marvel":           np.array([ 3,-2, 1, 3, 0, 3, 3, 1, 0, 0, 3, 3, 0, 0, 0]),
-        "Thor":                 np.array([ 2,-4,-4, 3, 3,-1,-2, 5,-1, 0, 1, 0, 3, 0, 2]),
-        "Black Widow":          np.array([ 2, 0, 3,-2,-4, 3, 2, 3, 4, 0, 0, 0,-5, 4, 1]),
-        "Doctor Strange":       np.array([ 4, 3, 5, 4, 2, 5, 5, 0, 5, 5, 5, 5, 3, 5, 4]),
+    default_heroes = {  #          e, t, cv,s, d, th,re,mi,c, s, br,lg,si,sc,mu
+        "Captain Marvel":       np.array([4, 3,-1, 3, 4, 2, 4, 1, 1, 2, 0, 0, 5, 1, 1]),
+        "Iron Man":             np.array([4,-5, 4, 2, 5, 2, 0, 3, 0, 0, 1, 4,-5, 0, 5]),
+        "Spider-Man Peter":     np.array([4, 0, 3, 5, 3,-2, 2, 0, 4, 1, 2, 0, 0, 0, 0]),
+        "Black Panther":        np.array([3,-1, 4, 3, 3, 1, 1, 5, 0, 0, 0, 3,-1, 0, 1]),
+        "She-Hulk":             np.array([1, 3,-3, 3, 4,-2, 0, 4, 1, 0, 1, 0,-3, 1, 1]),
+        "Captain America":      np.array([4, 4, 3, 3, 3, 4, 5, 5, 1, 1, 0, 0, 5, 2, 0]),
+        "Ms. Marvel":           np.array([3,-2, 1, 3, 0, 3, 3, 1, 0, 0, 3, 3, 0, 0, 0]),
+        "Thor":                 np.array([2,-4,-4, 3, 3,-1,-2, 5,-1, 0, 1, 0, 3, 0, 2]),
+        "Black Widow":          np.array([2, 0, 3,-2,-4, 3, 2, 3, 4, 0, 0, 0,-5, 4, 1]),
+        "Doctor Strange":       np.array([4, 3, 5, 4, 2, 5, 5, 0, 5, 5, 5, 5, 3, 5, 4]),
         "Hulk":                 np.array([-3, 5,-2, 4, 4,-5,-5, 3, 0, 0, 1, 0, 2, 0, 0]),
-                                #          e, t, cv,s, d, th,re,mi,c, s, br,lg,si,sc,mu  
-        "Hawkeye":              np.array([ 1,-1, 4,-3, 2, 1,-2, 5, 3, 0, 0, 0,-3, 5, 0]),
-        "Spider-Woman":         np.array([ 3, 3, 4, 3, 2, 4, 3, 2, 3, 1, 2, 0,-3, 5, 0]),
-        "Ant-Man":              np.array([ 2, 0, 3, 3, 4, 1, 2, 4, 2, 0, 0, 2,-3, 1, 0]),
-        "Wasp":                 np.array([ 1, 3, 0, 1, 4, 2, 3, 4, 0, 1, 1, 0,-5, 0, 0]),
-        "Quicksilver":          np.array([ 1,-3, 3,-1, 3, 4, 3, 3, 0, 1, 0, 3, 0, 0, 0]),
-        "Scarlet Witch":        np.array([ 2, 3, 5, 3, 3, 2, 3, 1, 3, 4, 1, 0,-3, 2, 0]),
-                                #          e, t, cv,s, d, th,re,mi,c, s, br,lg,si,sc,mu          
-        "Star-Lord":            np.array([ 4, 5, 3, 1, 5, 3, 2, 3,-3, 0, 1, 0,-5, 0, 0]),
-        "Groot":                np.array([ 0,-3, 2, 4, 3, 2,-2, 2, 0, 3, 0, 1, 2, 0, 2]),
-        "Rocket":               np.array([ 3,-1, 0, 0,-2, 2,-2, 4, 0, 0, 1, 1,-3, 0, 1]),
-        "Gamora":               np.array([ 1, 4, 3, 1, 3, 4, 4, 3, 0, 0, 1, 0, 3, 0, 0]),
-        "Drax":                 np.array([ 2,-3, 4, 2, 4,-1,-5, 3, 0, 1, 1, 0,-2, 0, 0]),
-        "Venom (Flash)":        np.array([ 3, 2, 4, 3, 3, 4, 5, 5, 3, 0, 0, 1,-3, 5, 0]),
-        "Spectrum":             np.array([ 3, 3, 2, 2, 2, 3,-2, 3, 0, 0, 2, 0,-5, 0, 0]),
-        "Adam Warlock":         np.array([ 3,-3, 2, 3, 2, 4,-1, 1, 3, 2, 3, 2,-5, 0, 1]),
-        "Nebula":               np.array([ 2, 1, 2, 1,-3, 2, 3, 1, 1, 0, 0, 0,-5, 0, 1]),
-        "War Machine":          np.array([ 1,-2, 1, 2, 4, 0,-2, 5, 0, 0, 0, 1,-3, 0, 2]),
-        "Valkyrie":             np.array([ 1, 2,-2, 2, 2,-2,-1, 4, 0, 0, 0, 0,-3, 0, 1]),
-        "Vision":               np.array([ 2, 3, 3, 3, 4, 3, 4, 2, 2, 0, 1, 0, 0, 1, 0]),
-                                #          e, t, cv,s, d, th,re,mi,c, s, br,lg,si,sc,mu          
-        "Ghost Spider":         np.array([ 3, 3, 3, 3, 3, 2, 2, 2, 4, 1, 1, 0,-3, 0, 0]),
-        "Spider-Man (Miles)":   np.array([ 2, 4, 5, 3, 5, 4, 5, 1, 4, 0, 1, 0, 3, 5, 0]),
-        "Nova":                 np.array([ 4, 4, 4, 1, 2, 3, 4, 3, 0, 1, 2, 0, 2, 0, 2]),
-        "Ironheart":            np.array([ 2,-3, 4, 3, 5, 5, 0, 3, 0, 0, 2, 5,-3, 0, 4]),
-        "SP//dr":               np.array([ 2,-1, 5, 3, 3, 5, 0, 1, 1, 0, 2, 2,-5, 0, 1]),
-        "Spider-Ham":           np.array([ 5, 3, 4, 5, 2, 4, 5, 2, 4, 0, 2, 1,-1, 5, 0]),
-                                #          e, t, cv,s, d, th,re,mi,c, s, br,lg,si,sc,mu        
-        "Colossus":             np.array([ 1,-1, 4, 5, 3,-5,-2, 2, 4, 0, 0, 0,-3, 5, 1]),
-        "Shadowcat":            np.array([ 3, 4, 2, 3, 1, 3, 5, 3, 3, 0, 0, 0,-5, 3, 0]),
-        "Cyclops":              np.array([ 1,-2, 5, 3, 4, 4, 3, 3, 0, 2, 2, 1,-3, 0, 0]),
-        "Phoenix":              np.array([ 2, 3, 3, 3, 4, 4, 3, 4, 3, 1, 2, 0, 0, 4, 0]),
-        "Wolverine":            np.array([ 3, 5, 3, 4, 5, 3, 4, 5, 0, 0, 1, 0, 1, 0, 0]),
-        "Storm":                np.array([ 1, 3, 3, 1, 4, 4, 3, 3, 1, 3, 1, 0,-3, 0, 2]),
-        "Gambit":               np.array([ 1,-1, 2, 2, 3, 3, 2, 4, 2, 1, 0, 0,-1, 4, 0]),
-        "Rogue":                np.array([ 0, 3, 3, 3, 3, 3, 1, 2, 2, 0, 1, 0, 0, 1, 2]),
-                                #          e, t, cv,s, d, th,re,mi,c, s, br,lg,si,sc,mu        
-        "Cable":                np.array([ 2, 3, 4, 3, 3, 5, 5, 2, 3, 3, 2, 3,-5, 0,-4]),
-        "Domino":               np.array([ 3,-2, 4, 1, 4, 3, 2, 4, 1, 0, 0, 3,-5, 0, 1]),
-        "Psylocke":             np.array([ 4, 4, 4, 1, 1, 5, 4, 3, 5, 0, 2, 0,-3, 5, 0]),
-        "Angel":                np.array([ 2, 5, 2, 2, 3, 5, 5, 2, 1, 0, 2, 0,-1, 0, 0]),
-        "X-23":                 np.array([ 1, 5, 4, 3, 5, 5, 5, 4, 0, 0, 1, 2,-2, 0, 0]),
-        "Deadpool":             np.array([ 1, 5, 5, 5, 5, 5,-3, 2, 1, 3, 1, 0,-1, 1, 0]),
-                                #          e, t, cv,s, d, th,re,mi,c, s, br,lg,si,sc,mu        
-        "Bishop":               np.array([ 5, 2, 4, 4, 5, 1, 3, 2, 0, 0, 1, 1,-3, 0, 0]),
-        "Magik":                np.array([ 4, 1, 4, 3, 2, 4, 3, 3, 2, 0, 1, 1,-5, 5, 0]),
-        "Iceman":               np.array([ 3, 2, 3, 3, 2, 2, 3, 4, 3, 2, 0, 0, 0, 0, 1]),
-        "Jubilee":              np.array([ 3,-1, 4, 0, 2, 4, 3, 3, 4, 1, 0, 1,-1, 5, 1]),
-        "Nightcrawler":         np.array([ 1, 2, 3, 3, 0, 3, 4, 4, 1, 3, 0, 0,-1, 1, 0]),
-        "Magneto":              np.array([ 3, 3, 3, 4, 3, 4, 5, 4, 2, 0, 0, 1, 3, 0, 1]),
-                                #          e, t, cv,s, d, th,re,mi,c, s, br,lg,si,sc,mu        
-        "Maria Hill":           np.array([ 2, 1, 5, 1, 2, 5, 5, 1, 1, 2, 2, 5,-3, 0, 2]),
-        "Nick Fury":            np.array([ 1, 2, 1, 3, 2, 4, 4, 5, 2, 0, 0, 0,-3, 0, 0]),
+        "Hawkeye":              np.array([1,-1, 4,-3, 2, 1,-2, 5, 3, 0, 0, 0,-3, 5, 0]),
+        "Spider-Woman":         np.array([3, 3, 4, 3, 2, 4, 3, 2, 3, 1, 2, 0,-3, 5, 0]),
+        "Ant-Man":              np.array([2, 0, 3, 3, 4, 1, 2, 4, 2, 0, 0, 2,-3, 1, 0]),
+        "Wasp":                 np.array([1, 3, 0, 1, 4, 2, 3, 4, 0, 1, 1, 0,-5, 0, 0]),
+        "Quicksilver":          np.array([1,-3, 3,-1, 3, 4, 3, 3, 0, 1, 0, 3, 0, 0, 0]),
+        "Scarlet Witch":        np.array([2, 3, 5, 3, 3, 2, 3, 1, 3, 4, 1, 0,-3, 2, 0]),
+        "Star-Lord":            np.array([4, 5, 3, 1, 5, 3, 2, 3,-3, 0, 1, 0,-5, 0, 0]),
+        "Groot":                np.array([0,-3, 2, 4, 3, 2,-2, 2, 0, 3, 0, 1, 2, 0, 2]),
+        "Rocket":               np.array([3,-1, 0, 0,-2, 2,-2, 4, 0, 0, 1, 1,-3, 0, 1]),
+        "Gamora":               np.array([1, 4, 3, 1, 3, 4, 4, 3, 0, 0, 1, 0, 3, 0, 0]),
+        "Drax":                 np.array([2,-3, 4, 2, 4,-1,-5, 3, 0, 1, 1, 0,-2, 0, 0]),
+        "Venom (Flash)":        np.array([3, 2, 4, 3, 3, 4, 5, 5, 3, 0, 0, 1,-3, 5, 0]),
+        "Spectrum":             np.array([3, 3, 2, 2, 2, 3,-2, 3, 0, 0, 2, 0,-5, 0, 0]),
+        "Adam Warlock":         np.array([3,-3, 2, 3, 2, 4,-1, 1, 3, 2, 3, 2,-5, 0, 1]),
+        "Nebula":               np.array([2, 1, 2, 1,-3, 2, 3, 1, 1, 0, 0, 0,-5, 0, 1]),
+        "War Machine":          np.array([1,-2, 1, 2, 4, 0,-2, 5, 0, 0, 0, 1,-3, 0, 2]),
+        "Valkyrie":             np.array([1, 2,-2, 2, 2,-2,-1, 4, 0, 0, 0, 0,-3, 0, 1]),
+        "Vision":               np.array([2, 3, 3, 3, 4, 3, 4, 2, 2, 0, 1, 0, 0, 1, 0]),
+        "Ghost Spider":         np.array([3, 3, 3, 3, 3, 2, 2, 2, 4, 1, 1, 0,-3, 0, 0]),
+        "Spider-Man (Miles)":   np.array([2, 4, 5, 3, 5, 4, 5, 1, 4, 0, 1, 0, 3, 5, 0]),
+        "Nova":                 np.array([4, 4, 4, 1, 2, 3, 4, 3, 0, 1, 2, 0, 2, 0, 2]),
+        "Ironheart":            np.array([2,-3, 4, 3, 5, 5, 0, 3, 0, 0, 2, 5,-3, 0, 4]),
+        "SP//dr":               np.array([2,-1, 5, 3, 3, 5, 0, 1, 1, 0, 2, 2,-5, 0, 1]),
+        "Spider-Ham":           np.array([5, 3, 4, 5, 2, 4, 5, 2, 4, 0, 2, 1,-1, 5, 0]),
+        "Colossus":             np.array([1,-1, 4, 5, 3,-5,-2, 2, 4, 0, 0, 0,-3, 5, 1]),
+        "Shadowcat":            np.array([3, 4, 2, 3, 1, 3, 5, 3, 3, 0, 0, 0,-5, 3, 0]),
+        "Cyclops":              np.array([1,-2, 5, 3, 4, 4, 3, 3, 0, 2, 2, 1,-3, 0, 0]),
+        "Phoenix":              np.array([2, 3, 3, 3, 4, 4, 3, 4, 3, 1, 2, 0, 0, 4, 0]),
+        "Wolverine":            np.array([3, 5, 3, 4, 5, 3, 4, 5, 0, 0, 1, 0, 1, 0, 0]),
+        "Storm":                np.array([1, 3, 3, 1, 4, 4, 3, 3, 1, 3, 1, 0,-3, 0, 2]),
+        "Gambit":               np.array([1,-1, 2, 2, 3, 3, 2, 4, 2, 1, 0, 0,-1, 4, 0]),
+        "Rogue":                np.array([0, 3, 3, 3, 3, 3, 1, 2, 2, 0, 1, 0, 0, 1, 2]),
+        "Cable":                np.array([2, 3, 4, 3, 3, 5, 5, 2, 3, 3, 2, 3,-5, 0,-4]),
+        "Domino":               np.array([3,-2, 4, 1, 4, 3, 2, 4, 1, 0, 0, 3,-5, 0, 1]),
+        "Psylocke":             np.array([4, 4, 4, 1, 1, 5, 4, 3, 5, 0, 2, 0,-3, 5, 0]),
+        "Angel":                np.array([2, 5, 2, 2, 3, 5, 5, 2, 1, 0, 2, 0,-1, 0, 0]),
+        "X-23":                 np.array([1, 5, 4, 3, 5, 5, 5, 4, 0, 0, 1, 2,-2, 0, 0]),
+        "Deadpool":             np.array([1, 5, 5, 5, 5, 5,-3, 2, 1, 3, 1, 0,-1, 1, 0]),
+        "Bishop":               np.array([5, 2, 4, 4, 5, 1, 3, 2, 0, 0, 1, 1,-3, 0, 0]),
+        "Magik":                np.array([4, 1, 4, 3, 2, 4, 3, 3, 2, 0, 1, 1,-5, 5, 0]),
+        "Iceman":               np.array([3, 2, 3, 3, 2, 2, 3, 4, 3, 2, 0, 0, 0, 0, 1]),
+        "Jubilee":              np.array([3,-1, 4, 0, 2, 4, 3, 3, 4, 1, 0, 1,-1, 5, 1]),
+        "Nightcrawler":         np.array([1, 2, 3, 3, 0, 3, 4, 4, 1, 3, 0, 0,-1, 1, 0]),
+        "Magneto":              np.array([3, 3, 3, 4, 3, 4, 5, 4, 2, 0, 0, 1, 3, 0, 1]),
+        "Maria Hill":           np.array([2, 1, 5, 1, 2, 5, 5, 1, 1, 2, 2, 5,-3, 0, 2]),
+        "Nick Fury":            np.array([1, 2, 1, 3, 2, 4, 4, 5, 2, 0, 0, 0,-3, 0, 0]),
     }
     
     # Initialize hero stats in session state if not already set
@@ -243,6 +234,63 @@ with col2:
     if st.button("Reset All Heroes to Default"):
         st.session_state.heroes = copy.deepcopy(st.session_state.default_heroes)
         st.success("All heroes have been reset to their default stats.")
+
+# ----------------------------------------
+# Settings Save/Load Functionality
+# ----------------------------------------
+st.header("Save/Load Your Settings")
+
+# Button to save current settings
+if st.button("Save Settings"):
+    settings = {
+        "heroes": {hero: stats.tolist() for hero, stats in st.session_state.heroes.items()},
+        "default_heroes": {hero: stats.tolist() for hero, stats in st.session_state.default_heroes.items()},
+        "preset_choice": st.session_state.preset_choice,
+        "weighting": weighting.tolist(),
+        "economy": st.session_state.economy,
+        "tempo": st.session_state.tempo,
+        "card_value": st.session_state.card_value,
+        "survivability": st.session_state.survivability,
+        "villain_damage": st.session_state.villain_damage,
+        "threat_removal": st.session_state.threat_removal,
+        "reliability": st.session_state.reliability,
+        "minion_control": st.session_state.minion_control,
+        "control": st.session_state.control,
+        "support": st.session_state.support,
+        "unique_builds": st.session_state.unique_builds,
+        "late_game": st.session_state.late_game,
+        "simplicity": st.session_state.simplicity,
+        "status_cards": st.session_state.status_cards,
+        "multiplayer_consistency": st.session_state.multiplayer_consistency
+    }
+    settings_json = json.dumps(settings)
+    st.download_button("Download Settings", settings_json, "settings.json")
+
+# File uploader for restoring settings
+uploaded_file = st.file_uploader("Upload saved settings", type="json")
+if uploaded_file is not None:
+    settings = json.load(uploaded_file)
+    st.session_state.heroes = {hero: np.array(stats) for hero, stats in settings["heroes"].items()}
+    st.session_state.default_heroes = {hero: np.array(stats) for hero, stats in settings["default_heroes"].items()}
+    st.session_state.preset_choice = settings["preset_choice"]
+    st.session_state.economy = settings["economy"]
+    st.session_state.tempo = settings["tempo"]
+    st.session_state.card_value = settings["card_value"]
+    st.session_state.survivability = settings["survivability"]
+    st.session_state.villain_damage = settings["villain_damage"]
+    st.session_state.threat_removal = settings["threat_removal"]
+    st.session_state.reliability = settings["reliability"]
+    st.session_state.minion_control = settings["minion_control"]
+    st.session_state.control = settings["control"]
+    st.session_state.support = settings["support"]
+    st.session_state.unique_builds = settings["unique_builds"]
+    st.session_state.late_game = settings["late_game"]
+    st.session_state.simplicity = settings["simplicity"]
+    st.session_state.status_cards = settings["status_cards"]
+    st.session_state.multiplayer_consistency = settings["multiplayer_consistency"]
+    # Update the weighting array as well
+    weighting = np.array(settings["weighting"])
+    st.success("Settings loaded successfully!")
 
 # Use the current hero stats from session state.
 heroes = st.session_state.heroes
@@ -300,7 +348,7 @@ for tier, heroes_list in tiers.items():
 #%%
 
 # Add background image with a semi-transparent black overlay using custom CSS
-background_image_url = "https://raw.githubusercontent.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/refs/heads/main/images/background/marvel_champions_background_image.jpg"  # Replace with your image file path or URL
+background_image_url = "https://raw.githubusercontent.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/refs/heads/main/images/background/marvel_champions_background_image.jpg"
 
 st.markdown(
     f"""
@@ -311,25 +359,23 @@ st.markdown(
         background-position: center;
         background-repeat: no-repeat;
         position: relative;
-        padding: 40px;  /* Add padding to create a margin */
-        color: white;  /* Set text color to white */
+        padding: 40px;
+        color: white;
     }}
     .stApp::before {{
         content: "";
         position: absolute;
-        inset: 40px;  /* Adjust to match the padding */
-        background: rgba(0, 0, 0, 0.8);  /* More opaque black overlay */
+        inset: 40px;
+        background: rgba(0, 0, 0, 0.8);
         z-index: 1;
     }}
     .stApp > div {{
         position: relative;
         z-index: 2;
     }}
-    /* Set all text to white */
     .stApp, .stApp * {{
         color: white !important;
     }}
-    /* Exclude dropdown menu text */
     .stApp .stSelectbox div[role="listbox"] * {{
         color: black !important;
     }}
@@ -443,9 +489,9 @@ ax.legend(handles=legend_handles, title="Tier Colors", loc="upper left",
 ax.grid(axis='y', linestyle='--', alpha=0.7)
 st.pyplot(fig)
 
-st.markdown("<hr>", unsafe_allow_html=True)  # Add a horizontal line after each tier
-
+st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown("Most card images are from the Cerebro Discord bot developed by UnicornSnuggler. Thank you!")
+
 # To Do List:
 
 # Create a markdown section at the end that goes over the assumptions of this tier list and mention that people can adjust them.

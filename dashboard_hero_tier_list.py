@@ -415,6 +415,8 @@ for tier in ["S", "A", "B", "C", "D"]:
 # ----------------------------------------
 # Plotting
 # ----------------------------------------
+st.header(f"Hero Scores")
+
 sorted_hero_names = list(sorted_scores.keys())
 sorted_hero_scores = list(sorted_scores.values())
 bar_colors = [tier_colors[hero_to_tier[hero]] for hero in sorted_hero_names]

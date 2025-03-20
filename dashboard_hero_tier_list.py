@@ -41,7 +41,8 @@ st.markdown(
     "or both! You have full control over the tier list. "
     "If a hero has a positive stat, it is a strength, and if it has a negative stat, it is a weakness. "
     "The weighting factors represent how much you personally value each of those stats. "
-    "The tier list is automatically calculated based off of the weighting and hero stats to create a personalized hero tier list."
+    "The tier list is automatically calculated based off of the weighting and hero stats to create a personalized hero tier list. "
+    "There are a plethora of premade weighting factors to choose from, as well as a custom option. Any of these weighting functions can be modified and the tier list will automatically update."
 )
 st.markdown(
     "For a video tutorial of how to use this, check out my YouYube channel: [Daring Lime](https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A). "
@@ -87,14 +88,6 @@ with col1:
         on_change=update_preset
     )
     
-    # If a preset (other than "Custom") is selected, display a table mapping categories to values.
-    # if preset_choice != "Custom":
-    #     st.markdown(f"**Preset: {preset_choice}**")
-    #     df = pd.DataFrame({
-    #         "Category": weighting_categories,
-    #         "Value": preset_options[preset_choice]
-    #     })
-    #     st.table(df)
     
     # Always show the sliders so users can adjust
     economy =                   st.slider("Economy",                            min_value=-10, max_value=10, value=st.session_state.get("economy", 4), key="economy")

@@ -30,6 +30,8 @@ def update_preset():
         st.session_state["status_cards"] = int(preset_vals[13])
         st.session_state["multiplayer_consistency"] = int(preset_vals[14])
 
+# Add the image to the top of the site
+st.image("https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/Daring_Lime_Logo.png?raw=true", width=100)
 
 st.title("Marvel Champions Hero Tier List")
 st.markdown(
@@ -47,9 +49,9 @@ st.markdown(
 )
 
 # ----------------------------------------
-# Layout: Two columns side by side
+# Layout: Three columns side by side
 # ----------------------------------------
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 
 # ----------------------------------------
 # Column 1: Weighting settings (presets and sliders)

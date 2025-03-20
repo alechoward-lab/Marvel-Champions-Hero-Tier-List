@@ -136,7 +136,7 @@ with col1:
 # Column 2: Hero Stat Modification
 # ----------------------------------------
 with col2:
-    st.header("Modify Hero-Specific Stats")
+    st.header("Hero Stats")
     
     # Define default hero stats dictionary
     default_heroes = {

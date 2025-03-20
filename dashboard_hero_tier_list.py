@@ -32,7 +32,6 @@ def update_preset():
 
 
 st.title("Marvel Champions Hero Tier List")
-
 st.markdown(
     "Adjust the weighting based on how much you value each aspect of hero strength. "
     "You can choose from preset weighting functions, "

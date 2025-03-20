@@ -30,6 +30,8 @@ def update_preset():
         st.session_state["status_cards"] = int(preset_vals[13])
         st.session_state["multiplayer_consistency"] = int(preset_vals[14])
 
+# daring lime logo
+st.image("https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/Daring_Lime_Logo.png?raw=true")
 st.title("Marvel Champions Hero Tier List")
 st.markdown(
     "Adjust the weighting based on how much you value each aspect of hero strength. "

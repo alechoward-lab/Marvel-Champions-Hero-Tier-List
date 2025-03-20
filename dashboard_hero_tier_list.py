@@ -309,11 +309,8 @@ st.markdown(
     .stApp::before {{
         content: "";
         position: absolute;
-        top: 20px;  /* Adjust to match the padding */
-        left: 20px;  /* Adjust to match the padding */
-        right: 20px;  /* Adjust to match the padding */
-        bottom: 20px;  /* Adjust to match the padding */
-        background: rgba(0, 0, 0, 0.7);  /* More opaque black overlay */
+        inset: 20px;  /* Adjust to match the padding */
+        background: rgba(0, 0, 0, 0.8);  /* More opaque black overlay */
         z-index: 1;
     }}
     .stApp > div {{

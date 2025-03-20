@@ -10,8 +10,9 @@ import copy
 
 st.title("Marvel Champions Hero Tier List")
 st.markdown(
-    "Adjust the weighting based on how much you value each aspect of hero strength to create your own custom tier list. "
-    "You can choose from preset weighting functions (load their values into the sliders) or adjust the sliders manually using either dragging or the ▲/▼ buttons."
+    "Adjust the weighting based on how much you value each aspect of hero strength. "
+    "You can choose from preset weighting functions (load their values into the sliders) "
+    "or adjust the sliders manually."
 )
 
 # ----------------------------------------
@@ -20,7 +21,7 @@ st.markdown(
 col1, col2 = st.columns(2)
 
 # ----------------------------------------
-# Column 1: Weighting settings (presets and sliders with buttons)
+# Column 1: Weighting settings (presets and sliders)
 # ----------------------------------------
 with col1:
     st.header("Weighting Factors")
@@ -35,7 +36,7 @@ with col1:
         "Beginner":            np.array([ 1, 0, 1, 1, 0, 0, 5, 0, 0, 0, 0,-1,10, 0, 0])
     }
     
-    # The drop-down now shows preset options first and "Custom" last.
+    # The selectbox shows the preset options first, then "Custom"
     preset_choice = st.selectbox("Select Weighting Option", list(preset_options.keys()) + ["Custom"])
     
     if preset_choice != "Custom":
@@ -59,44 +60,22 @@ with col1:
             st.session_state["status_cards"] = int(preset_vals[13])
             st.session_state["multiplayer_consistency"] = int(preset_vals[14])
     
-    # List of slider definitions: (label, key, default)
-    slider_info = [
-        ("Economy", "economy", 4),
-        ("Tempo", "tempo", 2),
-        ("Card Value", "card_value", 2),
-        ("Survivability", "survivability", 2),
-        ("Villain Damage", "villain_damage", 1),
-        ("Threat Removal", "threat_removal", 2),
-        ("Reliability", "reliability", 3),
-        ("Minion Control", "minion_control", 1),
-        ("Control", "control", 2),
-        ("Support", "support", 2),
-        ("Unique Broken Builds", "unique_builds", 1),
-        ("Late Game Power", "late_game", 1),
-        ("Simplicity", "simplicity", 0),
-        ("Stun/Confuse", "status_cards", 0),
-        ("Multiplayer Consistency", "multiplayer_consistency", 0)
-    ]
-    
-    # For each slider, show the slider and add ▲/▼ buttons
-    for label, key, default in slider_info:
-        # Create two columns: one for slider, one for buttons
-        col_slider, col_buttons = st.columns([3, 1])
-        with col_slider:
-            value = st.slider(
-                label,
-                min_value=-10,
-                max_value=10,
-                value=st.session_state.get(key, default),
-                key=key
-            )
-        with col_buttons:
-            if st.button("▲", key=key+"_inc"):
-                new_val = min(st.session_state.get(key, default) + 1, 10)
-                st.session_state[key] = new_val
-            if st.button("▼", key=key+"_dec"):
-                new_val = max(st.session_state.get(key, default) - 1, -10)
-                st.session_state[key] = new_val
+    # Always show the sliders so users can adjust
+    economy = st.slider("Economy", min_value=-10, max_value=10, value=st.session_state.get("economy", 4), key="economy")
+    tempo = st.slider("Tempo", min_value=-10, max_value=10, value=st.session_state.get("tempo", 2), key="tempo")
+    card_value = st.slider("Card Value", min_value=-10, max_value=10, value=st.session_state.get("card_value", 2), key="card_value")
+    survivability = st.slider("Survivability", min_value=-10, max_value=10, value=st.session_state.get("survivability", 2), key="survivability")
+    villain_damage = st.slider("Villain Damage", min_value=-10, max_value=10, value=st.session_state.get("villain_damage", 1), key="villain_damage")
+    threat_removal = st.slider("Threat Removal", min_value=-10, max_value=10, value=st.session_state.get("threat_removal", 2), key="threat_removal")
+    reliability = st.slider("Reliability", min_value=-10, max_value=10, value=st.session_state.get("reliability", 3), key="reliability")
+    minion_control = st.slider("Minion Control", min_value=-10, max_value=10, value=st.session_state.get("minion_control", 1), key="minion_control")
+    control = st.slider("Control", min_value=-10, max_value=10, value=st.session_state.get("control", 2), key="control")
+    support = st.slider("Support", min_value=-10, max_value=10, value=st.session_state.get("support", 2), key="support")
+    unique_builds = st.slider("Unique Broken Builds", min_value=-10, max_value=10, value=st.session_state.get("unique_builds", 1), key="unique_builds")
+    late_game = st.slider("Late Game Power", min_value=-10, max_value=10, value=st.session_state.get("late_game", 1), key="late_game")
+    simplicity = st.slider("Simplicity", min_value=-10, max_value=10, value=st.session_state.get("simplicity", 0), key="simplicity")
+    status_cards = st.slider("Stun/Confuse", min_value=-10, max_value=10, value=st.session_state.get("status_cards", 0), key="status_cards")
+    multiplayer_consistency = st.slider("Multiplayer Consistency", min_value=-10, max_value=10, value=st.session_state.get("multiplayer_consistency", 0), key="multiplayer_consistency")
     
     # Create the weighting array from slider values
     weighting = np.array([

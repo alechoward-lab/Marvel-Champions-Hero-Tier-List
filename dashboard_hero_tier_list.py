@@ -330,6 +330,14 @@ st.markdown(
         position: relative;
         z-index: 2;
     }}
+    /* Set all text to white */
+    .stApp, .stApp * {{
+        color: white !important;
+    }}
+    /* Exclude dropdown menu text */
+    .stApp .stSelectbox div[role="listbox"] * {{
+        color: black !important;
+    }}
     </style>
     """, 
     unsafe_allow_html=True

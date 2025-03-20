@@ -10,6 +10,8 @@ import pandas as pd
 import copy
 import os
 from PIL import Image
+import requests
+from io import BytesIO
 
 # Callback function to update slider values when a preset is selected
 def update_preset():
@@ -422,6 +424,13 @@ hero_image_urls = {
     "Nick Fury": "https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/heroes/57_Nick_Fury.jpg?raw=true"
 }
 
+# Function to resize images to a fixed size
+def resize_image(image_url, size=(150, 150)):
+    response = requests.get(image_url)
+    img = Image.open(BytesIO(response.content))
+    img = img.resize(size)
+    return img
+
 # Display Tier List with Images
 st.header("Tier List with Images")
 
@@ -431,7 +440,8 @@ for tier in ["S", "A", "B", "C", "D"]:
     for idx, (hero, score) in enumerate(tiers[tier]):
         with cols[idx]:
             if hero in hero_image_urls:
-                st.image(hero_image_urls[hero], width=150, use_container_width=True)
+                img = resize_image(hero_image_urls[hero])
+                st.image(img, use_container_width=True)
 
 
 

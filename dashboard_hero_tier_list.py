@@ -292,19 +292,34 @@ ax.grid(axis='y', linestyle='--', alpha=0.7)
 st.pyplot(fig)
 #%%
 
-# Add background image using custom CSS
-#background_image_url = "https://raw.githubusercontent.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/refs/heads/main/images/background/marvel_champions_background_image.jpg"  # Replace with your image file path or URL
+# Add background image with a semi-transparent black overlay using custom CSS
+background_image_url = "https://raw.githubusercontent.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/refs/heads/main/images/background/marvel_champions_background_image.jpg"  # Replace with your image file path or URL
 
-# #st.markdown(
-# #    f"""
-#     <style>
-#     .stApp {{
-#         background-image: url({background_image_url});
-#         background-size: cover;
-#         background-position: center;
-#         background-repeat: no-repeat;
-#     }}
-#     </style>
-#     """, 
-#     unsafe_allow_html=True
-# )
+st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-image: url({background_image_url});
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+    }}
+    .stApp::before {{
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);  /* Semi-transparent black overlay */
+        z-index: 1;
+    }}
+    .stApp > div {{
+        position: relative;
+        z-index: 2;
+    }}
+    </style>
+    """, 
+    unsafe_allow_html=True
+)

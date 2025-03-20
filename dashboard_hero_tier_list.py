@@ -446,9 +446,7 @@ for tier in ["S", "A", "B", "C", "D"]:
     for idx, (hero, score) in enumerate(tiers[tier]):
         with cols[idx]:
             if hero in hero_image_urls:
-                st.image(hero_image_urls[hero], caption=f"{hero} ({score:.2f})", use_column_width=True)
-            else:
-                st.text(f"{hero} ({score:.2f})")
+                st.image(hero_image_urls[hero], width=150, use_container_width=True)
 
 
 

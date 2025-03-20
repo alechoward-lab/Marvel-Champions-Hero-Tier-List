@@ -222,6 +222,11 @@ with col2:
     if st.button(f"Reset {hero_to_modify} to Default"):
         st.session_state.heroes[hero_to_modify] = st.session_state.default_heroes[hero_to_modify]
         st.success(f"{hero_to_modify} stats reset to default.")
+    
+    # Button to reset all heroes to default
+    if st.button("Reset All Heroes to Default"):
+        st.session_state.heroes = copy.deepcopy(st.session_state.default_heroes)
+        st.success("All heroes have been reset to their default stats.")
 
 # Use the current hero stats from session state.
 heroes = st.session_state.heroes

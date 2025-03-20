@@ -8,10 +8,31 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 import copy
 
+# Callback function to update slider values when a preset is selected
+def update_preset():
+    preset = st.session_state.preset_choice
+    if preset != "Custom":
+        preset_vals = preset_options[preset]
+        st.session_state["economy"] = int(preset_vals[0])
+        st.session_state["tempo"] = int(preset_vals[1])
+        st.session_state["card_value"] = int(preset_vals[2])
+        st.session_state["survivability"] = int(preset_vals[3])
+        st.session_state["villain_damage"] = int(preset_vals[4])
+        st.session_state["threat_removal"] = int(preset_vals[5])
+        st.session_state["reliability"] = int(preset_vals[6])
+        st.session_state["minion_control"] = int(preset_vals[7])
+        st.session_state["control"] = int(preset_vals[8])
+        st.session_state["support"] = int(preset_vals[9])
+        st.session_state["unique_builds"] = int(preset_vals[10])
+        st.session_state["late_game"] = int(preset_vals[11])
+        st.session_state["simplicity"] = int(preset_vals[12])
+        st.session_state["status_cards"] = int(preset_vals[13])
+        st.session_state["multiplayer_consistency"] = int(preset_vals[14])
+
 st.title("Marvel Champions Hero Tier List")
 st.markdown(
     "Adjust the weighting based on how much you value each aspect of hero strength. "
-    "You can choose from preset weighting functions (load their values into the sliders) "
+    "You can choose from preset weighting functions (which automatically load into the sliders) "
     "or adjust the sliders manually."
 )
 
@@ -33,32 +54,21 @@ with col1:
         "Solo (No Rush)":                       np.array([ 8, 3, 2, 4, 2, 2, 4, 1, 2, 2, 2, 1, 0, 4,-7]),
         "Solo Rush":                            np.array([ 0, 5, 0, 2, 5, 0, 0, 0, 0, 0, 0,-3, 0, 0, 0]),
         "Solo Final Boss Steady/Stalwart":      np.array([10, 3, 3, 8, 6, 2, 2, 4, 1, 2, 2, 2, 1,-4,-7]),
-        "Beginner":                             np.array([ 1, 0, 1, 1, 0, 0, 5, 0, 0, 0, 0,-1,10, 0, 0])
+        "Beginner Friendly Heroes":             np.array([ 1, 0, 1, 1, 0, 0, 5, 0, 0, 0, 0,-1,10, 0, 0])
     }
     
     # The selectbox shows the preset options first, then "Custom"
-    preset_choice = st.selectbox("Select Weighting Option", list(preset_options.keys()) + ["Custom"])
+    preset_choice = st.selectbox(
+        "Select Weighting Option", 
+        list(preset_options.keys()) + ["Custom"],
+        key="preset_choice",
+        on_change=update_preset
+    )
     
+    # Display the current preset (if not custom)
     if preset_choice != "Custom":
         st.markdown(f"**Preset: {preset_choice}**")
         st.write("Preset Weighting Values:", preset_options[preset_choice])
-        if st.button("Load Preset Values"):
-            preset_vals = preset_options[preset_choice]
-            st.session_state["economy"] = int(preset_vals[0])
-            st.session_state["tempo"] = int(preset_vals[1])
-            st.session_state["card_value"] = int(preset_vals[2])
-            st.session_state["survivability"] = int(preset_vals[3])
-            st.session_state["villain_damage"] = int(preset_vals[4])
-            st.session_state["threat_removal"] = int(preset_vals[5])
-            st.session_state["reliability"] = int(preset_vals[6])
-            st.session_state["minion_control"] = int(preset_vals[7])
-            st.session_state["control"] = int(preset_vals[8])
-            st.session_state["support"] = int(preset_vals[9])
-            st.session_state["unique_builds"] = int(preset_vals[10])
-            st.session_state["late_game"] = int(preset_vals[11])
-            st.session_state["simplicity"] = int(preset_vals[12])
-            st.session_state["status_cards"] = int(preset_vals[13])
-            st.session_state["multiplayer_consistency"] = int(preset_vals[14])
     
     # Always show the sliders so users can adjust
     economy = st.slider("Economy", min_value=-10, max_value=10, value=st.session_state.get("economy", 4), key="economy")

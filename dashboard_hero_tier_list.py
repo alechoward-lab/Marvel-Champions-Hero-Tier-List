@@ -33,7 +33,9 @@ def update_preset():
         st.session_state["multiplayer_consistency"] = int(preset_vals[14])
 
 
-st.title("The Living Marvel Champions Hero Tier List")
+st.title("The Living Tier List")
+st.subheader("Marvel Champions")
+
 st.markdown(
     "Adjust the weighting based on how much you value each aspect of hero strength. "
     "You can choose from preset weighting functions, "

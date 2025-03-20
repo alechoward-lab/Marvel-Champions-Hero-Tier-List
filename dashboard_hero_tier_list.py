@@ -9,7 +9,7 @@ from matplotlib.patches import Patch
 import copy
 
 st.title("Marvel Champions Hero Tier List")
-st.markdown("Adjust the weighting based on how much you value each aspect of hero strength to create your own custom tier list. You can either use custom sliders or choose one of the preset weighting functions.")
+st.markdown("Adjust the weighting based on how much you value each aspect of hero strength to create your own custom tier list. You can either choose from preset weighting functions or create your own.")
 
 # ----------------------------------------
 # Layout: Two columns side by side
@@ -32,10 +32,14 @@ with col1:
         "Beginner":            np.array([ 1, 0, 1, 1, 0, 0, 5, 0, 0, 0, 0,-1,10, 0, 0])
     }
     
-    # Let user choose a preset weighting function or "Custom"
-    preset_choice = st.selectbox("Select Weighting Preset", ["Custom"] + list(preset_options.keys()))
+    # The drop-down now shows preset options first, then "Custom" at the end.
+    preset_choice = st.selectbox("Select Weighting Option", list(preset_options.keys()) + ["Custom"])
     
-    if preset_choice == "Custom":
+    if preset_choice != "Custom":
+        weighting = preset_options[preset_choice]
+        st.markdown(f"**Preset: {preset_choice}**")
+        st.write("Preset Weighting Values:", weighting)
+    else:
         st.markdown("**Custom Weighting**")
         economy = st.slider("Economy", min_value=-10, max_value=10, value=4)
         tempo = st.slider("Tempo", min_value=-10, max_value=10, value=2)
@@ -52,19 +56,15 @@ with col1:
         simplicity = st.slider("Simplicity", min_value=-10, max_value=10, value=0)
         status_cards = st.slider("Stun/Confuse", min_value=-10, max_value=10, value=0)
         multiplayer_consistency = st.slider("Multiplayer Consistency", min_value=-10, max_value=10, value=0)
-        
         weighting = np.array([economy, tempo, card_value, survivability, villain_damage,
                               threat_removal, reliability, minion_control, control, support,
                               unique_builds, late_game, simplicity, status_cards, multiplayer_consistency])
-    else:
-        st.markdown(f"**Preset: {preset_choice}**")
-        weighting = preset_options[preset_choice]
     
     # Determine the plot title based on selection
-    if preset_choice == "Custom":
-        plot_title = "Generalized Hero Power Ranking - Custom Weighting"
-    else:
+    if preset_choice != "Custom":
         plot_title = f"Generalized Hero Power Ranking - {preset_choice}"
+    else:
+        plot_title = "Generalized Hero Power Ranking - Custom Weighting"
 
 # ----------------------------------------
 # Column 2: Hero Stat Modification

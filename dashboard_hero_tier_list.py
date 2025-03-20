@@ -39,7 +39,7 @@ with col1:
     # The selectbox shows the preset options first, then "Custom"
     preset_choice = st.selectbox("Select Weighting Option", list(preset_options.keys()) + ["Custom"])
     
-    if preset_choice != "Custom":
+    if preset_choice != "Custom - Create Your Own":
         st.markdown(f"**Preset: {preset_choice}**")
         st.write("Preset Weighting Values:", preset_options[preset_choice])
         if st.button("Load Preset Values"):

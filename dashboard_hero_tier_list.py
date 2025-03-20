@@ -440,3 +440,6 @@ st.pyplot(fig)
 # find a way to allow users to save their settings
 # find a way to allow users to load their settings
 # Check that the hero values are correct and nothing was lost in translation
+# fine tune all the presets
+
+# mention heroes that don't work well with this system (Maria Hill, Cylcops, Cable, etc.)

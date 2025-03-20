@@ -88,13 +88,13 @@ with col1:
     )
     
     # If a preset (other than "Custom") is selected, display a table mapping categories to values.
-    if preset_choice != "Custom":
-        st.markdown(f"**Preset: {preset_choice}**")
-        df = pd.DataFrame({
-            "Category": weighting_categories,
-            "Value": preset_options[preset_choice]
-        })
-        st.table(df)
+    # if preset_choice != "Custom":
+    #     st.markdown(f"**Preset: {preset_choice}**")
+    #     df = pd.DataFrame({
+    #         "Category": weighting_categories,
+    #         "Value": preset_options[preset_choice]
+    #     })
+    #     st.table(df)
     
     # Always show the sliders so users can adjust
     economy =                   st.slider("Economy",                            min_value=-10, max_value=10, value=st.session_state.get("economy", 4), key="economy")

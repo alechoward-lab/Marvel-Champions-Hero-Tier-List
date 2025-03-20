@@ -292,9 +292,10 @@ ax.grid(axis='y', linestyle='--', alpha=0.7)
 st.pyplot(fig)
 #%%
 
-# Add background image using custom CSS
+# URL of your image
 background_image_url = "https://raw.githubusercontent.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/refs/heads/main/images/background/marvel_champions_background_image.jpg"  # Replace with your image file path or URL
 
+# Add background image with black transparent overlay for text visibility
 st.markdown(
     f"""
     <style>
@@ -304,7 +305,29 @@ st.markdown(
         background-position: center;
         background-repeat: no-repeat;
     }}
+    .overlay {{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);  /* semi-transparent black */
+        z-index: -1;  /* Ensures overlay is behind the content */
+    }}
+    .text-overlay {{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        z-index: 1;  /* Ensures text is above the overlay */
+    }}
     </style>
+    <div class="overlay"></div>
+    <div class="text-overlay">Your White Text Here</div>
     """, 
     unsafe_allow_html=True
 )

@@ -6,6 +6,7 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
+import pandas as pd
 import copy
 
 # Callback function to update slider values when a preset is selected
@@ -57,6 +58,14 @@ with col1:
         "Beginner Friendly Heroes":             np.array([ 1, 0, 1, 1, 0, 0, 5, 0, 0, 0, 0,-1,10, 0, 0])
     }
     
+    # Category names for the weighting function
+    weighting_categories = [
+        "Economy", "Tempo", "Card Value", "Survivability", "Villain Damage",
+        "Threat Removal", "Reliability", "Minion Control", "Control", "Support",
+        "Unique Broken Builds", "Late Game Power", "Simplicity", "Stun/Confuse",
+        "Multiplayer Consistency"
+    ]
+    
     # The selectbox shows the preset options first, then "Custom"
     preset_choice = st.selectbox(
         "Select Weighting Option", 
@@ -65,10 +74,14 @@ with col1:
         on_change=update_preset
     )
     
-    # Display the current preset (if not custom)
+    # If a preset (other than "Custom") is selected, display a table mapping categories to values.
     if preset_choice != "Custom":
         st.markdown(f"**Preset: {preset_choice}**")
-        st.write("Preset Weighting Values:", preset_options[preset_choice])
+        df = pd.DataFrame({
+            "Category": weighting_categories,
+            "Value": preset_options[preset_choice]
+        })
+        st.table(df)
     
     # Always show the sliders so users can adjust
     economy = st.slider("Economy", min_value=-10, max_value=10, value=st.session_state.get("economy", 4), key="economy")
@@ -113,13 +126,13 @@ with col1:
         plot_title = "Generalized Hero Power Ranking - Custom Weighting"
 
 # ----------------------------------------
-# Column 2: Hero Stat Modification (remains unchanged)
+# Column 2: Hero Stat Modification
 # ----------------------------------------
 with col2:
     st.header("Modify Hero-Specific Stats")
-    # Define default hero stats (dictionary)
+    
+    # Define default hero stats dictionary
     default_heroes = {
-        # category headers:                    ec te cv s  vd th re m  c  sp b  lg si sc mc   
         "Captain Marvel":       np.array([ 4, 3,-1, 3, 4, 2, 4, 1, 1, 2, 0, 0, 5, 1, 0]),
         "Iron Man":             np.array([ 4,-5, 4, 2, 5, 2, 0, 3, 0, 0, 1, 4,-5, 0, 5]),
         "Spider-Man Peter":     np.array([ 4, 0, 3, 5, 3,-2, 2, 0, 4, 1, 2, 0, 0, 0, 0]),
@@ -191,7 +204,7 @@ with col2:
                   "Multiplayer Consistency"]
     
     # Select a hero to modify
-    hero_to_modify = st.selectbox("Select a Hero to Modify", list(st.session_state.heroes.keys()))
+    hero_to_modify = st.selectbox("Select a Hero to Modify", list(st.session_state.heroes.keys()), key="hero_choice")
     
     # Get the current stats for the selected hero
     current_stats = st.session_state.heroes[hero_to_modify]
@@ -200,13 +213,15 @@ with col2:
         val = st.number_input(f"{hero_to_modify} - {stat}", value=int(current_stats[i]), min_value=-10, max_value=10, key=f"{hero_to_modify}_{stat}")
         new_stats.append(val)
     
+    # Button to update the selected hero's stats
     if st.button(f"Update {hero_to_modify} Stats"):
         st.session_state.heroes[hero_to_modify] = np.array(new_stats)
         st.success(f"{hero_to_modify} stats updated.")
     
-    if st.button("Reset All Hero Stats to Default"):
-        st.session_state.heroes = copy.deepcopy(st.session_state.default_heroes)
-        st.success("All hero stats have been reset to default.")
+    # Button to reset only the selected hero to default
+    if st.button(f"Reset {hero_to_modify} to Default"):
+        st.session_state.heroes[hero_to_modify] = st.session_state.default_heroes[hero_to_modify]
+        st.success(f"{hero_to_modify} stats reset to default.")
 
 # Use the current hero stats from session state.
 heroes = st.session_state.heroes

@@ -34,7 +34,7 @@ def update_preset():
 
 
 st.title("The Living Tier List")
-st.subheader("Marvel Champions Heroes")
+st.subheader("For Marvel Champions Heroes by Daring Lime")
 
 st.markdown(
     "Adjust the weighting based on how much you value each aspect of hero strength. "

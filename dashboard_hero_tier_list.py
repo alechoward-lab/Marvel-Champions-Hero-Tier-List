@@ -171,7 +171,7 @@ with col2:
         "Adam Warlock":         np.array([ 3,-3, 2, 3, 2, 4,-1, 1, 3, 2, 3, 2,-5, 0, 1]),
         "Nebula":               np.array([ 2, 1, 2, 1,-3, 2, 3, 1, 1, 0, 0, 0,-5, 0, 1]),
         "War Machine":          np.array([ 1,-2, 1, 2, 4, 0,-2, 5, 0, 0, 0, 1,-3, 0, 2]),
-        "Valkyrie":             np.array([ 1, 3,-2, 2, 2, 0,-1, 4, 0, 0, 0, 0,-3, 0, 1]),
+        "Valkyrie":             np.array([ 1, 3,-2, 2, 2,-2,-1, 4, 0, 0, 0, 0,-3, 0, 1]),
         "Vision":               np.array([ 2, 3, 3, 3, 4, 3, 4, 2, 2, 0, 1, 0, 0, 1, 0]),
                                 #          e, t, cv,s, d, th,re,mi,c, s, br,lg,si,sc,mu          
         "Ghost Spider":         np.array([ 3, 3, 3, 3, 3, 2, 2, 2, 4, 1, 1, 0,-3, 0, 0]),

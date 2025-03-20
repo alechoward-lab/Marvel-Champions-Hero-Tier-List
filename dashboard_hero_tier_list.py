@@ -321,21 +321,6 @@ ax.legend(handles=legend_handles, title="Tier Colors", loc="upper left",
 ax.grid(axis='y', linestyle='--', alpha=0.7)
 st.pyplot(fig)
 
-# ----------------------------------------
-# Display Tier List with Images
-# ----------------------------------------
-st.header("Tier List with Images")
-
-for tier in ["S", "A", "B", "C", "D"]:
-    st.subheader(f"Tier {tier}")
-    cols = st.columns(len(tiers[tier]))
-    for idx, (hero, score) in enumerate(tiers[tier]):
-        with cols[idx]:
-            if hero_images[hero]:
-                st.image(hero_images[hero], caption=f"{hero} ({score:.2f})", use_column_width=True)
-            else:
-                st.text(f"{hero} ({score:.2f})")
-
 #%%
 
 # Add background image with a semi-transparent black overlay using custom CSS

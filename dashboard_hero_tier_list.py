@@ -35,7 +35,7 @@ def update_preset():
 col1, col2 = st.columns([1, 4])  # Adjust column widths as needed
 
 with col1:
-    st.image("https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/Daring_Lime_Logo.png?raw=true", width=100)  # Adjust width
+    st.image("https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/Daring_Lime_Logo.png?raw=true", width=150)  # Adjust width
 
 with col2:
     st.title("Marvel Champions Hero Tier List")

@@ -70,9 +70,9 @@ with col1:
     # Category names for the weighting function
     weighting_categories = [
         "Economy", "Tempo", "Card Value", "Survivability", "Villain Damage",
-        "Threat Removal", "Reliability", "Minion Control", "Control", "Support",
-        "Unique Broken Builds", "Late Game Power", "Simplicity", "Stun/Confuse",
-        "Multiplayer Consistency"
+        "Threat Removal", "Reliability", "Minion Control", "Control Boon", "Support Boon",
+        "Unique Broken Builds Boon", "Late Game Power Boon", "Simplicity", "Stun/Confuse Boon",
+        "Multiplayer Consistency Boon"
     ]
     
     # The selectbox shows the preset options first, then "Custom"

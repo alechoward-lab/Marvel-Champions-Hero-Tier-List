@@ -304,15 +304,16 @@ st.markdown(
         background-position: center;
         background-repeat: no-repeat;
         position: relative;
+        padding: 20px;  /* Add padding to create a margin */
     }}
     .stApp::before {{
         content: "";
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);  /* Semi-transparent black overlay */
+        top: 20px;  /* Adjust to match the padding */
+        left: 20px;  /* Adjust to match the padding */
+        right: 20px;  /* Adjust to match the padding */
+        bottom: 20px;  /* Adjust to match the padding */
+        background: rgba(0, 0, 0, 0.7);  /* More opaque black overlay */
         z-index: 1;
     }}
     .stApp > div {{

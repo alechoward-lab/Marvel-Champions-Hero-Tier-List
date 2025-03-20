@@ -9,7 +9,7 @@ from matplotlib.patches import Patch
 import copy
 
 st.title("Marvel Champions Hero Tier List")
-st.markdown("Adjust the sliders based on how much you value each aspect of hero strength to create your own custom tier list.")
+st.markdown("Adjust the weighting based on how much you value each aspect of hero strength to create your own custom tier list. You can either use custom sliders or choose one of the preset weighting functions.")
 
 # ----------------------------------------
 # Layout: Two columns side by side
@@ -17,30 +17,54 @@ st.markdown("Adjust the sliders based on how much you value each aspect of hero 
 col1, col2 = st.columns(2)
 
 # ----------------------------------------
-# Column 1: Weighting sliders
+# Column 1: Weighting settings (presets and/or sliders)
 # ----------------------------------------
 with col1:
     st.header("Weighting Factors")
-    economy = st.slider("Economy", min_value=-10, max_value=10, value=4)
-    tempo = st.slider("Tempo", min_value=-10, max_value=10, value=2)
-    card_value = st.slider("Card Value", min_value=-10, max_value=10, value=2)
-    survivability = st.slider("Survivability", min_value=-10, max_value=10, value=2)
-    villain_damage = st.slider("Villain Damage", min_value=-10, max_value=10, value=1)
-    threat_removal = st.slider("Threat Removal", min_value=-10, max_value=10, value=2)
-    reliability = st.slider("Reliability", min_value=-10, max_value=10, value=3)
-    minion_control = st.slider("Minion Control", min_value=-10, max_value=10, value=1)
-    control = st.slider("Control", min_value=-10, max_value=10, value=2)
-    support = st.slider("Support", min_value=-10, max_value=10, value=2)
-    unique_builds = st.slider("Unique Broken Builds", min_value=-10, max_value=10, value=1)
-    late_game = st.slider("Late Game Power", min_value=-10, max_value=10, value=1)
-    simplicity = st.slider("Simplicity", min_value=-10, max_value=10, value=0)
-    status_cards = st.slider("Stun/Confuse", min_value=-10, max_value=10, value=0)
-    multiplayer_consistency = st.slider("Multiplayer Consistency", min_value=-10, max_value=10, value=0)
-
-# Create the weighting array (ensure it matches your hero stats length)
-weighting = np.array([economy, tempo, card_value, survivability, villain_damage,
-                      threat_removal, reliability, minion_control, control, support,
-                      unique_builds, late_game, simplicity, status_cards, multiplayer_consistency])
+    
+    # Define preset weighting functions
+    preset_options = {
+        "General Power":       np.array([ 4, 2, 2, 2, 1, 2, 3, 1, 2, 2, 2, 1, 0, 0, 0]),
+        "Multiplayer 3/4":     np.array([ 4, 1, 2, 2, 1, 2, 3, 3, 1, 7, 2, 4, 0, 0, 8]),
+        "Solo (No Rush)":      np.array([ 8, 3, 2, 4, 2, 2, 4, 1, 2, 2, 2, 1, 0, 4,-7]),
+        "Solo Final Boss":     np.array([10, 3, 3, 8, 6, 2, 2, 4, 1, 2, 2, 2, 1,-4,-7]),
+        "Solo Rush":           np.array([ 0, 5, 0, 2, 5, 0, 0, 0, 0, 0, 0,-3, 0, 0, 0]),
+        "Beginner":            np.array([ 1, 0, 1, 1, 0, 0, 5, 0, 0, 0, 0,-1,10, 0, 0])
+    }
+    
+    # Let user choose a preset weighting function or "Custom"
+    preset_choice = st.selectbox("Select Weighting Preset", ["Custom"] + list(preset_options.keys()))
+    
+    if preset_choice == "Custom":
+        st.markdown("**Custom Weighting**")
+        economy = st.slider("Economy", min_value=-10, max_value=10, value=4)
+        tempo = st.slider("Tempo", min_value=-10, max_value=10, value=2)
+        card_value = st.slider("Card Value", min_value=-10, max_value=10, value=2)
+        survivability = st.slider("Survivability", min_value=-10, max_value=10, value=2)
+        villain_damage = st.slider("Villain Damage", min_value=-10, max_value=10, value=1)
+        threat_removal = st.slider("Threat Removal", min_value=-10, max_value=10, value=2)
+        reliability = st.slider("Reliability", min_value=-10, max_value=10, value=3)
+        minion_control = st.slider("Minion Control", min_value=-10, max_value=10, value=1)
+        control = st.slider("Control", min_value=-10, max_value=10, value=2)
+        support = st.slider("Support", min_value=-10, max_value=10, value=2)
+        unique_builds = st.slider("Unique Broken Builds", min_value=-10, max_value=10, value=1)
+        late_game = st.slider("Late Game Power", min_value=-10, max_value=10, value=1)
+        simplicity = st.slider("Simplicity", min_value=-10, max_value=10, value=0)
+        status_cards = st.slider("Stun/Confuse", min_value=-10, max_value=10, value=0)
+        multiplayer_consistency = st.slider("Multiplayer Consistency", min_value=-10, max_value=10, value=0)
+        
+        weighting = np.array([economy, tempo, card_value, survivability, villain_damage,
+                              threat_removal, reliability, minion_control, control, support,
+                              unique_builds, late_game, simplicity, status_cards, multiplayer_consistency])
+    else:
+        st.markdown(f"**Preset: {preset_choice}**")
+        weighting = preset_options[preset_choice]
+    
+    # Determine the plot title based on selection
+    if preset_choice == "Custom":
+        plot_title = "Generalized Hero Power Ranking - Custom Weighting"
+    else:
+        plot_title = f"Generalized Hero Power Ranking - {preset_choice}"
 
 # ----------------------------------------
 # Column 2: Hero Stat Modification
@@ -108,7 +132,7 @@ with col2:
         "Maria Hill":           np.array([ 2, 1, 5, 1, 2, 5, 5, 1, 1, 2, 2, 5,-3, 0, 0]),
         "Nick Fury":            np.array([ 1, 2, 1, 3, 2, 4, 4, 5, 2, 0, 0, 0,-3, 0, 0]),
     }
-
+    
     # Initialize hero stats in session state if not already set
     if "heroes" not in st.session_state:
         st.session_state.heroes = copy.deepcopy(default_heroes)
@@ -138,7 +162,7 @@ with col2:
         st.session_state.heroes = copy.deepcopy(st.session_state.default_heroes)
         st.success("All hero stats have been reset to default.")
 
-# For the rest of the code, use the current hero stats from session state.
+# Use the current hero stats from session state.
 heroes = st.session_state.heroes
 
 # ----------------------------------------
@@ -191,7 +215,7 @@ bar_colors = [tier_colors[hero_to_tier[hero]] for hero in sorted_hero_names]
 fig, ax = plt.subplots(figsize=(14, 7), dpi=300)
 bars = ax.bar(sorted_hero_names, sorted_hero_scores, color=bar_colors)
 ax.set_ylabel("Scores", fontsize="x-large")
-ax.set_title("Generalized Hero Power Ranking", fontweight='bold', fontsize=18)
+ax.set_title(plot_title, fontweight='bold', fontsize=18)
 plt.xticks(rotation=45, ha='right')
 
 for label in ax.get_xticklabels():

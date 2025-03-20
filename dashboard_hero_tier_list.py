@@ -65,7 +65,7 @@ with col1:
     # Define preset weighting functions
     preset_options = {
         "General Power ~2 Player":              np.array([ 4, 2, 2, 2, 1, 2, 3, 1, 2, 2, 2, 1, 0, 0, 0]),
-        "Multiplayer 3/4 Player":               np.array([ 4, 1, 2, 2, 1, 2, 3, 3, 1, 7, 2, 4, 0, 0, 8]),
+        "Multiplayer 3/4 Player":               np.array([ 4, 1, 2, 2, 1, 5, 2, 3, 1, 7, 2, 5, 0, 0, 6]),
         "Solo (No Rush)":                       np.array([ 8, 3, 2, 4, 2, 2, 4, 1, 2, 2, 2, 1, 0, 4,-7]),
         "Solo Rush":                            np.array([ 0, 5, 0, 2, 5, 0, 0, 0, 0, 0, 0,-3, 0, 0, 0]),
         "Solo Final Boss Steady/Stalwart":      np.array([10, 3, 3, 8, 6, 2, 2, 4, 1, 2, 2, 2, 1,-4,-7]),
@@ -434,4 +434,9 @@ ax.grid(axis='y', linestyle='--', alpha=0.7)
 st.pyplot(fig)
 
 
+# To Do List:
 
+# Create a markdown section at the end that goes over the assumptions of this tier list and mention that people can adjust them.
+# find a way to allow users to save their settings
+# find a way to allow users to load their settings
+# Check that the hero values are correct and nothing was lost in translation

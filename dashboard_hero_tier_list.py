@@ -42,8 +42,10 @@ st.markdown(
     "The tier list is automatically calculated based off of the weighting and hero stats to create a personalized hero tier list."
 )
 st.markdown(
-    "For a video tutorial of how to use this, check out my youtube channel: [Daring Lime](https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A). "
+    "For a video tutorial of how to use this, check out my YouYube channel: [Daring Lime](https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A). "
     "There you'll see a full breakdown of each hero and how to use this tool to create your own tier list."
+    "If you enjoy this tool, please consider subscribing to my channel and/or joining as a channel member to support me creating more Marvel Champions content."
+
 )
 
 # ----------------------------------------

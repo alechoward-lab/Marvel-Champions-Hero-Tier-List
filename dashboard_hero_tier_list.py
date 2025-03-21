@@ -23,7 +23,7 @@ st.markdown(
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #FFFFFF;
+            background-color: #DDDDDD; /* Light grey background */
             padding: 5px;
             border-radius: 8px;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
@@ -39,8 +39,8 @@ st.markdown(
             font-size: 16px;
             font-weight: bold;
             margin-right: 15px;
-            color: #000000 !important;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
         .logo {
             height: 40px;
@@ -62,7 +62,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
 
 
 

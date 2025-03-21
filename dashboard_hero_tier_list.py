@@ -107,106 +107,108 @@ col1, col2 = st.columns(2)
 # Column 1: Weighting settings (presets and sliders)
 # ----------------------------------------
 with col1:
-    st.header("Weighting Factors")
-    
-    # Category names for the weighting function
-    weighting_categories = [
-        "Economy", "Tempo", "Card Value", "Survivability", "Villain Damage",
-        "Threat Removal", "Reliability", "Minion Control", "Control Boon", "Support Boon",
-        "Unique Broken Builds Boon", "Late Game Power Boon", "Simplicity", "Stun/Confuse Boon",
-        "Multiplayer Consistency Boon"
-    ]
-    
-    # The selectbox shows the preset options first, then "Custom"
-    preset_choice = st.selectbox(
-        "Select Weighting Option", 
-        list(preset_options.keys()) + ["Custom"],
-        key="preset_choice",
-        on_change=update_preset
-    )
-    
-    # Always show the sliders so users can adjust
-    economy = st.slider("Economy", min_value=-10, max_value=10, value=st.session_state.get("economy", 4), key="economy")
-    tempo = st.slider("Tempo", min_value=-10, max_value=10, value=st.session_state.get("tempo", 2), key="tempo")
-    card_value = st.slider("Card Value", min_value=-10, max_value=10, value=st.session_state.get("card_value", 2), key="card_value")
-    survivability = st.slider("Survivability", min_value=-10, max_value=10, value=st.session_state.get("survivability", 2), key="survivability")
-    villain_damage = st.slider("Villain Damage", min_value=-10, max_value=10, value=st.session_state.get("villain_damage", 1), key="villain_damage")
-    threat_removal = st.slider("Threat Removal", min_value=-10, max_value=10, value=st.session_state.get("threat_removal", 2), key="threat_removal")
-    reliability = st.slider("Reliability", min_value=-10, max_value=10, value=st.session_state.get("reliability", 3), key="reliability")
-    minion_control = st.slider("Minion Control", min_value=-10, max_value=10, value=st.session_state.get("minion_control", 1), key="minion_control")
-    control = st.slider("Control Boon", min_value=-10, max_value=10, value=st.session_state.get("control", 2), key="control")
-    support = st.slider("Support Boon", min_value=-10, max_value=10, value=st.session_state.get("support", 2), key="support")
-    unique_builds = st.slider("Unique Broken Builds Boon", min_value=-10, max_value=10, value=st.session_state.get("unique_builds", 1), key="unique_builds")
-    late_game = st.slider("Late Game Power Boon", min_value=-10, max_value=10, value=st.session_state.get("late_game", 1), key="late_game")
-    simplicity = st.slider("Simplicity", min_value=-10, max_value=10, value=st.session_state.get("simplicity", 0), key="simplicity")
-    status_cards = st.slider("Stun/Confuse Boon", min_value=-10, max_value=10, value=st.session_state.get("status_cards", 0), key="status_cards")
-    multiplayer_consistency = st.slider("Multiplayer Consistency Boon", min_value=-10, max_value=10, value=st.session_state.get("multiplayer_consistency", 0), key="multiplayer_consistency")
-    
-    # Create the weighting array from slider values
-    weighting = np.array([
-        st.session_state.get("economy", 4),
-        st.session_state.get("tempo", 2),
-        st.session_state.get("card_value", 2),
-        st.session_state.get("survivability", 2),
-        st.session_state.get("villain_damage", 1),
-        st.session_state.get("threat_removal", 2),
-        st.session_state.get("reliability", 3),
-        st.session_state.get("minion_control", 1),
-        st.session_state.get("control", 2),
-        st.session_state.get("support", 2),
-        st.session_state.get("unique_builds", 1),
-        st.session_state.get("late_game", 1),
-        st.session_state.get("simplicity", 0),
-        st.session_state.get("status_cards", 0),
-        st.session_state.get("multiplayer_consistency", 0)
-    ])
-    
-    # Determine the plot title based on preset selection
-    if preset_choice != "Custom":
-        plot_title = f"{preset_choice}"
-    else:
-        plot_title = "Custom Weighting"
+    with st.expander("Weighting Factors"):
+        st.header("Weighting Factors")
+        
+        # Category names for the weighting function
+        weighting_categories = [
+            "Economy", "Tempo", "Card Value", "Survivability", "Villain Damage",
+            "Threat Removal", "Reliability", "Minion Control", "Control Boon", "Support Boon",
+            "Unique Broken Builds Boon", "Late Game Power Boon", "Simplicity", "Stun/Confuse Boon",
+            "Multiplayer Consistency Boon"
+        ]
+        
+        # The selectbox shows the preset options first, then "Custom"
+        preset_choice = st.selectbox(
+            "Select Weighting Option", 
+            list(preset_options.keys()) + ["Custom"],
+            key="preset_choice",
+            on_change=update_preset
+        )
+        
+        # Always show the sliders so users can adjust
+        economy = st.slider("Economy", min_value=-10, max_value=10, value=st.session_state.get("economy", 4), key="economy")
+        tempo = st.slider("Tempo", min_value=-10, max_value=10, value=st.session_state.get("tempo", 2), key="tempo")
+        card_value = st.slider("Card Value", min_value=-10, max_value=10, value=st.session_state.get("card_value", 2), key="card_value")
+        survivability = st.slider("Survivability", min_value=-10, max_value=10, value=st.session_state.get("survivability", 2), key="survivability")
+        villain_damage = st.slider("Villain Damage", min_value=-10, max_value=10, value=st.session_state.get("villain_damage", 1), key="villain_damage")
+        threat_removal = st.slider("Threat Removal", min_value=-10, max_value=10, value=st.session_state.get("threat_removal", 2), key="threat_removal")
+        reliability = st.slider("Reliability", min_value=-10, max_value=10, value=st.session_state.get("reliability", 3), key="reliability")
+        minion_control = st.slider("Minion Control", min_value=-10, max_value=10, value=st.session_state.get("minion_control", 1), key="minion_control")
+        control = st.slider("Control Boon", min_value=-10, max_value=10, value=st.session_state.get("control", 2), key="control")
+        support = st.slider("Support Boon", min_value=-10, max_value=10, value=st.session_state.get("support", 2), key="support")
+        unique_builds = st.slider("Unique Broken Builds Boon", min_value=-10, max_value=10, value=st.session_state.get("unique_builds", 1), key="unique_builds")
+        late_game = st.slider("Late Game Power Boon", min_value=-10, max_value=10, value=st.session_state.get("late_game", 1), key="late_game")
+        simplicity = st.slider("Simplicity", min_value=-10, max_value=10, value=st.session_state.get("simplicity", 0), key="simplicity")
+        status_cards = st.slider("Stun/Confuse Boon", min_value=-10, max_value=10, value=st.session_state.get("status_cards", 0), key="status_cards")
+        multiplayer_consistency = st.slider("Multiplayer Consistency Boon", min_value=-10, max_value=10, value=st.session_state.get("multiplayer_consistency", 0), key="multiplayer_consistency")
+        
+        # Create the weighting array from slider values
+        weighting = np.array([
+            st.session_state.get("economy", 4),
+            st.session_state.get("tempo", 2),
+            st.session_state.get("card_value", 2),
+            st.session_state.get("survivability", 2),
+            st.session_state.get("villain_damage", 1),
+            st.session_state.get("threat_removal", 2),
+            st.session_state.get("reliability", 3),
+            st.session_state.get("minion_control", 1),
+            st.session_state.get("control", 2),
+            st.session_state.get("support", 2),
+            st.session_state.get("unique_builds", 1),
+            st.session_state.get("late_game", 1),
+            st.session_state.get("simplicity", 0),
+            st.session_state.get("status_cards", 0),
+            st.session_state.get("multiplayer_consistency", 0)
+        ])
+        
+        # Determine the plot title based on preset selection
+        if preset_choice != "Custom":
+            plot_title = f"{preset_choice}"
+        else:
+            plot_title = "Custom Weighting"
 
 # ----------------------------------------
 # Column 2: Hero Stat Modification
 # ----------------------------------------
 with col2:
-    st.header("Hero Stats")
-    # Initialize hero stats in session state if not already set
-    if "heroes" not in st.session_state:
-        st.session_state.heroes = copy.deepcopy(default_heroes)
-        st.session_state.default_heroes = copy.deepcopy(default_heroes)
-    
-    # List of stat names corresponding to each index in the hero arrays
-    stat_names = ["Economy", "Tempo", "Card Value", "Survivability", "Villain Damage",
-                  "Threat Removal", "Reliability", "Minion Control", "Control Boon", "Support Boon",
-                  "Unique Broken Builds Boon", "Late Game Power Boon", "Simplicity", "Stun/Confuse Boon",
-                  "Multiplayer Consistency Boon"]
-    
-    # Select a hero to modify
-    hero_to_modify = st.selectbox("Select a Hero to Modify", list(st.session_state.heroes.keys()), key="hero_choice")
-    
-    # Get the current stats for the selected hero
-    current_stats = st.session_state.heroes[hero_to_modify]
-    new_stats = []
-    for i, stat in enumerate(stat_names):
-        val = st.number_input(f"{hero_to_modify} - {stat}", value=int(current_stats[i]), min_value=-10, max_value=10, key=f"{hero_to_modify}_{stat}")
-        new_stats.append(val)
-    
-    # Button to update the selected hero's stats
-    if st.button(f"Update {hero_to_modify} Stats"):
-        st.session_state.heroes[hero_to_modify] = np.array(new_stats)
-        st.success(f"{hero_to_modify} stats updated.")
-    
-    # Button to reset only the selected hero to default
-    if st.button(f"Reset {hero_to_modify} to Default"):
-        st.session_state.heroes[hero_to_modify] = st.session_state.default_heroes[hero_to_modify]
-        st.success(f"{hero_to_modify} stats reset to default.")
-    
-    # Button to reset all heroes to default
-    if st.button("Reset All Heroes to Default"):
-        st.session_state.heroes = copy.deepcopy(st.session_state.default_heroes)
-        st.success("All heroes have been reset to their default stats.")
+    with st.expander("Hero Stats"):
+        st.header("Hero Stats")
+        # Initialize hero stats in session state if not already set
+        if "heroes" not in st.session_state:
+            st.session_state.heroes = copy.deepcopy(default_heroes)
+            st.session_state.default_heroes = copy.deepcopy(default_heroes)
+        
+        # List of stat names corresponding to each index in the hero arrays
+        stat_names = ["Economy", "Tempo", "Card Value", "Survivability", "Villain Damage",
+                      "Threat Removal", "Reliability", "Minion Control", "Control Boon", "Support Boon",
+                      "Unique Broken Builds Boon", "Late Game Power Boon", "Simplicity", "Stun/Confuse Boon",
+                      "Multiplayer Consistency Boon"]
+        
+        # Select a hero to modify
+        hero_to_modify = st.selectbox("Select a Hero to Modify", list(st.session_state.heroes.keys()), key="hero_choice")
+        
+        # Get the current stats for the selected hero
+        current_stats = st.session_state.heroes[hero_to_modify]
+        new_stats = []
+        for i, stat in enumerate(stat_names):
+            val = st.number_input(f"{hero_to_modify} - {stat}", value=int(current_stats[i]), min_value=-10, max_value=10, key=f"{hero_to_modify}_{stat}")
+            new_stats.append(val)
+        
+        # Button to update the selected hero's stats
+        if st.button(f"Update {hero_to_modify} Stats"):
+            st.session_state.heroes[hero_to_modify] = np.array(new_stats)
+            st.success(f"{hero_to_modify} stats updated.")
+        
+        # Button to reset only the selected hero to default
+        if st.button(f"Reset {hero_to_modify} to Default"):
+            st.session_state.heroes[hero_to_modify] = st.session_state.default_heroes[hero_to_modify]
+            st.success(f"{hero_to_modify} stats reset to default.")
+        
+        # Button to reset all heroes to default
+        if st.button("Reset All Heroes to Default"):
+            st.session_state.heroes = copy.deepcopy(st.session_state.default_heroes)
+            st.success("All heroes have been reset to their default stats.")
 
 # ----------------------------------------
 # Settings Save Functionality

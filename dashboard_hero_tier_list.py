@@ -238,7 +238,9 @@ if st.button("Save Settings"):
     }
     settings_json = json.dumps(settings)
     st.download_button("Download Settings", settings_json, "settings.json")
-
+st.markdown("After adjusting the heroes and weighting, you can save your settings to a file. "
+            "This file can be uploaded later to restore your settings and view your personalized tier list."
+            "Upload your saved file at the top of the page to restore your settings. In order to change the sliders again, you must close the settings file by clicking the 'x'.")
 # ----------------------------------------
 # Continue with tier list calculations and display
 # ----------------------------------------

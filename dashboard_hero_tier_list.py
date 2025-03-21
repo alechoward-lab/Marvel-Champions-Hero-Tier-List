@@ -43,6 +43,7 @@ st.markdown(
             justify-content: center;
         }
         .social-links a {
+            margin-right: 20px; /* Increased margin between logos */
             transition: opacity 0.3s ease-in-out;
         }
         .social-links a:hover {
@@ -63,10 +64,10 @@ st.markdown(
             <span class="social-text">Click to check out my socials:</span>
         </div>
         <div class="social-links">
-            <a href="https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A" target="_blank" style="margin-right: 10px;">
+            <a href="https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A" target="_blank">
                 <img src="https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/youtube_logo.png?raw=true" alt="YouTube" style="height: 30px;">
             </a>
-            <a href="https://discord.gg/ReF5jDSHqV" target="_blank" style="margin-right: 10px;">
+            <a href="https://discord.gg/ReF5jDSHqV" target="_blank">
                 <img src="https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/Discord-Logo.png?raw=true" alt="Discord" style="height: 30px;">
             </a>
         </div>

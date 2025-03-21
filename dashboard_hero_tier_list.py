@@ -1,3 +1,21 @@
+
+"""
+The Living Marvel Champions Tier List
+"""
+#%%
+import streamlit as st
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
+import pandas as pd
+import copy
+import os
+from PIL import Image
+import json
+from hero_image_urls import hero_image_urls
+from default_heroes import default_heroes
+from preset_options import preset_options
+
 st.markdown(
     """
     <div style="display: flex; justify-content: center; align-items: center; background-color: #333; padding: 5px;">
@@ -16,22 +34,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-"""
-The Living Marvel Champions Tier List
-"""
-#%%
-import streamlit as st
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.patches import Patch
-import pandas as pd
-import copy
-import os
-from PIL import Image
-import json
-from hero_image_urls import hero_image_urls
-from default_heroes import default_heroes
-from preset_options import preset_options
 # ----------------------------------------
 # Define preset weighting options so update_preset can use them
 # ----------------------------------------

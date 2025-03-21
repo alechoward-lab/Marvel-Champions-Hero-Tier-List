@@ -17,13 +17,13 @@ from default_heroes import default_heroes
 # ----------------------------------------
 # Define preset weighting options so update_preset can use them
 # ----------------------------------------
-preset_options = {  #          e, t, cv, s, d, th, re, mi, c, su, br, lg, si, sc, mu
+preset_options = {  #                                 e, t, cv,s, d, th,re,mi,c, su,br,lg,si,sc,mu
     "General Power ~2 Player":              np.array([4, 2, 2, 2, 1, 2, 3, 1, 2, 2, 2, 1, 0, 0, 1]),
     "Multiplayer 3 Player":                 np.array([4, 1, 2, 2, 1, 5, 2, 3, 1, 7, 2, 5, 0, 0, 6]),
-    "Multiplayer 4 Player":                 np.array([4, 1, 2, 2, 1, 5, 2, 3, 1, 7, 2, 5, 0, 0, 10]),
-    "Solo (No Rush)":                       np.array([8, 3, 2, 4, 2, 2, 4, 1, 2, 2, 2, 1, 0, 4, -7]),
-    "Solo Rush":                            np.array([0, 5, 0, 2, 5, 0, 0, 0, 0, 0, 0, -3, 0, 0, 0]),
-    "Solo Final Boss Steady/Stalwart":      np.array([10, 3, 3, 8, 6, 2, 2, 4, 1, 2, 2, 2, 1, -4, -7]),
+    "Multiplayer 4 Player":                 np.array([4, 1, 2, 2, 1, 5, 2, 3, 1, 7, 2, 7, 0, 0, 10]),
+    "Solo (No Rush)":                       np.array([8, 3, 2, 4, 2, 2, 4, 1, 2, 2, 2, 0, 0, 4, -7]),
+    "Solo Rush":                            np.array([0, 5, 0, 2, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
+    "Solo Final Boss Steady/Stalwart":      np.array([10, 3, 3, 8, 6, 2, 2, 4, 1, 2, 2, 0, 1, -4, -7]),
     "Beginner Friendly Heroes":             np.array([2, 1, 0, 1, 0, 0, 5, 0, 0, 0, 0, -1, 10, 1, 0])
 }
 
@@ -60,7 +60,7 @@ st.markdown(
     "Adjust the weighting based on how much you value each aspect of hero strength. "
     "You can choose from preset weighting functions, adjust the sliders manually, or both! "
     "The weighting factors represent how much you personally value each stat, which is used to calculate "
-    "a personalized hero tier list. You can also save and upload your custom weighting functions and hero stats."
+    "a personalized hero tier list. After updating the hero stats and weighting factors to your liking, you can save your settings and upload them next time you return to the site. "
 )
 st.markdown(
     "For a video tutorial of how to use this, check out my YouTube channel: [Daring Lime](https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A). "

@@ -340,7 +340,7 @@ st.markdown(
 # ----------------------------------------
 # Display Tier List with Images
 # ----------------------------------------
-st.header(f"Hero Tier List - {plot_title}")
+st.header(f"{plot_title}")
 
 tier_colors = {"S": "red", "A": "orange", "B": "green", "C": "blue", "D": "purple"}
 

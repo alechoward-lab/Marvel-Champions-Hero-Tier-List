@@ -49,7 +49,32 @@ def update_preset():
         st.session_state["status_cards"] = int(preset_vals[13])
         st.session_state["multiplayer_consistency"] = int(preset_vals[14])
 
-
+# ----------------------------------------
+# Early load settings from file if available
+# ----------------------------------------
+uploaded_file = st.file_uploader("Upload saved settings", type="json", key="upload_settings")
+if uploaded_file is not None:
+    settings = json.load(uploaded_file)
+    st.session_state.heroes = {hero: np.array(stats) for hero, stats in settings["heroes"].items()}
+    st.session_state.default_heroes = {hero: np.array(stats) for hero, stats in settings["default_heroes"].items()}
+    st.session_state.preset_choice = settings["preset_choice"]
+    st.session_state.economy = settings["economy"]
+    st.session_state.tempo = settings["tempo"]
+    st.session_state.card_value = settings["card_value"]
+    st.session_state.survivability = settings["survivability"]
+    st.session_state.villain_damage = settings["villain_damage"]
+    st.session_state.threat_removal = settings["threat_removal"]
+    st.session_state.reliability = settings["reliability"]
+    st.session_state.minion_control = settings["minion_control"]
+    st.session_state.control = settings["control"]
+    st.session_state.support = settings["support"]
+    st.session_state.unique_builds = settings["unique_builds"]
+    st.session_state.late_game = settings["late_game"]
+    st.session_state.simplicity = settings["simplicity"]
+    st.session_state.status_cards = settings["status_cards"]
+    st.session_state.multiplayer_consistency = settings["multiplayer_consistency"]
+    st.session_state.weighting = np.array(settings["weighting"])
+    st.success("Settings loaded successfully!")
 
 # ----------------------------------------
 # Main App Content

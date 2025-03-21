@@ -213,7 +213,6 @@ with col2:
 # ----------------------------------------
 # Settings Save Functionality
 # ----------------------------------------
-st.header("Save Your Settings")
 if st.button("Save Settings"):
     settings = {
         "heroes": {hero: stats.tolist() for hero, stats in st.session_state.heroes.items()},

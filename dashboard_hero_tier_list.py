@@ -25,7 +25,7 @@ st.markdown(
             align-items: center;
             background-color: transparent; /* Transparent background */
             padding: 5px;
-            border: 2px solid black; /* Black border */
+            border: 2px solid white; /* White border */
             border-radius: 8px;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
         }
@@ -74,6 +74,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 # ----------------------------------------
 # Define preset weighting options so update_preset can use them

@@ -19,16 +19,12 @@ from preset_options import preset_options
 st.markdown(
     """
     <div style="display: flex; justify-content: center; align-items: center; background-color: #333; padding: 5px;">
-        <a href="https://twitter.com/your_handle" target="_blank" style="margin-right: 10px;">
-            <img src="https://example.com/twitter_icon.png" alt="Twitter" style="height: 30px;">
+        <a href="https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A" target="_blank" style="margin-right: 10px;">
+            <img src="https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/youtube_logo.png?raw=true" alt="Twitter" style="height: 30px;">
         </a>
-        <a href="https://facebook.com/your_handle" target="_blank" style="margin-right: 10px;">
-            <img src="https://example.com/facebook_icon.png" alt="Facebook" style="height: 30px;">
+        <a href="https://discord.gg/7Q8s2Y8" target="_blank" style="margin-right: 10px;">
+            <img src="https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/Discord-Logo.png?raw=true" alt="Instagram" style="height: 30px;">
         </a>
-        <a href="https://instagram.com/your_handle" target="_blank" style="margin-right: 10px;">
-            <img src="https://example.com/instagram_icon.png" alt="Instagram" style="height: 30px;">
-        </a>
-        <!-- Add more social links as needed -->
     </div>
     """,
     unsafe_allow_html=True

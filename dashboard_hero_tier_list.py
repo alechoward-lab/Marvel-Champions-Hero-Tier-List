@@ -183,34 +183,32 @@ with col2:
                   "Unique Broken Builds Boon", "Late Game Power Boon", "Simplicity", "Stun/Confuse Boon",
                   "Multiplayer Consistency Boon"]
     
-    # Select a hero to modify
+    # Select a hero to modify (this remains a searchable dropdown)
     hero_to_modify = st.selectbox("Select a Hero to Modify", list(st.session_state.heroes.keys()), key="hero_choice")
     
-    # Get the current stats for the selected hero and create number inputs
-    current_stats = st.session_state.heroes[hero_to_modify]
-    new_stats = []
-    for i, stat in enumerate(stat_names):
-        val = st.number_input(f"{hero_to_modify} - {stat}", 
-                              value=int(current_stats[i]), 
-                              min_value=-10, max_value=10, 
-                              key=f"{hero_to_modify}_{stat}")
-        new_stats.append(val)
-    
-    # Button to update the selected hero's stats only
-    if st.button(f"Update {hero_to_modify} Stats"):
+    # Define a callback that automatically updates the selected hero's stats
+    def update_current_hero_stats():
+        new_stats = []
+        for stat in stat_names:
+            new_stats.append(st.session_state.get(f"{hero_to_modify}_{stat}", 0))
         st.session_state.heroes[hero_to_modify] = np.array(new_stats)
-        st.success(f"{hero_to_modify} stats updated.")
     
-    # New button to update all heroes with the same values as the selected hero
+    # Display number inputs with the on_change callback
+    current_stats = st.session_state.heroes[hero_to_modify]
+    for i, stat in enumerate(stat_names):
+        st.number_input(f"{hero_to_modify} - {stat}", 
+                        value=int(current_stats[i]), 
+                        min_value=-10, max_value=10, 
+                        key=f"{hero_to_modify}_{stat}",
+                        on_change=update_current_hero_stats)
+    
+    # Button to update all heroes to match the current hero's stats
     if st.button("Update All Heroes to These Stats"):
+        # Use the current stats from the selected hero
+        new_stats = st.session_state.heroes[hero_to_modify]
         for hero in st.session_state.heroes.keys():
             st.session_state.heroes[hero] = np.array(new_stats)
         st.success("All hero stats updated to match the current values.")
-    
-    # Button to reset only the selected hero to default
-    if st.button(f"Reset {hero_to_modify} to Default"):
-        st.session_state.heroes[hero_to_modify] = st.session_state.default_heroes[hero_to_modify]
-        st.success(f"{hero_to_modify} stats reset to default.")
     
     # Button to reset all heroes to default
     if st.button("Reset All Heroes to Default"):

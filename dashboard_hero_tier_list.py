@@ -89,7 +89,7 @@ with col1:
                 st.session_state.weighting = np.array(weighting_settings["weighting"])
             st.success("Weighting settings loaded successfully!")
     
-    with st.expander("Weighting Factors (click to expand)"):        
+    with st.expander("Edit Weighting Factors (click to expand)"):        
         # Select weighting preset and sliders
         preset_choice = st.selectbox(
             "Select Weighting Option", 
@@ -191,7 +191,7 @@ with col2:
                 st.session_state.default_heroes = {hero: np.array(stats) for hero, stats in hero_stats_settings["default_heroes"].items()}
             st.success("Hero stats loaded successfully!")
     
-    with st.expander("Hero Stats (click to expand)"):
+    with st.expander("Edit Hero Stats (click to expand)"):
         # Initialize hero stats if not set
         if "heroes" not in st.session_state:
             st.session_state.heroes = copy.deepcopy(default_heroes)

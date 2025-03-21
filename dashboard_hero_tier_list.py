@@ -39,7 +39,7 @@ st.markdown(
             font-size: 16px;
             font-weight: bold;
             margin-right: 15px;
-            color: black;
+            color: #000000 !important;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
         }
         .logo {

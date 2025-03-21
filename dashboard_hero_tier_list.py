@@ -71,15 +71,11 @@ st.markdown(
 # Layout: Two columns side by side
 # ----------------------------------------
 col1, col2 = st.columns(2)
-
 # ----------------------------------------
-# Column 1: Weighting settings in an expander
+# Column 1: Weighting settings with separate upload expander
 # ----------------------------------------
 with col1:
-    with st.expander("Weighting Factors (click to expand)"):
-        st.header("Weighting Factors")
-        
-        # File uploader to load custom weighting settings
+    with st.expander("Upload Weighting Settings (click to expand)"):
         uploaded_weighting = st.file_uploader("Upload Weighting Settings", type="json", key="upload_weighting")
         if uploaded_weighting is not None:
             weighting_settings = json.load(uploaded_weighting)
@@ -92,6 +88,9 @@ with col1:
             if "weighting" in weighting_settings:
                 st.session_state.weighting = np.array(weighting_settings["weighting"])
             st.success("Weighting settings loaded successfully!")
+    
+    with st.expander("Weighting Factors (click to expand)"):
+        st.header("Weighting Factors")
         
         # Select weighting preset and sliders
         preset_choice = st.selectbox(
@@ -181,12 +180,10 @@ with col1:
         st.download_button("Download Weighting Settings", weighting_json, "weighting_settings.json")
 
 # ----------------------------------------
-# Column 2: Hero Stats in an expander
+# Column 2: Hero Stats with separate upload expander
 # ----------------------------------------
 with col2:
-    with st.expander("Hero Stats (click to expand)"):
-        st.header("Hero Stats")
-        # File uploader to load custom hero stats
+    with st.expander("Upload Hero Stats (click to expand)"):
         uploaded_hero_stats = st.file_uploader("Upload Hero Stats", type="json", key="upload_hero_stats")
         if uploaded_hero_stats is not None:
             hero_stats_settings = json.load(uploaded_hero_stats)
@@ -195,7 +192,9 @@ with col2:
             if "default_heroes" in hero_stats_settings:
                 st.session_state.default_heroes = {hero: np.array(stats) for hero, stats in hero_stats_settings["default_heroes"].items()}
             st.success("Hero stats loaded successfully!")
-        
+    
+    with st.expander("Hero Stats (click to expand)"):
+        st.header("Hero Stats")
         # Initialize hero stats if not set
         if "heroes" not in st.session_state:
             st.session_state.heroes = copy.deepcopy(default_heroes)

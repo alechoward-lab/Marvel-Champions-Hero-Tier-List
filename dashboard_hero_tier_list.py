@@ -374,7 +374,7 @@ for label in ax.get_xticklabels():
 legend_handles = [Patch(color=tier_colors[tier], label=f"Tier {tier}") for tier in tier_colors]
 ax.legend(handles=legend_handles, title="Tier Colors", loc="upper left",
           fontsize='x-large', title_fontsize='x-large')
-
+plt.tight_layout()
 ax.grid(axis='y', linestyle='--', alpha=0.7)
 st.pyplot(fig)
 

@@ -22,7 +22,7 @@ st.markdown(
         <a href="https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A" target="_blank" style="margin-right: 10px;">
             <img src="https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/youtube_logo.png?raw=true" alt="Twitter" style="height: 30px;">
         </a>
-        <a href="https://discord.gg/7Q8s2Y8" target="_blank" style="margin-right: 10px;">
+        <a href="https://discord.gg/ReF5jDSHqV" target="_blank" style="margin-right: 10px;">
             <img src="https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/Discord-Logo.png?raw=true" alt="Instagram" style="height: 30px;">
         </a>
     </div>
@@ -388,7 +388,7 @@ st.markdown(
     "along with the weighting sliders to create your own custom tier list. Upload your saved files to restore your settings."
 )
 st.markdown(
-    "This tier list is living. If you want to have input on the future of this tier list, please join the [Daring Lime Discord](https://discord.gg/7Q8s2Y8). "
+    "This tier list is living. If you want to have input on the future of this tier list, please join the [Daring Lime Discord](https://discord.gg/ReF5jDSHqV). "
     "I'll be updating the weighting factor presets and default hero stats based on community feedback."
     "-Stay Zesty"
 )

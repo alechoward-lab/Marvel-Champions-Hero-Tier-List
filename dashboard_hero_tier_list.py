@@ -371,4 +371,10 @@ st.markdown(
     "The hero stats were determined by the merits of their identity-specific cards. You can modify any hero's stats "
     "along with the weighting sliders to create your own custom tier list. Upload your saved files to restore your settings."
 )
+st.markdown(
+    "This tier list is living. If you want to have input on the future of this tier list, please join the [Daring Lime Discord](https://discord.gg/7Q8s2Y8). "
+    "I'll be updating the weighting factor presets and default hero stats based on community feedback."
+    "-Stay Zesty"
+)
+st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown("Most card images are from the Cerebro Discord bot developed by UnicornSnuggler. Thank you!")

@@ -13,7 +13,6 @@ from PIL import Image
 import json
 from hero_image_urls import hero_image_urls
 from default_heroes import default_heroes
-
 # ----------------------------------------
 # Define preset weighting options so update_preset can use them
 # ----------------------------------------
@@ -54,23 +53,24 @@ def update_preset():
 # Early load settings from file if available
 # ----------------------------------------
 uploaded_file = st.file_uploader("Upload saved settings", type="json", key="upload_settings")
-if uploaded_file is not None and not st.session_state.get("file_loaded", False):
+if uploaded_file is not None:
     settings = json.load(uploaded_file)
-    # Update heroes (if present) and weighting-related keys:
-    if "heroes" in settings:
-        st.session_state.heroes = {hero: np.array(stats) for hero, stats in settings["heroes"].items()}
-    if "default_heroes" in settings:
-        st.session_state.default_heroes = {hero: np.array(stats) for hero, stats in settings["default_heroes"].items()}
+
+    # Update only if keys exist (ensures backward compatibility)
+    st.session_state.heroes = {hero: np.array(stats) for hero, stats in settings.get("heroes", {}).items()}
+    st.session_state.default_heroes = {hero: np.array(stats) for hero, stats in settings.get("default_heroes", {}).items()}
+
+    # Allow modifying the values after loading
     for key in ["preset_choice", "economy", "tempo", "card_value", "survivability", "villain_damage",
                 "threat_removal", "reliability", "minion_control", "control", "support", "unique_builds",
                 "late_game", "simplicity", "status_cards", "multiplayer_consistency"]:
         if key in settings:
-            st.session_state[key] = settings[key]
+            st.session_state[key] = settings[key]  # Update, but keep interactive
+
     if "weighting" in settings:
         st.session_state.weighting = np.array(settings["weighting"])
-    st.session_state["file_loaded"] = True  # so we don't repeatedly reload
-    st.success("Settings loaded successfully! Reloading to update sliders...")
-    st.experimental_rerun()
+
+    st.success("Settings loaded successfully!")
 
 # ----------------------------------------
 # Main App Content
@@ -90,8 +90,8 @@ st.markdown(
 )
 st.markdown(
     "For a video tutorial of how to use this, check out my YouTube channel: [Daring Lime](https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A). "
-    "If you enjoy this tool, please consider subscribing to my channel and/or joining as a channel member to support me creating more Marvel Champions content. "
-    "If you have any suggestions for the tier list let me know by joining the [discord](https://discord.gg/yourdiscordlink)."
+    "If you enjoy this tool, please consider subscribing to my channel and/or joining as a channel member to support me creating more Marvel Champions content."
+    " If you have any suggestions for the tier list let me know by joining the [discord](https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqbVBjV0ExQjZOUG1NRTE5VnZDdlN5bW1HWFdSd3xBQ3Jtc0ttcVZNNUtvXzJkLVQ5LTdKNDZaNEFHQ3lPeTVnWkwxeFo2ZkpNcThfMHJ5bWZ4OUZLQ19yNE43eHVLTnJUS0FkQmlrS0V1WTRtMWtSSi1OZG9tNGo5SWw3TWhuUmZ6SmZOTkREUDdUb1hjYUFNMnlPdw&q=https%3A%2F%2Fdiscord.gg%2FReF5jDSHqV). I'll continue to update this site based on your feedback."
 )
 
 # ----------------------------------------
@@ -122,7 +122,7 @@ with col1:
             on_change=update_preset
         )
         
-        # Always show the sliders so users can adjust them freely.
+        # Always show the sliders so users can adjust
         economy = st.slider("Economy", min_value=-10, max_value=10, value=st.session_state.get("economy", 4), key="economy")
         tempo = st.slider("Tempo", min_value=-10, max_value=10, value=st.session_state.get("tempo", 2), key="tempo")
         card_value = st.slider("Card Value", min_value=-10, max_value=10, value=st.session_state.get("card_value", 2), key="card_value")
@@ -165,7 +165,7 @@ with col1:
             plot_title = "Custom Weighting"
 
 # ----------------------------------------
-# Column 2: Hero Stat Modification (for all heroes)
+# Column 2: Hero Stat Modification
 # ----------------------------------------
 with col2:
     with st.expander("Hero Stats (click to expand)"):
@@ -181,27 +181,30 @@ with col2:
                       "Unique Broken Builds Boon", "Late Game Power Boon", "Simplicity", "Stun/Confuse Boon",
                       "Multiplayer Consistency Boon"]
         
-        # For each hero, display its stats as number inputs.
-        for hero in st.session_state.heroes.keys():
-            st.subheader(hero)
-            # Create a container for each hero to group inputs together
-            with st.container():
-                for i, stat in enumerate(stat_names):
-                    # Each number input uses a unique key combining hero and stat name.
-                    st.number_input(f"{stat}", 
-                                    value=int(st.session_state.heroes[hero][i]),
-                                    min_value=-10, max_value=10, 
-                                    key=f"{hero}_{stat}")
+        # Select a hero to modify
+        hero_to_modify = st.selectbox("Select a Hero to Modify", list(st.session_state.heroes.keys()), key="hero_choice")
         
-        # "Update All Heroes" button:
-        if st.button("Update All Heroes"):
-            # Loop over each hero and update their stats from the number inputs.
-            for hero in st.session_state.heroes.keys():
-                new_stats = []
-                for stat in stat_names:
-                    new_stats.append(st.session_state.get(f"{hero}_{stat}", 0))
-                st.session_state.heroes[hero] = np.array(new_stats)
-            st.success("All hero stats updated!")
+        # Get the current stats for the selected hero
+        current_stats = st.session_state.heroes[hero_to_modify]
+        new_stats = []
+        for i, stat in enumerate(stat_names):
+            val = st.number_input(f"{hero_to_modify} - {stat}", value=int(current_stats[i]), min_value=-10, max_value=10, key=f"{hero_to_modify}_{stat}")
+            new_stats.append(val)
+        
+        # Button to update the selected hero's stats
+        if st.button(f"Update {hero_to_modify} Stats"):
+            st.session_state.heroes[hero_to_modify] = np.array(new_stats)
+            st.success(f"{hero_to_modify} stats updated.")
+        
+        # Button to reset only the selected hero to default
+        if st.button(f"Reset {hero_to_modify} to Default"):
+            st.session_state.heroes[hero_to_modify] = st.session_state.default_heroes[hero_to_modify]
+            st.success(f"{hero_to_modify} stats reset to default.")
+        
+        # Button to reset all heroes to default
+        if st.button("Reset All Heroes to Default"):
+            st.session_state.heroes = copy.deepcopy(st.session_state.default_heroes)
+            st.success("All heroes have been reset to their default stats.")
 
 # ----------------------------------------
 # Settings Save Functionality
@@ -230,15 +233,14 @@ if st.button("Save Settings"):
     }
     settings_json = json.dumps(settings)
     st.download_button("Download Settings", settings_json, "settings.json")
-st.markdown(
-    "After adjusting the heroes and weighting, you can save your settings to a file. "
-    "Upload your saved file at the top of the page to restore your settings. To change the sliders after loading, "
-    "the page reloads automatically so you can keep editing."
-)
-
+st.markdown("After adjusting the heroes and weighting, you can save your settings to a file. "
+            "This file can be uploaded later to restore your settings and view your personalized tier list."
+            "Upload your saved file at the top of the page to restore your settings. In order to change the sliders again, you must close the settings file by clicking the 'x'.")
 # ----------------------------------------
 # Continue with tier list calculations and display
 # ----------------------------------------
+
+# Use the current hero stats from session state.
 heroes = st.session_state.heroes
 
 # Define the path to the hero images (update the path accordingly)
@@ -256,8 +258,8 @@ for hero in default_heroes.keys():
 # ----------------------------------------
 # Calculate Scores and Tiers using weighting and hero stats
 # ----------------------------------------
-def weight(hero_stats, weighting):
-    return np.dot(hero_stats, weighting)
+def weight(hero, weighting):
+    return np.dot(hero, weighting)
 
 scores = {hero: weight(stats, weighting) for hero, stats in heroes.items()}
 sorted_scores = dict(sorted(scores.items(), key=lambda item: item[1]))
@@ -346,8 +348,7 @@ for tier in ["S", "A", "B", "C", "D"]:
             with cols[idx]:
                 if hero in hero_image_urls:
                     st.image(hero_image_urls[hero], width=150)
-    # Optionally, add a horizontal rule between tiers:
-    # st.markdown("<hr>", unsafe_allow_html=True)
+    #st.markdown("<hr>", unsafe_allow_html=True)
 
 # ----------------------------------------
 # Plotting
@@ -378,11 +379,10 @@ st.pyplot(fig)
 st.markdown("<hr>", unsafe_allow_html=True)
 
 st.markdown(
-    "The stats for the heroes were determined by the merits of their identity specific cards. Due to the nature of their kits, "
-    "Maria Hill and Cyclops had to be considered slightly differently. Depending on your build, these heroes can become significantly more powerful. "
-    "I encourage you to change any hero's stats along with the weighting sliders to create your own custom tier list. The tier list is based solely "
-    "on the stats you provide and the weighting you choose."
+    "The stats for the heroes were determined by the merits of their identity specific cards. Due to the nature of their kits, Maria Hill and Cyclops had to be considered slightly differently. Depending on your build, these heroes can become significantly more powerful."
+    " I encourage you to change any hero's stats along with the weighting sliders to create your own custom tier list. The tier list is based solely on the stats you provide and the weighting you choose. "
 )
 
 st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown("Most card images are from the Cerebro Discord bot developed by UnicornSnuggler. Thank you!")
+

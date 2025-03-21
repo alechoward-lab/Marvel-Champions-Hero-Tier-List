@@ -39,6 +39,8 @@ st.markdown(
             font-size: 16px;
             font-weight: bold;
             margin-right: 15px;
+            color: black;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
         }
         .logo {
             height: 40px;
@@ -60,6 +62,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 

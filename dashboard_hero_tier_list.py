@@ -351,7 +351,7 @@ for tier in ["S", "A", "B", "C", "D"]:
             with cols[idx]:
                 if hero in hero_image_urls:
                     st.image(hero_image_urls[hero], width=150)
-    st.markdown("<hr>", unsafe_allow_html=True)
+    #st.markdown("<hr>", unsafe_allow_html=True)
 
 # ----------------------------------------
 # Plotting

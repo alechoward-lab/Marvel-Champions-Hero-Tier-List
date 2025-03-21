@@ -382,7 +382,7 @@ st.pyplot(fig)
 st.markdown("<hr>", unsafe_allow_html=True)
 
 st.markdown(
-    "The stats for the heroes were determined on the merits of their identity specific cards. Due to the nature of their kits, Maria Hill and Cyclops had to be considered slightly differently. Depending on your build, these heroes can become significantly more powerful."
+    "The stats for the heroes were determined by the merits of their identity specific cards. Due to the nature of their kits, Maria Hill and Cyclops had to be considered slightly differently. Depending on your build, these heroes can become significantly more powerful."
 )
 
 st.markdown("<hr>", unsafe_allow_html=True)

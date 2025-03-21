@@ -23,8 +23,9 @@ st.markdown(
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #DDDDDD; /* Light grey background */
+            background-color: transparent; /* Transparent background */
             padding: 5px;
+            border: 2px solid #DDDDDD; /* Light grey border */
             border-radius: 8px;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
         }
@@ -62,6 +63,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 

@@ -386,6 +386,7 @@ st.markdown("<hr>", unsafe_allow_html=True)
 
 st.markdown(
     "The stats for the heroes were determined by the merits of their identity specific cards. Due to the nature of their kits, Maria Hill and Cyclops had to be considered slightly differently. Depending on your build, these heroes can become significantly more powerful."
+    " I encourage you to change any hero's stats along with the weighting sliders to create your own custom tier list. The tier list is based solely on the stats you provide and the weighting you choose. "
 )
 
 st.markdown("<hr>", unsafe_allow_html=True)

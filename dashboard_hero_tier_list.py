@@ -25,9 +25,22 @@ st.markdown(
             align-items: center;
             background-color: transparent; /* Transparent background */
             padding: 5px;
-            border: 2px solid #DDDDDD; /* Light grey border */
+            border: 2px solid black; /* Black border */
             border-radius: 8px;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .social-bar .left-content {
+            display: flex;
+            align-items: center;
+            margin-right: auto; /* Aligns logo and text to the left */
+        }
+        .social-bar .left-content .logo {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .social-bar .social-links {
+            display: flex;
+            justify-content: center;
         }
         .social-links a {
             transition: opacity 0.3s ease-in-out;
@@ -43,14 +56,12 @@ st.markdown(
             color: white;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
-        .logo {
-            height: 40px;
-            margin-right: 10px;
-        }
     </style>
     <div class="social-bar">
-        <img class="logo" src="https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/Daring_Lime_Logo.png?raw=true" alt="Your Logo">
-        <span class="social-text">Click to check out my socials:</span>
+        <div class="left-content">
+            <img class="logo" src="https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/Daring_Lime_Logo.png?raw=true" alt="Your Logo">
+            <span class="social-text">Click to check out my socials:</span>
+        </div>
         <div class="social-links">
             <a href="https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A" target="_blank" style="margin-right: 10px;">
                 <img src="https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/youtube_logo.png?raw=true" alt="YouTube" style="height: 30px;">
@@ -63,9 +74,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-
-
 
 # ----------------------------------------
 # Define preset weighting options so update_preset can use them

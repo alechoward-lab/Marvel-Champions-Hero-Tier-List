@@ -74,7 +74,7 @@ with col1:
     with st.expander("Weighting Factors (click to expand)"):
         st.header("Weighting Factors")
         
-        # Select weighting preset and sliders
+        # Create weighting widgets first
         preset_choice = st.selectbox(
             "Select Weighting Option", 
             list(preset_options.keys()) + ["Custom"],
@@ -136,34 +136,35 @@ with col1:
         else:
             plot_title = "Custom Weighting"
         
-        # Save/Download Weighting Settings
+        # Save/Download Weighting Settings (appears above the uploader)
         weighting_settings = {
-            "preset_choice": st.session_state.preset_choice,
-            "economy": st.session_state.economy,
-            "tempo": st.session_state.tempo,
-            "card_value": st.session_state.card_value,
-            "survivability": st.session_state.survivability,
-            "villain_damage": st.session_state.villain_damage,
-            "threat_removal": st.session_state.threat_removal,
-            "reliability": st.session_state.reliability,
-            "minion_control": st.session_state.minion_control,
-            "control": st.session_state.control,
-            "support": st.session_state.support,
-            "unique_builds": st.session_state.unique_builds,
-            "late_game": st.session_state.late_game,
-            "simplicity": st.session_state.simplicity,
-            "status_cards": st.session_state.status_cards,
-            "multiplayer_consistency": st.session_state.multiplayer_consistency,
+            "preset_choice": st.session_state.get("preset_choice", "Custom"),
+            "economy": st.session_state.get("economy", 4),
+            "tempo": st.session_state.get("tempo", 2),
+            "card_value": st.session_state.get("card_value", 2),
+            "survivability": st.session_state.get("survivability", 2),
+            "villain_damage": st.session_state.get("villain_damage", 1),
+            "threat_removal": st.session_state.get("threat_removal", 2),
+            "reliability": st.session_state.get("reliability", 3),
+            "minion_control": st.session_state.get("minion_control", 1),
+            "control": st.session_state.get("control", 2),
+            "support": st.session_state.get("support", 2),
+            "unique_builds": st.session_state.get("unique_builds", 1),
+            "late_game": st.session_state.get("late_game", 1),
+            "simplicity": st.session_state.get("simplicity", 0),
+            "status_cards": st.session_state.get("status_cards", 0),
+            "multiplayer_consistency": st.session_state.get("multiplayer_consistency", 0),
             "weighting": weighting.tolist()
         }
         weighting_json = json.dumps(weighting_settings)
         st.download_button("Download Weighting Settings", weighting_json, "weighting_settings.json")
         
-        # UPLOAD section for weighting settings (placed below save button)
+        # UPLOAD section for weighting settings (below save button)
         uploaded_weighting = st.file_uploader("Upload Weighting Settings", type="json", key="upload_weighting")
         if uploaded_weighting is not None:
             weighting_settings = json.load(uploaded_weighting)
-            for key in ["preset_choice", "economy", "tempo", "card_value", "survivability",
+            # Do NOT update preset_choice here (to avoid modifying widget state)
+            for key in ["economy", "tempo", "card_value", "survivability",
                         "villain_damage", "threat_removal", "reliability", "minion_control",
                         "control", "support", "unique_builds", "late_game", "simplicity",
                         "status_cards", "multiplayer_consistency"]:
@@ -179,13 +180,12 @@ with col1:
 with col2:
     with st.expander("Hero Stats (click to expand)"):
         st.header("Hero Stats")
-        # Save and then later upload hero stats are handled here.
-        # Initialize hero stats if not set.
+        # Initialize hero stats if not already set
         if "heroes" not in st.session_state:
             st.session_state.heroes = copy.deepcopy(default_heroes)
             st.session_state.default_heroes = copy.deepcopy(default_heroes)
         
-        # Select a hero from a searchable dropdown.
+        # Select a hero from a searchable dropdown
         hero_to_modify = st.selectbox("Select a Hero to Modify", list(st.session_state.heroes.keys()), key="hero_choice")
         
         stat_names = ["Economy", "Tempo", "Card Value", "Survivability", "Villain Damage",
@@ -224,7 +224,7 @@ with col2:
         hero_stats_json = json.dumps(hero_stats_to_save)
         st.download_button("Download Hero Stats", hero_stats_json, "hero_stats.json")
         
-        # UPLOAD section for hero stats (placed below save button)
+        # UPLOAD section for hero stats (below save button)
         uploaded_hero_stats = st.file_uploader("Upload Hero Stats", type="json", key="upload_hero_stats")
         if uploaded_hero_stats is not None:
             hero_stats_settings = json.load(uploaded_hero_stats)
@@ -337,6 +337,9 @@ sorted_hero_names = list(sorted_scores.keys())
 sorted_hero_scores = list(sorted_scores.values())
 bar_colors = [tier_colors[hero_to_tier[hero]] for hero in sorted_hero_names]
 
+import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
+
 fig, ax = plt.subplots(figsize=(14, 7), dpi=300)
 ax.bar(sorted_hero_names, sorted_hero_scores, color=bar_colors)
 ax.set_ylabel("Scores", fontsize="x-large")
@@ -356,7 +359,7 @@ st.pyplot(fig)
 st.markdown("<hr>", unsafe_allow_html=True)
 
 st.markdown(
-    "Hero stats are derived from their identity-specific cards. You can modify a hero's stats along with the weighting sliders "
+    "Hero stats are derived from their identity-specific cards. Modify any hero's stats along with the weighting sliders "
     "to generate your custom tier list. Upload your saved files to restore your settings."
 )
 st.markdown("Most card images are from the Cerebro Discord bot developed by UnicornSnuggler. Thank you!")

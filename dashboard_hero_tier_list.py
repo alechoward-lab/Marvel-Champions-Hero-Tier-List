@@ -379,6 +379,12 @@ ax.legend(handles=legend_handles, title="Tier Colors", loc="upper left",
 plt.tight_layout()
 ax.grid(axis='y', linestyle='--', alpha=0.7)
 st.pyplot(fig)
+st.markdown("<hr>", unsafe_allow_html=True)
+
+st.markdown(
+    "The stats for the heroes were determined on the merits of their identity specific cards. Due to the nature of their kits, Maria Hill and Cyclops had to be considered slightly differently. Depending on your build, these heroes can become significantly more powerful."
+)
 
 st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown("Most card images are from the Cerebro Discord bot developed by UnicornSnuggler. Thank you!")
+

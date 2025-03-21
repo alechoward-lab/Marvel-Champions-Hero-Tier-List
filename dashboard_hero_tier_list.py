@@ -90,12 +90,13 @@ st.markdown(
     "personally value each of those stats. The tier list is automatically calculated based off of the "
     "weighting and hero stats to create a personalized hero tier list. There are a plethora of premade "
     "weighting factors to choose from, as well as a custom option. Any of these weighting functions can "
-    "be modified and the tier list will automatically update."
+    "be modified and the tier list will automatically update. You can save your settings and upload them next time you visit the site."
 )
 st.markdown(
     "For a video tutorial of how to use this, check out my YouTube channel: [Daring Lime](https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A). "
     "There you'll see a full breakdown of each hero and how to use this tool to create your own tier list. "
     "If you enjoy this tool, please consider subscribing to my channel and/or joining as a channel member to support me creating more Marvel Champions content."
+    " If you have any suggestions for the tier list let me know by joining the [discord](https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqbVBjV0ExQjZOUG1NRTE5VnZDdlN5bW1HWFdSd3xBQ3Jtc0ttcVZNNUtvXzJkLVQ5LTdKNDZaNEFHQ3lPeTVnWkwxeFo2ZkpNcThfMHJ5bWZ4OUZLQ19yNE43eHVLTnJUS0FkQmlrS0V1WTRtMWtSSi1OZG9tNGo5SWw3TWhuUmZ6SmZOTkREUDdUb1hjYUFNMnlPdw&q=https%3A%2F%2Fdiscord.gg%2FReF5jDSHqV). I'll continue to update this site based on your feedback."
 )
 
 # ----------------------------------------

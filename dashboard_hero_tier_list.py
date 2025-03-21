@@ -211,7 +211,6 @@ if st.button("Save Settings"):
     }
     settings_json = json.dumps(settings)
     st.download_button("Download Settings", settings_json, "settings.json")
-    
 
 # ----------------------------------------
 # Continue with tier list calculations and display

@@ -18,17 +18,26 @@ from preset_options import preset_options
 
 st.markdown(
     """
-    <div style="display: flex; justify-content: center; align-items: center; background-color: #FFFFFF; padding: 5px;">
+    <style>
+        .social-links a {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .social-links a:hover {
+            opacity: 0.7;
+        }
+    </style>
+    <div class="social-links" style="display: flex; justify-content: center; align-items: center; background-color: #FFFFFF; padding: 5px;">
         <a href="https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A" target="_blank" style="margin-right: 10px;">
-            <img src="https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/youtube_logo.png?raw=true" alt="Twitter" style="height: 30px;">
+            <img src="https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/youtube_logo.png?raw=true" alt="YouTube" style="height: 30px;">
         </a>
         <a href="https://discord.gg/ReF5jDSHqV" target="_blank" style="margin-right: 10px;">
-            <img src="https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/Discord-Logo.png?raw=true" alt="Instagram" style="height: 30px;">
+            <img src="https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/Discord-Logo.png?raw=true" alt="Discord" style="height: 30px;">
         </a>
     </div>
     """,
     unsafe_allow_html=True
 )
+
 
 # ----------------------------------------
 # Define preset weighting options so update_preset can use them

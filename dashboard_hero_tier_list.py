@@ -168,43 +168,54 @@ with col1:
             plot_title = "Custom Weighting"
 
 # ----------------------------------------
-# Column 2: Hero Stat Modification (for all heroes)
+# Column 2: Hero Stat Modification (one hero at a time)
 # ----------------------------------------
 with col2:
-    with st.expander("Hero Stats (click to expand)"):
-        st.header("Hero Stats")
-        # Initialize hero stats in session state if not already set
-        if "heroes" not in st.session_state:
-            st.session_state.heroes = copy.deepcopy(default_heroes)
-            st.session_state.default_heroes = copy.deepcopy(default_heroes)
-        
-        # List of stat names corresponding to each index in the hero arrays
-        stat_names = ["Economy", "Tempo", "Card Value", "Survivability", "Villain Damage",
-                      "Threat Removal", "Reliability", "Minion Control", "Control Boon", "Support Boon",
-                      "Unique Broken Builds Boon", "Late Game Power Boon", "Simplicity", "Stun/Confuse Boon",
-                      "Multiplayer Consistency Boon"]
-        
-        # For each hero, display its stats as number inputs.
+    st.header("Hero Stats")
+    # Initialize hero stats in session state if not already set
+    if "heroes" not in st.session_state:
+        st.session_state.heroes = copy.deepcopy(default_heroes)
+        st.session_state.default_heroes = copy.deepcopy(default_heroes)
+    
+    # List of stat names corresponding to each index in the hero arrays
+    stat_names = ["Economy", "Tempo", "Card Value", "Survivability", "Villain Damage",
+                  "Threat Removal", "Reliability", "Minion Control", "Control Boon", "Support Boon",
+                  "Unique Broken Builds Boon", "Late Game Power Boon", "Simplicity", "Stun/Confuse Boon",
+                  "Multiplayer Consistency Boon"]
+    
+    # Select a hero to modify
+    hero_to_modify = st.selectbox("Select a Hero to Modify", list(st.session_state.heroes.keys()), key="hero_choice")
+    
+    # Get the current stats for the selected hero and create number inputs
+    current_stats = st.session_state.heroes[hero_to_modify]
+    new_stats = []
+    for i, stat in enumerate(stat_names):
+        val = st.number_input(f"{hero_to_modify} - {stat}", 
+                              value=int(current_stats[i]), 
+                              min_value=-10, max_value=10, 
+                              key=f"{hero_to_modify}_{stat}")
+        new_stats.append(val)
+    
+    # Button to update the selected hero's stats only
+    if st.button(f"Update {hero_to_modify} Stats"):
+        st.session_state.heroes[hero_to_modify] = np.array(new_stats)
+        st.success(f"{hero_to_modify} stats updated.")
+    
+    # New button to update all heroes with the same values as the selected hero
+    if st.button("Update All Heroes to These Stats"):
         for hero in st.session_state.heroes.keys():
-            st.subheader(hero)
-            # Create a container for each hero to group inputs together
-            with st.container():
-                for i, stat in enumerate(stat_names):
-                    # Each number input uses a unique key combining hero and stat name.
-                    st.number_input(f"{stat}", 
-                                    value=int(st.session_state.heroes[hero][i]),
-                                    min_value=-10, max_value=10, 
-                                    key=f"{hero}_{stat}")
-        
-        # "Update All Heroes" button:
-        if st.button("Update All Heroes"):
-            # Loop over each hero and update their stats from the number inputs.
-            for hero in st.session_state.heroes.keys():
-                new_stats = []
-                for stat in stat_names:
-                    new_stats.append(st.session_state.get(f"{hero}_{stat}", 0))
-                st.session_state.heroes[hero] = np.array(new_stats)
-            st.success("All hero stats updated!")
+            st.session_state.heroes[hero] = np.array(new_stats)
+        st.success("All hero stats updated to match the current values.")
+    
+    # Button to reset only the selected hero to default
+    if st.button(f"Reset {hero_to_modify} to Default"):
+        st.session_state.heroes[hero_to_modify] = st.session_state.default_heroes[hero_to_modify]
+        st.success(f"{hero_to_modify} stats reset to default.")
+    
+    # Button to reset all heroes to default
+    if st.button("Reset All Heroes to Default"):
+        st.session_state.heroes = copy.deepcopy(st.session_state.default_heroes)
+        st.success("All heroes have been reset to their default stats.")
 
 # ----------------------------------------
 # Settings Save Functionality

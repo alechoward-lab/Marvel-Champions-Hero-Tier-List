@@ -107,7 +107,7 @@ col1, col2 = st.columns(2)
 # Column 1: Weighting settings (presets and sliders)
 # ----------------------------------------
 with col1:
-    with st.expander("Weighting Factors"):
+    with st.expander("Weighting Factors (click to expand)"):
         st.header("Weighting Factors")
         
         # Category names for the weighting function
@@ -172,7 +172,7 @@ with col1:
 # Column 2: Hero Stat Modification
 # ----------------------------------------
 with col2:
-    with st.expander("Hero Stats"):
+    with st.expander("Hero Stats (click to expand)"):
         st.header("Hero Stats")
         # Initialize hero stats in session state if not already set
         if "heroes" not in st.session_state:

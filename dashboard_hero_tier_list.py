@@ -1,3 +1,21 @@
+st.markdown(
+    """
+    <div style="display: flex; justify-content: center; align-items: center; background-color: #333; padding: 5px;">
+        <a href="https://twitter.com/your_handle" target="_blank" style="margin-right: 10px;">
+            <img src="https://example.com/twitter_icon.png" alt="Twitter" style="height: 30px;">
+        </a>
+        <a href="https://facebook.com/your_handle" target="_blank" style="margin-right: 10px;">
+            <img src="https://example.com/facebook_icon.png" alt="Facebook" style="height: 30px;">
+        </a>
+        <a href="https://instagram.com/your_handle" target="_blank" style="margin-right: 10px;">
+            <img src="https://example.com/instagram_icon.png" alt="Instagram" style="height: 30px;">
+        </a>
+        <!-- Add more social links as needed -->
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
 """
 The Living Marvel Champions Tier List
 """

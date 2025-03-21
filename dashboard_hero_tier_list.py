@@ -343,7 +343,7 @@ tier_colors = {"S": "red", "A": "orange", "B": "green", "C": "blue", "D": "purpl
 
 for tier in ["S", "A", "B", "C", "D"]:
     st.markdown(f"<h2>{tier}</h2>", unsafe_allow_html=True)
-    num_cols = 6  # Number of columns per row
+    num_cols = 5  # Number of columns per row
     rows = [tiers[tier][i:i + num_cols] for i in range(0, len(tiers[tier]), num_cols)]
     for row in rows:
         cols = st.columns(num_cols)

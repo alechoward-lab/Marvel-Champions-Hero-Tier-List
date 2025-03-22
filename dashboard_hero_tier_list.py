@@ -76,9 +76,6 @@ socials_banner = st.markdown(
     unsafe_allow_html=True
 )
     
-# ----------------------------------------
-# Define preset weighting options so update_preset can use them
-# ----------------------------------------
 
 # ----------------------------------------
 # Define update_preset callback so that selecting a weighting preset updates slider values.

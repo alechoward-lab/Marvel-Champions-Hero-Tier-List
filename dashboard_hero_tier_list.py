@@ -113,7 +113,7 @@ st.markdown(
     "a personalized hero tier list. After updating the hero stats and weighting factors to your liking, you can save your settings and upload them next time you return to the site. "
 )
 st.markdown(
-    "For a video tutorial of how to use this, check out my YouTube channel: [Daring Lime](https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A). "
+    "For a video tutorial of how to use this, check out this YouTube video: [Daring Lime](https://youtu.be/TxU1NcryRS8). "
     "If you enjoy this tool, please consider subscribing to support more Marvel Champions content."
 )
 

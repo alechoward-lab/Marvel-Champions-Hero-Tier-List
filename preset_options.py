@@ -4,7 +4,7 @@ preset_options = {  #                                 e, t, cv,s, d, th,re,mi,c,
     "Multiplayer 3 Player":                 np.array([4, 1, 2, 2, 1, 5, 2, 3, 1, 7, 2, 5, 0, 0, 6]),
     "Multiplayer 4 Player":                 np.array([4, 1, 2, 2, 1, 5, 2, 3, 1, 7, 2, 7, 0, 0, 10]),
     "Solo (No Rush)":                       np.array([8, 3, 2, 4, 2, 2, 4, 1, 2, 0, 2, 0, 0, 4, -7]),
-    "Solo Rush":                            np.array([0, 5, 0, 2, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
+    "Solo Rush":                            np.array([0, 5, 0, 2, 5, 0, 0, 0, 0, 0, 0,-3, 0, 0, 0]),
     "Solo Final Boss Steady/Stalwart":      np.array([10,3, 3, 8, 6, 2, 2, 4, 1, 0, 2, 0, 1, -4, -7]),
     "Beginner Friendly Heroes":             np.array([2, 1, 0, 1, 0, 0, 5, 0, 0, 0, 0, -1, 10, 1, 0])
 }

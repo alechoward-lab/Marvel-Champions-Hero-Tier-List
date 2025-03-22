@@ -433,6 +433,8 @@ st.markdown(
 st.markdown(
     "This tier list is living. If you want to have input on the future of this tier list, please join the [Daring Lime Discord](https://discord.gg/ReF5jDSHqV). "
     "I'll be updating the weighting factor presets and default hero stats based on community feedback."
+)
+st.markdown(
     "-Stay Zesty"
 )
 st.markdown("<hr>", unsafe_allow_html=True)

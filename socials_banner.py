@@ -44,7 +44,7 @@ socials_banner = st.markdown(
     <div class="social-bar">
         <div class="left-content">
             <img class="logo" src="https://github.com/alechoward-lab/Marvel-Champions-Hero-Tier-List/blob/main/images/logo/Daring_Lime_Logo.png?raw=true" alt="Your Logo">
-            <span class="social-text">Click to check out my socials:</span>
+            <span class="social-text">Click the icons to see my YouTube Channel and Discord:</span>
         </div>
         <div class="social-links">
             <a href="https://www.youtube.com/channel/UCpV2UWmBTAeIKUso1LkeU2A" target="_blank">

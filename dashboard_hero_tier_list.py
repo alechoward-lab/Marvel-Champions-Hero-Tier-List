@@ -467,35 +467,45 @@ st.markdown(
     f"""
     <style>
     .stApp {{
-        background-image: url({background_image_url});
+        background: url({background_image_url}) no-repeat center center fixed;
         background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        position: relative;
-        padding: 40px;
-        color: white;
-    }}
-    .stApp::before {{
-        content: "";
-        position: absolute;
-        inset: 40px;
-        background: rgba(0, 0, 0, 0.8);
-        z-index: 1;
-    }}
-    .stApp > div {{
-        position: relative;
-        z-index: 2;
-    }}
-    .stApp, .stApp * {{
-        color: white !important;
-    }}
-    .stApp .stSelectbox div[role="listbox"] * {{
-        color: black !important;
     }}
     </style>
-    """, 
+    """,
     unsafe_allow_html=True
 )
+
+# st.markdown(
+#     f"""
+#     <style>
+#     .stApp {{
+#         background-image: url({background_image_url});
+#         background-size: cover;
+#         background-position: center;
+#         background-repeat: no-repeat;
+#         position: relative;
+#         color: white;
+#     }}
+#     .stApp::before {{
+#         content: "";
+#         position: absolute;
+#         background: rgba(0, 0, 0, 0.8);
+#         z-index: 1;
+#     }}
+#     .stApp > div {{
+#         position: relative;
+#         z-index: 2;
+#     }}
+#     .stApp, .stApp * {{
+#         color: white !important;
+#     }}
+#     .stApp .stSelectbox div[role="listbox"] * {{
+#         color: black !important;
+#     }}
+#     </style>
+#     """, 
+#     unsafe_allow_html=True
+# )
 
 # ----------------------------------------
 # Display Tier List with Images

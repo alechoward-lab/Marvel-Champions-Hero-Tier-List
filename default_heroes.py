@@ -44,7 +44,7 @@ default_heroes = {          #              e, t, cv,s, d, th,re,mi,c, s, br,lg,s
         "Cyclops":              np.array([ 1,-2, 5, 3, 4, 4, 3, 3, 0, 2, 2, 1,-3, 0, 0]),
         "Phoenix":              np.array([ 2, 3, 3, 3, 4, 4, 3, 4, 3, 1, 2, 0, 0, 4, 0]),
         "Wolverine":            np.array([ 3, 5, 3, 4, 5, 3, 4, 5, 0, 0, 1, 0, 1, 0, 0]),
-        "Storm":                np.array([ 1, 3, 3, 1, 4, 4, 3, 3, 1, 3, 1, 0,-3, 0, 2]),
+        "Storm":                np.array([ 1, 4, 3, 1, 5, 4, 3, 4, 1, 3, 1, 0,-3, 0, 4]),
         "Gambit":               np.array([ 1,-1, 2, 2, 3, 3, 2, 4, 2, 1, 0, 0,-1, 4, 0]),
         "Rogue":                np.array([ 0, 3, 3, 3, 3, 3, 1, 2, 2, 0, 1, 0, 0, 1, 2]),
                                 #          e, t, cv,s, d, th,re,mi,c, s, br,lg,si,sc,mu        
@@ -55,7 +55,7 @@ default_heroes = {          #              e, t, cv,s, d, th,re,mi,c, s, br,lg,s
         "X-23":                 np.array([ 1, 5, 4, 3, 5, 5, 5, 4, 0, 0, 1, 2,-2, 0, 0]),
         "Deadpool":             np.array([ 1, 5, 5, 5, 5, 5,-3, 2, 1, 3, 1, 0,-1, 1, 0]),
                                 #          e, t, cv,s, d, th,re,mi,c, s, br,lg,si,sc,mu        
-        "Bishop":               np.array([ 5, 2, 4, 4, 5, 1, 3, 2, 0, 0, 1, 1,-3, 0, 0]),
+        "Bishop":               np.array([ 5, 2, 4, 4, 5, 3, 3, 3, 0, 0, 1, 1,-3, 0, 0]),
         "Magik":                np.array([ 4, 1, 4, 3, 2, 4, 3, 3, 2, 0, 1, 1,-5, 5, 0]),
         "Iceman":               np.array([ 3, 2, 3, 3, 2, 2, 3, 4, 3, 2, 0, 0, 0, 0, 1]),
         "Jubilee":              np.array([ 3,-1, 4, 0, 2, 4, 3, 3, 4, 1, 0, 1,-1, 5, 1]),
@@ -63,5 +63,5 @@ default_heroes = {          #              e, t, cv,s, d, th,re,mi,c, s, br,lg,s
         "Magneto":              np.array([ 3, 3, 3, 4, 3, 4, 5, 4, 2, 0, 0, 1, 3, 0, 1]),
                                 #          e, t, cv,s, d, th,re,mi,c, s, br,lg,si,sc,mu        
         "Maria Hill":           np.array([ 2, 1, 5, 2, 2, 5, 5, 1, 2, 2, 2, 5,-3, 0, 2]),
-        "Nick Fury":            np.array([ 1, 2, 1, 3, 2, 4, 4, 5, 2, 0, 0, 0,-3, 0, 0]),
+        "Nick Fury":            np.array([ 1, 2, 3, 4, 2, 4, 4, 5, 2, 0, 0, 0,-3, 0, 1]),
     }

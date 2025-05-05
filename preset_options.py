@@ -6,5 +6,6 @@ preset_options = {  #                                 e, t, cv,s, d, th,re,mi,c,
     "Solo (No Rush)":                       np.array([8, 3, 2, 4, 2, 3, 4, 1, 2, 0, 2, 3, 0, 4, -5]),
     "Solo: Rush":                            np.array([0, 5, 0, 2, 5, 0, 0, 0, 0, 0, 0,-3, 0, 0, 0]),
     "Solo: Final Boss Steady/Stalwart":      np.array([10,1, 3, 6, 2, 3, 2, 1, 3, 0, 2, 2, 0, -7, -7]),
-    "Beginner Friendly Heroes":             np.array([2, 1, 0, 1, 0, 0, 5, 0, 0, 0, 0, -1, 10, 1, 0])
+    "Beginner Friendly Heroes":             np.array([2, 1, 0, 1, 0, 0, 5, 0, 0, 0, 0,-1,10, 1, 0]),
+    #"Custom":                               np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
 }

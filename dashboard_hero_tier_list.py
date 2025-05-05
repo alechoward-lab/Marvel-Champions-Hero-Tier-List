@@ -83,21 +83,21 @@ def update_preset():
     preset = st.session_state.preset_choice
     if preset != "Custom":
         preset_vals = preset_options[preset]
-        st.session_state["Economy"] = int(preset_vals[0])
-        st.session_state["Tempo"] = int(preset_vals[1])
-        st.session_state["Card Value"] = int(preset_vals[2])
-        st.session_state["Survivability"] = int(preset_vals[3])
-        st.session_state["Villain Damage"] = int(preset_vals[4])
-        st.session_state["Threat Removal"] = int(preset_vals[5])
-        st.session_state["Reliability"] = int(preset_vals[6])
-        st.session_state["Minion Control"] = int(preset_vals[7])
-        st.session_state["Control Boon"] = int(preset_vals[8])
-        st.session_state["Support Boon"] = int(preset_vals[9])
-        st.session_state["Unique Broken Builds Boon"] = int(preset_vals[10])
-        st.session_state["Late Game Power Boon"] = int(preset_vals[11])
-        st.session_state["Simplicity"] = int(preset_vals[12])
-        st.session_state["Stun/Confuse Boon"] = int(preset_vals[13])
-        st.session_state["Multiplayer Consistency Boon"] = int(preset_vals[14])
+        st.session_state["Economy"] = int(0)
+        st.session_state["Tempo"] = int(0)
+        st.session_state["Card Value"] = int(0)
+        st.session_state["Survivability"] = int(0)
+        st.session_state["Villain Damage"] = int(0)
+        st.session_state["Threat Removal"] = int(0)
+        st.session_state["Reliability"] = int(0)
+        st.session_state["Minion Control"] = int(0)
+        st.session_state["Control Boon"] = int(0)
+        st.session_state["Support Boon"] = int(0)
+        st.session_state["Unique Broken Builds Boon"] = int(0)
+        st.session_state["Late Game Power Boon"] = int(0)
+        st.session_state["Simplicity"] = int(0)
+        st.session_state["Stun/Confuse Boon"] = int(0)
+        st.session_state["Multiplayer Consistency Boon"] = int(0)
 
 # ----------------------------------------
 # Main App Content Header

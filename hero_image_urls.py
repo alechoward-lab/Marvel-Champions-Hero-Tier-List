@@ -55,5 +55,7 @@ hero_image_urls = {
     "Nightcrawler": "https://i.imgur.com/5zk1bjK.jpeg",
     "Magneto": "https://i.imgur.com/xN6Kfdv.jpeg",
     "Maria Hill": "https://i.imgur.com/DpffPA9.jpeg",
-    "Nick Fury": "https://i.imgur.com/6STdIKk.jpeg"
+    "Nick Fury": "https://i.imgur.com/6STdIKk.jpeg",
+    "Shuri": "https://i.imgur.com/CdLOKBd.jpeg",
+    "Silk": "https://i.imgur.com/UCmYWV8.jpeg",
 }
